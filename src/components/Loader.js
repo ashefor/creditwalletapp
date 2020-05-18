@@ -8,7 +8,7 @@ const Loader = props => {
     return (
         <Portal>
             <Modal contentContainerStyle={[StyleSheet.absoluteFill, {backgroundColor: backgroundColor ? backgroundColor: '#f7f7f7'}]} dismissable={false} visible={isLoading}>
-                <ActivityIndicator animating={true} color={colors.primary} />
+                <ActivityIndicator size={'large'} animating={true} color={colors.primary} />
             </Modal>
         </Portal>
     )

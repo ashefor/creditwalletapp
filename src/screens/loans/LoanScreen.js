@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, Dimensions, StyleSheet, ScrollView, RefreshControl } from 'react-native'
 import { Appbar, FAB } from 'react-native-paper';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-navigation';
@@ -22,29 +22,45 @@ class LoanScreen extends Component {
             index: 0,
             isLoading: false,
             openLoans: [],
-            closedLoans: []
+            closedLoans: [],
+            refreshing: false
         }
     }
-componentDidMount =() => {
-    this.loadLoans();
-}
+    componentDidMount = () => {
+        this.loadLoans(true);
+    }
     changeIndex = index => {
         this.setState({ index })
     }
-
-    loadLoans = () => {
-        this.setState({ isLoading: true })
+    _onrefresh = () => {
+        this.setState({ refreshing: true })
+        this.loadLoans(false).then(() => {
+            this.setState({ refreshing: false })
+        })
+        // this.wait(2000).then(() => this.setState({refreshing: false}))
+    }
+    wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+    loadLoans = (value) => {
+        this.setState({ isLoading: value })
         const url = `${apiURL}account/dashboard`;
         const options = {
             method: 'GET',
         }
-        requestWithToken(url, options).then(data => {
-            console.log(data)
-            this.setState({ openLoans: data.open_loans })
-            this.setState({ closedLoans: data.fully_paid })
-            this.setState({ isLoading: false })
-        }).catch(error => {
-            this.setState({ isLoading: false })
+        return new Promise((resolve, reject) => {
+            requestWithToken(url, options).then(data => {
+                console.log(data)
+                this.setState({ openLoans: data.open_loans })
+                this.setState({ closedLoans: data.fully_paid })
+                this.setState({ isLoading: false })
+                resolve()
+            }).catch(error => {
+                this.setState({ isLoading: false })
+                reject()
+            })
         })
     }
     renderTabBar = props => (
@@ -55,37 +71,50 @@ componentDidMount =() => {
             labelStyle={{ color: 'black', fontFamily: 'Baloo-extra-bold', fontSize: resFont(15), textTransform: 'capitalize' }}
         />
     );
+
     render() {
-        const { index, routes, openLoans, closedLoans, isLoading } = this.state
-        const renderScene = SceneMap({
-            first: () => (
-                <View style={{ flex: 1 }}>
-                    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center' }}>
+        const { index, routes, openLoans, closedLoans, isLoading, refreshing } = this.state
+        const renderScene = ({ route }) => {
+            switch (route.key) {
+                case 'first':
+                    return <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={this._onrefresh}
+                            />
+                        } style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center' }}>
                         {openLoans.map((loan, index) => (
-                            <CurrentLoan key={index} {...this.props} loan={loan}/>
+                            <CurrentLoan key={index} {...this.props} loan={loan} />
                         ))}
                     </ScrollView>
-                </View>
-            ),
-            second: () => (
-                <View style={{ flex: 1 }}>
-                    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center' }}>
-                        {closedLoans.map((loan,index) => (
-                            <LoanCard key={index} {...this.props} loan={loan}/>
+                case 'second':
+                    return <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={this._onrefresh}
+                            />
+                        }
+
+                        style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center' }}>
+                        {closedLoans.map((loan, index) => (
+                            <LoanCard key={index} {...this.props} loan={loan} />
                         ))}
                     </ScrollView>
-                </View>
-            ),
-        });
+                default:
+                    break;
+            }
+        }
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-                <Loader isLoading={isLoading}/>
+                <Loader isLoading={isLoading} />
                 <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
-                    {/* <Appbar.BackAction onPress={()=>this.props.navigation.navigate('Home')}/> */}
+                    
+                <Appbar.Action />
                     <Appbar.Content
                         titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                        subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
                         title="Loans"
                     />
                     <Appbar.Action />
@@ -97,14 +126,14 @@ componentDidMount =() => {
                     onIndexChange={(index) => this.changeIndex(index)}
                     initialLayout={initialLayout}
                 />
-                  <FAB
+                {/* <FAB
                         style={styles.fab}
                         // small
                         color="white"
                         icon="plus"
                         onPress={() => console.log('Pressed')}
-                    />
-                </SafeAreaView>
+                    /> */}
+            </SafeAreaView>
         )
     }
 }

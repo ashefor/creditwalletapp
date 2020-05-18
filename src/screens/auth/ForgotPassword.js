@@ -60,7 +60,7 @@ class ForgotPasswordScreen extends Component {
         const { colors } = this.props.theme
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <Appbar.Header style={{ backgroundColor: 'white', elevation: 1 }}>
+                <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />

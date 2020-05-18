@@ -3,8 +3,17 @@
   "displayName": " Credit Wallet Mobile App ",
   "expo": {
     "name": "creditWalletApp",
+    "icon": "src/assets/images/logo.png",
     "slug": "expo-template-bare",
     "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.princepsfinance.creditwallet",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.princepsfinance.creditwallet",
+      "versionCode": 1
+    },
     "platforms": [
       "ios",
       "android",

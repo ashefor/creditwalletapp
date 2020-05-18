@@ -71,7 +71,7 @@ class LoanDetails extends Component {
     }
     formatAsCurrency = (value) => {
         const newvalue = parseFloat(value)
-        return `₦${newvalue.toLocaleString()}`
+        return `₦${newvalue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
     }
     render() {
         const { colors } = this.props.theme;
@@ -241,14 +241,14 @@ class LoanDetails extends Component {
                             </View>
                             <ScrollView contentContainerStyle={{ flexGrow: 1, width: resWidth(80), alignSelf: 'center' }}>
                                 {loan.repayment.map((item, index) => (
-                                    <TouchableWithoutFeedback key={index}>
+                                    <TouchableWithoutFeedback key={index} onPress={()=>this._showModal(item)}>
                                         <Fragment>
                                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
-                                                <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(item.repayment_amount)}</CustomText>
+                                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{item.repayment_collected_date}</CustomText>
                                                 <View>
-                                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{item.repayment_collected_date}</CustomText>
+                                                <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(item.repayment_amount)}</CustomText>
                                                 </View>
-                                                {/* <MaterialIcons name="keyboard-arrow-right" size={24} color="green" /> */}
+                                                <MaterialIcons name="keyboard-arrow-right" size={24} color="green" />
                                             </View>
                                             <Divider />
                                         </Fragment>

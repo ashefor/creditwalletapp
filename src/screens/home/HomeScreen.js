@@ -1,5 +1,5 @@
 import React, { Component, createRef, Fragment } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Platform, Linking } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Platform, Linking, RefreshControl } from 'react-native'
 import { Appbar, Button, Title, Subheading, FAB, Portal, Modal, TextInput, Dialog, Paragraph, Surface, withTheme, Snackbar } from 'react-native-paper';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -30,12 +30,13 @@ class HomeScreen extends Component {
             isErrorLoans: false,
             showLiquidation: false,
             errorMsg: null,
-            snackBarVisible: false
+            snackBarVisible: false,
+            refreshing: false
         }
     }
     componentDidMount = () => {
         this.getLoggedInUser();
-        this.loadDashboard()
+        this.loadDashboard(true)
     }
     getLoggedInUser = async () => {
         const user = await getUser();
@@ -45,19 +46,34 @@ class HomeScreen extends Component {
         // console.log(JSON.parse(user).username)
     }
 
-    loadDashboard = () => {
-        this.setState({ isLoading: true })
+    testRefresh = () => {
+        return new Promise((resolve, reject) => {
+            resolve(this.loadDashboard())
+        })
+    }
+    _onrefresh = () => {
+        this.setState({refreshing: true})
+       this.loadDashboard(false).then(() => {
+        this.setState({refreshing: false})
+       })
+    }
+    loadDashboard = (val) => {
+        this.setState({ isLoading: val })
         const url = `${apiURL}account/dashboard`;
         const options = {
             method: 'GET',
         }
+       return new Promise((resolve, reject) => {
         requestWithToken(url, options).then(data => {
             console.log(data)
             this.setState({ dashboard: data })
             this.setState({ isLoading: false })
+            resolve()
         }).catch(error => {
             this.setState({ isLoading: false })
+            reject()
         })
+       })
     }
 
     makeCall = () => {
@@ -117,8 +133,8 @@ class HomeScreen extends Component {
             })
     }
     formatAsCurrency = (value) => {
-        const newvalue = Number((value).toFixed(2))
-        return `₦${newvalue.toLocaleString()}`
+        const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        return `₦${newvalue}`
     }
     _showModal = (mode) => {
         if (mode === 2) {
@@ -198,7 +214,7 @@ class HomeScreen extends Component {
                             onDismiss={this._hideDialog}>
                             <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
                             <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
-                                <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>You have currently have an open loan of <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
+                                <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>You currently have an open loan of <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
                                     {this.formatAsCurrency(dashboard.loan_balance)}
                                 </CustomText> so you can not get letter of Non-Indebtness at this point. Kindly pay off your loan</Paragraph>
                             </Dialog.Content>
@@ -250,6 +266,12 @@ class HomeScreen extends Component {
                             </TouchableOpacity>
                         </View>
                         <ScrollView
+                        refreshControl={
+                            <RefreshControl 
+                            refreshing = {this.state.refreshing}
+                            onRefresh={this._onrefresh}
+                            />
+                        }
                             showsVerticalScrollIndicator={false}
                             style={{ backgroundColor: 'white' }} contentContainerStyle={{ flexGrow: 1 }}>
 
@@ -270,21 +292,21 @@ class HomeScreen extends Component {
                                     <Surface style={{ width: resWidth(75), borderRadius: 10 }}>
                                         <View style={{ padding: resFont(25), backgroundColor: '#15bcbf', borderRadius: 10, alignItems: 'center', justifyContent: 'center', height: '100%', overflow: 'hidden' }}>
                                             <MaterialCommunityIcons color={'white'} name='google-analytics' size={40} />
-                                            <CustomText style={{ fontSize: 30, color: 'white', fontWeight: 'bold', fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.loan_balance)}</CustomText>
+                                            <CustomText style={{ fontSize: 30, color: 'white', fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.loan_balance)}</CustomText>
                                             <CustomText style={{ fontSize: 15, color: 'white', fontFamily: 'Baloo-med', textAlign: 'center' }}>Current Loan Balance</CustomText>
                                         </View>
                                     </Surface>
                                     <Surface style={{ width: resWidth(75), marginLeft: 10, borderRadius: 10 }}>
                                         <View style={{ padding: resFont(25), backgroundColor: '#e0b94c', borderRadius: 10, alignItems: 'center', justifyContent: 'center', height: '100%', overflow: 'hidden' }}>
                                             <MaterialCommunityIcons color={'white'} name='credit-card-plus-outline' size={40} />
-                                            <CustomText style={{ fontSize: 30, color: 'white', fontWeight: 'bold', fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.top_up_amount)}</CustomText>
+                                            <CustomText style={{ fontSize: 30, color: 'white', fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.top_up_amount)}</CustomText>
                                             <CustomText style={{ fontSize: 15, color: 'white', fontFamily: 'Baloo-med', textAlign: 'center' }}>Amount Available for Loan Top Up</CustomText>
                                         </View>
                                     </Surface>
                                     <Surface style={{ width: resWidth(75), backgroundColor: '#9b9b9b', borderRadius: 10, marginLeft: 10 }}>
                                         <View style={{ padding: resFont(25), backgroundColor: '#9b9b9b', borderRadius: 10, alignItems: 'center', justifyContent: 'center', height: '100%', overflow: 'hidden' }}>
                                             <MaterialCommunityIcons color={'white'} name='format-list-numbered' size={40} />
-                                            <CustomText style={{ fontSize: 30, color: 'white', fontWeight: 'bold', fontFamily: 'Baloo-bold' }}>{dashboard.total_transactions}</CustomText>
+                                            <CustomText style={{ fontSize: 30, color: 'white', fontFamily: 'Baloo-bold' }}>{dashboard.total_transactions}</CustomText>
                                             <CustomText style={{ fontSize: 15, color: 'white', fontFamily: 'Baloo-med', textAlign: 'center' }}>Total Number of Transactions</CustomText>
                                         </View>
                                     </Surface>
@@ -327,13 +349,13 @@ class HomeScreen extends Component {
                             </View>
                         </ScrollView>
                     </View>
-                    <FAB
+                    {/* <FAB
                         style={[styles.fab, { bottom: snackBarVisible ? 50 : 0 }]}
                         // small
                         color="white"
                         icon="plus"
                         onPress={() => console.log('Pressed')}
-                    />
+                    /> */}
                     <Snackbar
                         visible={snackBarVisible}
                         onDismiss={this._onDismissSnackBar}

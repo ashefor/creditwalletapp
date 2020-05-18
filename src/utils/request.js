@@ -39,7 +39,7 @@ export const requestWithToken = async (url, options) => {
             fetch(url, requestOptions).then(res => res.json()).then(data => {
                 console.log(data);
                 if (data.status === "error" && data.message === "Authorization Failed, Please login to continue") {
-                    navigationservice.navigate('Login')
+                    navigationservice.navigate('Auth')
                 } else if (data.status === "success") {
                     return resolve(data)
                 } else {

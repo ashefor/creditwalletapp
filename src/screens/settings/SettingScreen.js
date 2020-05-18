@@ -8,14 +8,24 @@ import {
     Foundation, AntDesign, MaterialIcons
 } from '@expo/vector-icons';
 import { resWidth, resFont, resHeight } from '../../utils/utils';
-import { Divider, List } from 'react-native-paper';
+import { Divider, List, Appbar } from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
 
 class SettingScreen extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
-                <ScrollView contentContainerStyle={{ flexGrow: 1, alignSelf: 'center', width: resWidth(90), marginTop: Platform.OS === 'android' ? Constants.statusBarHeight : resHeight(2) }}>
+                 <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
+                    <Appbar.BackAction
+                    />
+                    <Appbar.Content
+                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                        title="Settings"
+                    />
+                    <Appbar.Action
+                        />
+                </Appbar.Header>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, alignSelf: 'center', width: resWidth(95) }}>
                     <List.Item
                         onPress={() => this.props.navigation.navigate('Change Password')}
                         title="Change password"

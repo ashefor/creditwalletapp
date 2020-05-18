@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { SafeAreaView, View, StyleSheet } from 'react-native';
+import { SafeAreaView, View, StyleSheet, RefreshControl } from 'react-native';
 
 import { Appbar, List, Text, Button, Divider, TouchableRipple, Surface, Title, Paragraph, ToggleButton, withTheme } from 'react-native-paper';
 import CustomText from '../../components/CustomText';
@@ -18,6 +18,7 @@ class LiquidateLoan extends Component {
             loan_id: this.props.navigation.getParam('loan_id'),
             loan: null,
             isLoading: false,
+            refreshing: false,
             // returnRoute: this.props.navigation.getParam('screen'),
         }
     }
@@ -30,7 +31,16 @@ class LiquidateLoan extends Component {
         }
     }
     componentDidMount = () => {
-        console.log(this.state.loan_id)
+       this.loadLoanDetails(true)
+    }
+
+    _onrefresh = () => {
+        this.setState({refreshing: true})
+       this.loadLoanDetails(false).then(() => {
+        this.setState({refreshing: false})
+       })
+    }
+    loadLoanDetails = (value) => {
         const url = `${apiURL}loan/liquidate`;
         const loan_id = {
             loan_id: this.state.loan_id
@@ -39,18 +49,21 @@ class LiquidateLoan extends Component {
             method: 'POST',
             body: JSON.stringify(loan_id),
         }
-        this.setState({isLoading: true})
-        requestWithToken(url, options).then(data => {
-            this.setState({ isLoading: false })
-            if (data.status === 'success') {
-                console.log(data)
-                this.setState({ loan: data })
-            }
-        }).catch(error => {
-            console.log(error);
-            this.setState({ isLoading: false })
+        this.setState({isLoading: value})
+        return new Promise((resolve, reject) => {
+            requestWithToken(url, options).then(data => {
+                this.setState({ isLoading: false })
+                if (data.status === 'success') {
+                    console.log(data)
+                    this.setState({ loan: data })
+                    resolve()
+                }
+            }).catch(error => {
+                console.log(error);
+                this.setState({ isLoading: false })
+                reject()
+            })
         })
-
     }
 
     formatAsCurrency = (value) => {
@@ -58,7 +71,7 @@ class LiquidateLoan extends Component {
         return `₦${newvalue.toLocaleString()}`
     }
     render() {
-        const { paymentType, isLoading, loan} = this.state;
+        const { paymentType, isLoading, loan, refreshing} = this.state;
         const {closeModal, loan_id} = this.props
         const {colors} = this.props.theme
         return (
@@ -74,7 +87,11 @@ class LiquidateLoan extends Component {
                     />
                     <Appbar.Action />
                 </Appbar.Header>
-                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
+                    <ScrollView 
+                    refreshControl ={
+                        <RefreshControl onRefresh={this._onrefresh} refreshing={refreshing}/>
+                    }
+                    showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow: 1}}>
                 <View style={{paddingTop: resHeight(2), width: resWidth(90), alignSelf: 'center' }}>
                     <CustomText style={{ textAlign: 'center', fontFamily: 'Baloo-med' }}>
                         Loan Liquidation Details as at today May 17, 2020
