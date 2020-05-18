@@ -29,12 +29,13 @@ class SettingScreen extends Component {
                     <List.Item
                         onPress={() => this.props.navigation.navigate('Change Password')}
                         title="Change password"
+                        titleStyle={{fontFamily: 'Baloo-med', fontSize: resFont(15)}}
                         left={props => <List.Icon {...props} icon="lock" />}
                         right={props => <List.Icon {...props} icon="arrow-right" />}
                     />
                     <Divider />
                     <List.Item
-                        title="Sign Out"
+                        title="Sign Out" titleStyle={{fontFamily: 'Baloo-med', fontSize: resFont(15)}}
                         onPress={() => this.props.navigation.navigate('Auth')}
                         left={props => <List.Icon {...props} icon="exit-to-app" color={'red'} />}
                         right={props => <List.Icon {...props} icon="arrow-right" />}
