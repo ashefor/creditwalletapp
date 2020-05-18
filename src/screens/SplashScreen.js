@@ -20,7 +20,7 @@ export default class Splashscreen extends Component {
     render() {
         return (
             <View style={{ flex: 1, flexGrow: 1, backgroundColor: 'gray', alignItems: 'center', justifyContent: 'center' }}>
-                 <Avatar.Image style={styles.avatar} size={40} source={require('../assets/images/logo.png')} />
+                 <Avatar.Image size={40} source={require('../assets/images/logo.png')} />
             </View>
         );
     }
@@ -28,14 +28,5 @@ export default class Splashscreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    avatar: {
-        // marginRight: 5
-    },
-    avatarContainer: {
-        paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight: 0,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+   
 })
