@@ -22,6 +22,7 @@ class HomeScreen extends Component {
             open: false,
             email: '',
             isLoading: false,
+            isSending: false,
             dashboard: null,
             visible: false,
             letterType: '',
@@ -103,15 +104,15 @@ class HomeScreen extends Component {
             body: JSON.stringify(user),
         }
         Keyboard.dismiss()
-        this.setState({ isLoading: true })
+        this.setState({ isSending: true })
         requestWithToken(url, options).then(data => {
-            this.setState({ isLoading: false }, () => {
+            this.setState({ isSending: false }, () => {
                 this._hideModal()
                 this.setState({ snackBarVisible: true })
             });
             console.log(data)
         }).catch(error => {
-            this.setState({ isLoading: false, errorMsg: error.message })
+            this.setState({ isSending: false, errorMsg: error.message })
             console.log(error)
         })
 
@@ -180,7 +181,7 @@ class HomeScreen extends Component {
 
 
     render() {
-        const { username, isOpenLoans, isErrorLoans, isLoading, dashboard, visible, email, letterType, dialog, errorMsg, snackBarVisible } = this.state;
+        const { username, isOpenLoans, isErrorLoans, isLoading, dashboard, visible, email, isSending, letterType, dialog, errorMsg, snackBarVisible } = this.state;
         const { colors } = this.props.theme
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -242,12 +243,13 @@ class HomeScreen extends Component {
                                                 onChangeText={email => this.setState({ email })}
                                             />
                                             <Button
+                                            disabled={isSending}
                                                 style={{ marginTop: resHeight(2) }}
                                                 labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                                 contentStyle={styles.loginbtn}
                                                 mode="contained"
                                                 onPress={this.handleSendEmail}>
-                                                Get my letter
+                                                {isSending ? 'Sending' : 'Get my letter'}
                                     </Button>
                                         </View>
                                         <SafeAreaView />
