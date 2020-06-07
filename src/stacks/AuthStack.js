@@ -37,7 +37,7 @@ const AuthStack = createStackNavigator({
 }, {
     initialRouteName: 'Onboard',
     mode: 'card',
-    headerMode: 'float'
+    headerMode: 'none'
 })
 
 export default AuthStack

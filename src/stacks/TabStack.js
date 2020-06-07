@@ -4,6 +4,7 @@ import {Ionicons, AntDesign} from '@expo/vector-icons';
 import LoanStack from './LoanStack';
 import HomeStack from './HomeStack';
 import SettingStack from './SettingStack';
+import MainHomeStack from './MainHomeStack';
 
 const TabNavigator = createBottomTabNavigator({
     Home: {

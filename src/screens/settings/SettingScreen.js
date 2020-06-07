@@ -38,7 +38,6 @@ class SettingScreen extends Component {
                         title="Sign Out" titleStyle={{fontFamily: 'Baloo-med', fontSize: resFont(15)}}
                         onPress={() => this.props.navigation.navigate('Auth')}
                         left={props => <List.Icon {...props} icon="exit-to-app" color={'red'} />}
-                        right={props => <List.Icon {...props} icon="arrow-right" />}
                     />
                     {/* <Divider/> */}
                     {/* <TouchableWithoutFeedback onPress={()=> this.props.navigation.navigate('Auth')} style={{paddingHorizontal: 10}}>

@@ -2,6 +2,7 @@ import { getToken } from "./storage"
 import navigationservice from "./navigationservice"
 
 export const apiURL = 'https://creditwallet.ng/api/public/customer/'
+export const loanApiURL = 'https://creditwallet.ng/api/public/'
 
 export const request = (url, options) => {
     const requestOptions = {
@@ -37,7 +38,7 @@ export const requestWithToken = async (url, options) => {
         }
         return new Promise((resolve, reject) => {
             fetch(url, requestOptions).then(res => res.json()).then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.status === "error" && data.message === "Authorization Failed, Please login to continue") {
                     navigationservice.navigate('Auth')
                 } else if (data.status === "success") {
@@ -50,7 +51,7 @@ export const requestWithToken = async (url, options) => {
             })
         })
     } else {
-        //   this.props.navigation.navigate('Auth')
+        navigationservice.navigate('Auth')
         console.log('no token')
     }
 }

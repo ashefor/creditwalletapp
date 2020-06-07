@@ -4,23 +4,17 @@ import LoanScreen from '../screens/loans/LoanScreen';
 import LoanDetails from '../screens/loans/LoanDetails';
 import LiquidateLoan from '../screens/liquidate/LiquidateLoan';
 import HomeScreen from '../screens/home/HomeScreen';
+import HomeStack from './HomeStack';
 import NewLoanScreen from '../screens/home/NewLoanScreen';
 
-const HomeStack = createStackNavigator({
+const MainHomeStack = createStackNavigator({
     'Home': {
-        screen: HomeScreen,
+        screen: HomeStack,
         navigationOptions: {
             headerTransparent: true,
             headerShown: false
         }
     },
-    'Loan Liquidate': {
-        screen: LiquidateLoan,
-        navigationOptions: {
-            headerTransparent: true,
-            headerShown: false,
-        }
-    }, 
     'New Loan': {
         screen: NewLoanScreen,
         navigationOptions: {
@@ -29,19 +23,19 @@ const HomeStack = createStackNavigator({
         }
     }, 
 }, {
-    initialRouteName: 'Home',
     mode: 'card',
+    headerMode: 'none'
 })
 
-export default HomeStack;
+export default MainHomeStack;
 
-HomeStack.navigationOptions = ({ navigation }) => {
+MainHomeStack.navigationOptions = ({ navigation }) => {
 
     let tabBarVisible = true;
 
     let routeName = navigation.state.routes[navigation.state.index].routeName
 
-    if ( routeName == 'Loan Liquidate' || routeName == 'New Loan' ) {
+    if ( routeName == 'Loan Liquidate' ) {
         tabBarVisible = false
     }
     return {

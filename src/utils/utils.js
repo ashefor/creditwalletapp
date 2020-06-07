@@ -1,5 +1,6 @@
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { Platform, StatusBar, Dimensions } from "react-native";
+import { banks } from "./banks";
 
 export const { width, height } = Dimensions.get("window");
 
@@ -26,6 +27,12 @@ const RFValue = fontSize => {
     return Math.round(heightPercent);
 };
 
+const retrieveBankCode = bankName => {
+    const foundBank = banks.find(bank => bank.name.toLowerCase() === bankName);
+    return foundBank.bankcode;
+}
+
 export const resFont = val => RFValue(val);
 export const resHeight = val => responsiveHeight(val);
 export const resWidth = val => responsiveWidth(val);
+export const getBankCode = val =>  retrieveBankCode(val);

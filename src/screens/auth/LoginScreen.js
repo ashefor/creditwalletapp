@@ -67,7 +67,7 @@ class LoginScreen extends Component {
                         />
                 </Appbar.Header>
                 <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/>
-                <TouchableWithoutFeedback style={{ backgroundColor: 'red' }} onPress={() => Keyboard.dismiss()}>
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         <View style={{ marginTop: resHeight(3) }}>
                         {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error}}>{errorMsg}</CustomText>}
