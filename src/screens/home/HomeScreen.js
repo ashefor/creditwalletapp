@@ -492,7 +492,7 @@ const styles = StyleSheet.create({
     },
     header: {
         height: resHeight(5),
-        marginTop: Platform.OS === 'ios' ? resHeight(3) : Constants.statusBarHeight,
+        marginTop: Constants.statusBarHeight,
         // backgroundColor: 'blue',
         justifyContent: 'space-between',
         display: 'flex',

@@ -3,6 +3,11 @@
   "displayName": " Credit Wallet Mobile App ",
   "expo": {
     "name": "creditWalletApp",
+    "splash": {
+      "image": "src/assets/images/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#fff"
+    },
     "icon": "src/assets/images/logo.png",
     "slug": "expo-template-bare",
     "version": "1.0.0",

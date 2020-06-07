@@ -10,8 +10,13 @@ import {
 import { resWidth, resFont, resHeight } from '../../utils/utils';
 import { Divider, List, Appbar } from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
+import { signOut } from '../../utils/storage';
 
 class SettingScreen extends Component {
+
+    _handleSignOut = () => {
+
+    }
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
@@ -36,7 +41,7 @@ class SettingScreen extends Component {
                     <Divider />
                     <List.Item
                         title="Sign Out" titleStyle={{fontFamily: 'Baloo-med', fontSize: resFont(15)}}
-                        onPress={() => this.props.navigation.navigate('Auth')}
+                        onPress={() => signOut()}
                         left={props => <List.Icon {...props} icon="exit-to-app" color={'red'} />}
                     />
                     {/* <Divider/> */}

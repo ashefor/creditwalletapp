@@ -1,5 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 
+import navigationservice from "./navigationservice"
 
 
 export const setToken = async (token) => {
@@ -19,5 +20,5 @@ export const getUser = async () => {
 };
 
 export const signOut = async() => {
-    return await SecureStore.deleteItemAsync('access_token').then(SecureStore.deleteItemAsync('creditWalletUser'))
+    return await SecureStore.deleteItemAsync('access_token').then(SecureStore.deleteItemAsync('creditWalletUser').then(navigationservice.navigate('Auth')))
 }
