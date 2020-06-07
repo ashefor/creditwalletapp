@@ -216,11 +216,13 @@ class NewLoanScreen extends Component {
                                                     For how long?
                              </CustomText>
                                                 <View style={{ marginVertical: resHeight(1) }}>
-                                                    <CustomText style={{ textAlign: 'center', fontFamily: 'Baloo' }}>
+                                                    <CustomText style={{ 
+                                                        fontSize: resFont(15),
+                                                        textAlign: 'center', fontFamily: 'Baloo-med' }}>
                                                         {duration} month{duration > 1 ? 's' : ''}
                                                     </CustomText>
                                                     <Slider
-                                                        style={{ width: '100%', height: 40 }}
+                                                        style={{ width: '100%', marginVertical: resHeight(3),   height: 40 }}
                                                         minimumValue={1}
                                                         maximumValue={24}
                                                         onValueChange={(duration) => this.setState({ duration })}
@@ -232,7 +234,7 @@ class NewLoanScreen extends Component {
                                                 </View>
                                                 <Button
                                                     loading={isApplying}
-                                                    disabled={isApplying}
+                                                    disabled={isApplying || !amount}
                                                     onPress={this._handleLoanApply}
                                                     style={{ marginVertical: resHeight(2) }}
                                                     labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}

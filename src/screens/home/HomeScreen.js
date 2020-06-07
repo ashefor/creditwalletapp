@@ -269,6 +269,7 @@ class HomeScreen extends Component {
                         </Modal>
                     </Portal>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
+                        <SafeAreaView/>
                         <View style={styles.header}>
                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>
                                 Welcome, {username}
@@ -468,6 +469,7 @@ const styles = StyleSheet.create({
         padding: 10,
         // backgroundColor: '#f7971e',
         display: 'flex',
+        alignItems: 'flex-start',
         justifyContent: 'space-between'
     },
     cardText: {
@@ -492,7 +494,7 @@ const styles = StyleSheet.create({
     },
     header: {
         height: resHeight(5),
-        marginTop: Constants.statusBarHeight,
+        marginTop: Platform.OS ==='android' ? Constants.statusBarHeight + resHeight(3) : Constants.statusBarHeight,
         // backgroundColor: 'blue',
         justifyContent: 'space-between',
         display: 'flex',
