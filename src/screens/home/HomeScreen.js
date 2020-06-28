@@ -35,6 +35,7 @@ class HomeScreen extends Component {
             snackBarVisible: false,
             refreshing: false,
             showNewLoanModal: false,
+            hasError: null
         }
     }
     componentDidMount = () => {
@@ -73,7 +74,9 @@ class HomeScreen extends Component {
             this.setState({ isLoading: false })
             resolve()
         }).catch(error => {
+            console.log(error);
             this.setState({ isLoading: false })
+            this.setState({hasError: 'An error has occured'})
             reject()
         })
        })
@@ -189,12 +192,16 @@ class HomeScreen extends Component {
         this.setState({showNewLoanModal: false})
     }
     render() {
-        const { username, isOpenLoans, isErrorLoans, isLoading, dashboard, visible, email, showNewLoanModal, isSending, letterType, dialog, errorMsg, snackBarVisible } = this.state;
+        const { username, isOpenLoans, isErrorLoans, isLoading, dashboard, visible, email, showNewLoanModal, hasError, isSending, letterType, dialog, errorMsg, snackBarVisible } = this.state;
         const { colors } = this.props.theme
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
-                {dashboard && <Fragment>
+                {hasError && <Fragment>
+                        <CustomText>Error has occured</CustomText>
+                    </Fragment>}
+                {dashboard && 
+                <Fragment>
                     <Portal>
                         <Dialog
                             visible={isOpenLoans}
@@ -234,9 +241,9 @@ class HomeScreen extends Component {
                         <Modal 
                         animationType='slide'
                         contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
-                            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: 'white' }}>
-                                <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-                                    <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
+                            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
+                                <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                                         <Appbar.Action icon="close" onPress={this._hideModal} />
                                     </Appbar.Header>
                                     <View style={{ alignSelf: 'center', width: resWidth(90) }}>
@@ -286,7 +293,7 @@ class HomeScreen extends Component {
                             />
                         }
                             showsVerticalScrollIndicator={false}
-                            style={{ backgroundColor: 'white' }} contentContainerStyle={{ flexGrow: 1 }}>
+                            style={{ backgroundColor: '#f5fcff' }} contentContainerStyle={{ flexGrow: 1 }}>
 
                             {/* <View style={{ flex: 1, marginVertical: 10 }}>
                                 <ScrollView

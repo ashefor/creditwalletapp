@@ -8,6 +8,7 @@ import { useFonts } from '@use-expo/font';
 import { Provider as PaperProvider, DefaultTheme, DarkTheme , configureFonts,} from 'react-native-paper';
 import AppNavigation from './src/utils/Navigator';
 import navigationservice from './src/utils/navigationservice';
+import { LoanProvider } from './src/screens/new-application/provider/LoanProvider';
 const theme = {
   ...DefaultTheme,
   roundness: 5,
@@ -36,7 +37,9 @@ export default function App() {
     return (
       <View style={styles.container}>
         <PaperProvider theme={theme}>
+          <LoanProvider>
           <AppNavigation ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/>
+          </LoanProvider>
         </PaperProvider>
       </View>
     );

@@ -26,7 +26,7 @@ class OnboardScreen extends Component {
                 <Button
                 labelStyle={{textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med'}}
                     contentStyle={styles.signpbtn}
-                    mode="contained" onPress={() => console.log('Pressed')}>
+                    mode="contained" onPress={() => this.props.navigation.navigate('Get Started')}>
                     Apply for a loan
                 </Button>
                 <View style={styles.loginInfo}>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     page: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#f5fcff',
         fontFamily: 'Baloo'
         // justifyContent: 'flex-end'
     },

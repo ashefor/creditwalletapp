@@ -56,8 +56,8 @@ class ChangePasswordScreen extends Component {
         const {visible, oldPassword, newPassword, isLoading, errorMsg} = this.state;
         const {colors} = this.props.theme
         return (
-            <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <Appbar.Header style={{ backgroundColor: 'white', elevation: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />

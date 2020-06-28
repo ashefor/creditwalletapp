@@ -19,10 +19,9 @@ class SettingScreen extends Component {
     }
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white'}}>
-                 <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
-                    <Appbar.BackAction
-                    />
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff'}}>
+                 <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    
                     <Appbar.Content
                         titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
                         title="Settings"
