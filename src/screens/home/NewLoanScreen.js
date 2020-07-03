@@ -28,7 +28,7 @@ class NewLoanScreen extends Component {
             amount: this.state.amount,
             tenor: this.state.duration
         }
-        console.log(loan)
+        // console.log(loan)
         const options = {
             method: 'POST',
             body: JSON.stringify(loan),
@@ -37,12 +37,12 @@ class NewLoanScreen extends Component {
         requestWithToken(url, options).then((data) => {
             this.setState({ isApplying: false })
             if (data.status === 'success') {
-                console.log(data);
+                // console.log(data);
                 this.setState({ loanOffer: data })
             }
         }).catch((error) => {
             this.setState({ isApplying: false })
-            console.log(error)
+            // console.log(error)
         })
     }
 
@@ -56,7 +56,7 @@ class NewLoanScreen extends Component {
         const user = await getUser();
         if (user) {
             const userObj = JSON.parse(user)
-            // console.log(userObj);
+            // // console.log(userObj);
             const loanData = {
                 firstname: userObj.borrower_firstname,
                 lastname: userObj.borrower_lastname,
@@ -77,7 +77,7 @@ class NewLoanScreen extends Component {
                 dob: userObj.borrower_dob
             }
 
-            console.log(loanData)
+            // console.log(loanData)
             const options = {
                 method: 'POST',
                 body: JSON.stringify(loanData),
@@ -86,13 +86,13 @@ class NewLoanScreen extends Component {
             requestWithToken(url, options).then((data) => {
                 this.setState({ isLoading: false })
                 if (data.status === 'success') {
-                    console.log(data);
+                    // console.log(data);
                     this.setState({applicationSuccess: true})
                 }
             }).catch((error) => {
                 this.setState({ isLoading: false })
                 this.setState({applicationSuccess: false})
-                console.log(error)
+                // console.log(error)
             })
         }
     }
@@ -176,20 +176,20 @@ class NewLoanScreen extends Component {
                                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                                             <Button
                                                 disabled={isLoading}
-
+contentStyle={styles.button}
                                                 onPress={this._handleGoBack}
                                                 style={{ backgroundColor: isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
-                                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
                                                 mode="contained">
                                                 Back
                          </Button>
                                             <Button
                                                 loading={isLoading}
                                                 disabled={isLoading}
-
+                                                contentStyle={styles.button}
                                                 style={{ marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
                                                 onPress={this._handleAcceptLoan}
-                                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
                                                 mode="contained">
                                                 {isLoading ? 'Accepting' : 'Accept'}
                                             </Button>
@@ -237,7 +237,8 @@ class NewLoanScreen extends Component {
                                                     disabled={isApplying || !amount}
                                                     onPress={this._handleLoanApply}
                                                     style={{ marginVertical: resHeight(2) }}
-                                                    labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                                                    contentStyle={styles.button}
+                                                    labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
                                                     mode="contained">
                                                     Apply for loan
                          </Button>
@@ -269,5 +270,8 @@ const styles = StyleSheet.create({
         borderColor: '#f56b2a',
         borderBottomWidth: .3,
         marginVertical: resHeight(2)
+    },
+    button: {
+        height: resHeight(6)
     }
 })

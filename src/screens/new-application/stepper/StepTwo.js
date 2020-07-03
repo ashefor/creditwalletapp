@@ -76,7 +76,7 @@ class StepTwo extends Component {
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                         <Button
                             disabled={loan.isLoading}
-
+                            contentStyle={styles.button}
                             onPress={loan.goBack}
                             style={{ backgroundColor: loan.isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
                             labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
@@ -86,7 +86,7 @@ class StepTwo extends Component {
                         <Button
                             loading={loan.isLoading}
                             disabled={loan.isLoading}
-
+contentStyle={styles.button}
                             style={{ marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
                             onPress={loan.goNext}
                             labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
         // color: '#f56b2a',
         textTransform: 'uppercase'
     },
+    button: {
+        height: resHeight(6),
+    }
 })
 
 

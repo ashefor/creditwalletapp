@@ -28,7 +28,8 @@ class StepOne extends Component {
                         label='Amount'
                         style={{ backgroundColor: 'white' }}
                         value={loan.amount}
-                        keyboardType='numeric'
+                        keyboardType='number-pad'
+                        returnKeyType='done'
                         onChangeText={amount => loan.setAmount(amount)}
                     />
                 </View>
@@ -59,6 +60,7 @@ class StepOne extends Component {
                     loading={loan.isApplying}
                     disabled={loan.isApplying || !loan.amount}
                     onPress={loan.loanApply}
+                    contentStyle={styles.button}
                     style={{ marginVertical: resHeight(2) }}
                     labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
                     mode="contained">
@@ -96,4 +98,7 @@ const styles = StyleSheet.create({
         // color: '#f56b2a',
         textTransform: 'uppercase'
     },
+    button: {
+        height: resHeight(6),
+    }
 })

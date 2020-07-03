@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native'
 import { Appbar, TextInput, Button, withTheme , TouchableRipple} from 'react-native-paper';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 import { apiURL, request } from '../../utils/request';
@@ -42,10 +42,10 @@ class LoginScreen extends Component {
                 setToken(data.token);
                 setUser(data.customer);
                 this.props.navigation.navigate('Main')
-                console.log(data)
+                // console.log(data)
             }).catch(error => {
                 this.setState({ isLoading: false , errorMsg: error.message})
-                console.log(error)
+                // console.log(error)
             })
         }
        
@@ -67,7 +67,7 @@ class LoginScreen extends Component {
                         />
                 </Appbar.Header>
                 <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/>
-                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <ScrollView  style={{flex: 1}} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         <View style={{ marginTop: resHeight(3) }}>
                         {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error}}>{errorMsg}</CustomText>}
@@ -76,6 +76,7 @@ class LoginScreen extends Component {
                                 label='Username'
                                 value={username}
                                 autoCapitalize='none'
+                                returnKeyType='done'
                                 onChangeText={username => this.setState({ username })}
                             />
                             <TextInput
@@ -83,6 +84,7 @@ class LoginScreen extends Component {
                                 style={{ backgroundColor: 'transparent' }}
                                 label='Password'
                                 value={password}
+                                returnKeyType='done'
                                 onChangeText={password => this.setState({ password })}
                             />
                             <Button
@@ -102,7 +104,7 @@ class LoginScreen extends Component {
               
                         </View>
                     </View>
-                </TouchableWithoutFeedback>
+                </ScrollView>
             </View>
 
 

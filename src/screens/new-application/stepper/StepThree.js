@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme, TouchableRipple } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
@@ -10,155 +10,292 @@ import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/LoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-const categories = [
+const titles = [
     {
-        label: 'Service',
-        value: 'Service',
+        label: 'Mr',
+        value: 'Mr',
     },
     {
-        label: 'Housing Wanted',
-        value: 'Housing Wanted',
+        label: 'Mrs',
+        value: 'Mrs',
     },
     {
-        label: 'Housing Offered',
-        value: 'Housing Offered',
+        label: 'Alhaji',
+        value: 'Alhaji',
     },
     {
-        label: 'Electronics & Appliances',
-        value: 'Electronics & Appliances',
+        label: 'Chief',
+        value: 'Chief',
     },
     {
-        label: 'Furniture',
-        value: 'Furniture',
+        label: 'Dr',
+        value: 'Dr',
     },
-    {
-        label: 'Job Wanted',
-        value: 'Job Wanted',
-    },
-    {
-        label: 'Job Offered',
-        value: 'Job Offered',
-    }
 ];
 
-const categoryPlaceholder = {
-    label: 'Category',
+const genders = [
+    {
+        label: 'Male',
+        value: 'male',
+    },
+    {
+        label: 'Female',
+        value: 'female',
+    },
+];
+
+const titlePlaceholder = {
+    label: 'Title',
     value: null,
     color: '#9EA0A4',
 };
 
+const genderPlaceholder = {
+    label: 'Gender',
+    value: null,
+    color: '#9EA0A4',
+};
 class StepThree extends Component {
-constructor(props) {
-    super(props)
-    this._textInput = createRef()
-}
-    renderTouchText = props => {
-        const { style, value } = props;
-    
+    constructor(props) {
+        super(props)
+        this._textInput = createRef()
+        this._selectGenderPicker = createRef()
+        this._datePicker = createRef()
+        this.state = {
+            showDatePicker: false,
+        }
+    }
+    renderTitleSelect = props => {
+        const { style, value, selectTile } = props;
+        const valueChange = (title) => {
+            selectTile(title)
+            this.handleBlur();
+        }
         return (
-          <TouchableRipple style={{flex: 1, justifyContent: 'center'}} onPress={this.handleFocus}>
+            <PickerComponent
+                handleFocus={this.handleFocus}
+                handleBlur={this.handleBlur}
+                placeholder={titlePlaceholder}
+                items={titles}
+                onValueChange={title => valueChange(title)}
+                value={value}
+            />
+        );
+    };
+    renderGenderSelect = props => {
+        const { style, value, selectGender } = props;
+        return (
+            <PickerComponent
+                handleFocus={this.handleGenderPickerFocus}
+                handleBlur={this.handleGenderPickerBlur}
+                placeholder={genderPlaceholder}
+                items={genders}
+                onValueChange={gender => selectGender(gender)}
+                value={value}
+            />
+        );
+    };
+
+    renderDatePicker = props => {
+        const { style, value, loan } = props;
+        return (
+            <TouchableRipple style={{flex: 1, justifyContent: 'center'}} onPress={() => this.handleDatePickerFocus(loan)}>
             <Text style={{paddingHorizontal: 14}}>{value}</Text>
           </TouchableRipple>
         );
-      };
+    };
 
-      handleFocus = () => {
-          console.log('clicking')
-          console.log(this._textInput.current)
+    handleDatePickerFocus = (loan) => {
+        console.log('open')
+        loan.setShowDatePicker();
+        this._datePicker.current.handleFocus()
+        // this.setState({showDatePicker: true}, () => )
+    };
+    handleFocus = () => {
         this._textInput.current.handleFocus();
-      };
-    
-      handleBlur = () => {
-        setTimeout(this._textInput.current._root._handleBlur, 100);
-      };
+    };
+    handleGenderPickerFocus = () => {
+        this._selectGenderPicker.current.handleFocus();
+    };
+
+    handleBlur = () => {
+        setTimeout(() => {
+            this._textInput.current.handleBlur()
+        }, 100)
+    };
+
+    handleGenderPickerBlur = () => {
+        setTimeout(() => {
+            this._selectGenderPicker.current.handleBlur()
+        }, 100)
+    };
+
+    handleDatePickerBlur = () => {
+        setTimeout(() => {
+            this._datePicker.current.handleBlur()
+        }, 100)
+    };
+
+    _handleHideDatePicker = () => {
+        this.setState({showDatePicker: false}, this.handleDatePickerBlur())
+    }
+
     render() {
         const { colors } = this.props.theme
+        const {showDatePicker} = this.state
+
+        const handleCloseModal = (loan) => {
+            loan.confirmDatePicker()
+            loan.closeDatePicker()
+            this.handleDatePickerBlur()
+        }
+
+        const closeAndroidDatePicker = loan => {
+        //    console.log(loan.dateOnChange)
+           loan.dateOnChange()
+            loan.closeDatePicker()
+            // this.setState({showDatePicker: false}, )
+        }
+        
+        const dater = (event, date, loan) => {
+            // console.log(event,date, loan)
+            loan.dateOnChange(event, date)
+            this.handleDatePickerBlur();
+        }
         return (
             <LoanContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={{flex: 1, marginVertical: resHeight(2) }}>
-            <CustomText style={styles.headerText}>
-                    personal information
+                    <View style={{ flex: 1, marginVertical: resHeight(2) }}>
+                        <CustomText style={styles.headerText}>
+                            personal information
                      </CustomText>
-                     <View style={{flex: 1}}>
-                         <KeyboardAvoidingView behavior="position">
-                     <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
-                     <TextInput
-                     
-                        mode="outlined"
-                        label='First Name'
-                        style={{ backgroundColor: 'white', width: '47%' }}
-                        value={loan.firstName}
-                        keyboardType='default'
-                        onChangeText={name => loan.setFirstName(name)}
-                    />
-                    <TextInput
-                        mode="outlined"
-                        label='Last Name'
-                        style={{ backgroundColor: 'white', width: '47%' }}
-                        value={loan.lastName}
-                        keyboardType='default'
-                        onChangeText={name => loan.setLastName(name)}
-                    />
-                     </View>
-                     <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
-                     <TextInput
-                     ref={this._textInput}
-                        render={this.renderTouchText}
-                        mode="outlined"
-                        label='Title'
-                        style={{ backgroundColor: 'white', width: '47%' }}
-                        value={loan.amount}
-                        keyboardType='default'
-                        onChangeText={amount => loan.setAmount(amount)}
-                    />
-                  <PickerComponent
-                                        placeholder={categoryPlaceholder}
-                                        items={categories}
-                                        onValueChange={loan.setCategory}
-                                        value={loan.category}
+                        <View style={{ flex: 1 }}>
+                            <KeyboardAvoidingView behavior="position">
+                            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
+                                    <TextInput
+                                        ref={this._textInput}
+                                        render={this.renderTitleSelect}
+                                        mode="outlined"
+                                        label='Title'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        value={loan.title}
+                                        keyboardType='default'
+                                        selectTile={loan.setTitle}
                                     />
-                    <TextInput
-                        mode="outlined"
-                        label='Gender'
-                        style={{ backgroundColor: 'white', width: '47%' }}
-                        value={loan.amount}
-                        keyboardType='default'
-                        onChangeText={amount => loan.setAmount(amount)}
-                    />
-                     </View>
-                     <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
-                     <TextInput
-                     
-                        mode="outlined"
-                        label='Title'
-                        style={{ backgroundColor: 'white', width: '47%' }}
-                        value={loan.amount}
-                        keyboardType='numeric'
-                        onChangeText={amount => loan.setAmount(amount)}
-                    />
-                    <TextInput
-                        mode="outlined"
-                        label='Gender'
-                        style={{ backgroundColor: 'white', width: '47%' }}
-                        value={loan.amount}
-                        keyboardType='numeric'
-                        onChangeText={amount => loan.setAmount(amount)}
-                    />
-                     </View>
-                     <View style={styles.bottomcontainer}>
-                        <Button mode="contained" contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
-                        onPress={() => this.props.navigation.navigate('New Application')}>
-                            Next
-                        </Button>
-                    </View>
-                     </KeyboardAvoidingView>
-                     </View>
-           
-            </View>
+                                    <TextInput
+                                        ref={this._selectGenderPicker}
+                                        render={this.renderGenderSelect}
+                                        mode="outlined"
+                                        label='Gender'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        value={loan.gender}
+                                        keyboardType='default'
+                                        selectGender={loan.setGender}
+                                    />
+                                </View>
+                                <View style={{ marginVertical: resHeight(1) }}>
+                                    <TextInput
+                                        returnKeyType='done'
+                                        mode="outlined"
+                                        label='First Name'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.firstname}
+                                        keyboardType='default'
+                                        onChangeText={name => loan.setFirstName(name)}
+                                    />
+                                </View>
+                                <View style={{marginVertical: resHeight(1) }}>
+                                    <TextInput
+                                        mode="outlined"
+                                        label='Last Name'
+                                        returnKeyType='done'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.lastname}
+                                        keyboardType='default'
+                                        onChangeText={name => loan.setLastName(name)}
+                                    />
+                                </View>
+                                <View style={{ marginVertical: resHeight(1) }}>
+                                    <TextInput
+                                        ref={this._datePicker}
+                                        render={this.renderDatePicker}
+                                        mode="outlined"
+                                        label='Date of birth'
+                                        loan={loan}
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.dob && new Date(loan.dob).toLocaleDateString()}
+                                    />
 
-        </TouchableWithoutFeedback>}
+                                   {Platform.OS === 'ios' &&  <Modal visible={loan.showDatePicker} transparent={true} onRequestClose={this._handleHideDatePicker} >
+                                   <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
+                                 <View style={{width: resWidth(95), marginBottom: 20}}>
+                                 <View style={{backgroundColor: 'white', borderRadius: 10}}>
+                                     <View style={{paddingVertical: 10}}>
+                                         <CustomText style={{textAlign: 'center'}}>
+                                             Pick a date
+                                         </CustomText>
+                                     </View>
+                                     <View style={{height: .5, backgroundColor: 'rgba(0,0,0, .2)'}}/>
+                                  <DateTimePicker 
+                                    mode={'date'}  
+                                    testID="dateTimePicker"
+                                     is24Hour={true} 
+                                     display='calendar'
+                                      value={loan.date}
+                                      onChange={loan.setDate}
+                                      />
+                                      <View style={{height: .5, backgroundColor: 'rgba(0,0,0, .2)'}}/>
+                                       <Button mode="contained" style={{backgroundColor: '#fff', borderRadius: 10, overflow: 'hidden'}} contentStyle={styles.datePickerBtn} labelStyle={{ textTransform: 'none', fontSize: 17, fontFamily: 'Baloo-med', color: '#f56b2a' }}
+                                        onPress={() => handleCloseModal(loan)}>
+                                        Confirm
+                        </Button>
+                                  </View>
+                                  <View style={{marginVertical: 10}}>
+                                  <Button mode="contained" style={{backgroundColor: '#fff', borderRadius: 10, overflow: 'hidden'}} contentStyle={styles.datePickerBtn} labelStyle={{ textTransform: 'none', fontSize: 17, fontFamily: 'Baloo-med', color: '#f56b2a' }}
+                                        onPress={this._handleHideDatePicker}>
+                                        Cancel
+                        </Button>
+                                  </View>
+                                 </View>
+                                   </View>
+                                    </Modal>}
+                                    {Platform.OS === 'android' && loan.showDatePicker && <DateTimePicker 
+                                    mode={'date'}  
+                                    
+                                    testID="dateTimePicker"
+                                     is24Hour={true} 
+                                     display='calendar'
+                                      value={loan.dob ? loan.dob : loan.date}
+                                      onChange={(event, dat) => dater(event, dat, loan)}
+                                      />}
+                                </View>
+                                <View style={{ marginVertical: resHeight(1) }}>
+                                    <TextInput
+                                        returnKeyType='done'
+                                        mode="outlined"
+                                        label='Referral Code'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.referralcode}
+                                        keyboardType='default'
+                                        onChangeText={(code => loan.setReferral(code))}
+                                    />
+                                </View>
+                                <View style={styles.bottomcontainer}>
+                                    <Button mode="contained" 
+                                    disabled={!loan.dob || !loan.gender || !loan.title || !loan.lastname || !loan.firstname}
+                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                        onPress={loan.goNext}>
+                                        Next
+                        </Button>
+                                </View>
+                            </KeyboardAvoidingView>
+                        </View>
+
+                    </View>
+
+                </TouchableWithoutFeedback>}
             </LoanContext.Consumer>
         )
     }
@@ -193,6 +330,12 @@ const styles = StyleSheet.create({
         marginVertical: resHeight(5)
     },
     button: {
-        height: resHeight(5),
+        height: resHeight(6),
+    },
+    datePickerBtn: {
+        height: resHeight(6),
+        backgroundColor: 'white',
+        color: 'black',
+        borderRadius: 10
     }
 })

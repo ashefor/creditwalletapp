@@ -47,19 +47,14 @@ class HomeScreen extends Component {
         this.setState({
             username: JSON.parse(user).borrower_firstname
         })
-        // console.log(JSON.parse(user).username)
+        // // // console.log(JSON.parse(user).username)
     }
 
-    testRefresh = () => {
-        return new Promise((resolve, reject) => {
-            resolve(this.loadDashboard())
-        })
-    }
     _onrefresh = () => {
-        this.setState({refreshing: true})
-       this.loadDashboard(false).then(() => {
-        this.setState({refreshing: false})
-       })
+        this.setState({ refreshing: true })
+        this.loadDashboard(false).then(() => {
+            this.setState({ refreshing: false })
+        })
     }
     loadDashboard = (val) => {
         this.setState({ isLoading: val })
@@ -67,19 +62,19 @@ class HomeScreen extends Component {
         const options = {
             method: 'GET',
         }
-       return new Promise((resolve, reject) => {
-        requestWithToken(url, options).then(data => {
-            console.log(data)
-            this.setState({ dashboard: data })
-            this.setState({ isLoading: false })
-            resolve()
-        }).catch(error => {
-            console.log(error);
-            this.setState({ isLoading: false })
-            this.setState({hasError: 'An error has occured'})
-            reject()
+        return new Promise((resolve, reject) => {
+            requestWithToken(url, options).then(data => {
+                // // console.log(data)
+                this.setState({ dashboard: data })
+                this.setState({ isLoading: false })
+                resolve()
+            }).catch(error => {
+                // // console.log(error);
+                this.setState({ isLoading: false })
+                this.setState({ hasError: 'An error has occured' })
+                reject()
+            })
         })
-       })
     }
 
     makeCall = () => {
@@ -115,20 +110,20 @@ class HomeScreen extends Component {
                 this._hideModal()
                 this.setState({ snackBarVisible: true })
             });
-            console.log(data)
+            // // console.log(data)
         }).catch(error => {
             this.setState({ isSending: false, errorMsg: error.message })
-            console.log(error)
+            // // console.log(error)
         })
 
     }
     setSelectedIndex = event => {
-        // console.log(event.nativeEvent)
+        // // // console.log(event.nativeEvent)
         const viewSize = event.nativeEvent.layoutMeasurement.width;
-        console.log(event.nativeEvent.contentOffset.x)
+        // // console.log(event.nativeEvent.contentOffset.x)
         const contentOffset = event.nativeEvent.contentOffset.x;
         const selectedIndex = Math.round(contentOffset / resWidth(75));
-        console.log(selectedIndex)
+        // // console.log(selectedIndex)
         this.setState({ selectedIndex },
             () => {
                 this.carouselRef.current.scrollTo({
@@ -172,7 +167,7 @@ class HomeScreen extends Component {
     }
 
     showLiquidationModal = () => {
-        console.log('showing', this.state.dashboard.open_loans[0].loan_id)
+        // // console.log('showing', this.state.dashboard.open_loans[0].loan_id)
         this.setState({ showLiquidation: true })
     }
 
@@ -185,11 +180,11 @@ class HomeScreen extends Component {
     _onDismissSnackBar = () => this.setState({ snackBarVisible: false });
 
     _showNewLoanModal = () => {
-        this.setState({showNewLoanModal: true})
+        this.setState({ showNewLoanModal: true })
     }
 
     _hideNewLoanModal = () => {
-        this.setState({showNewLoanModal: false})
+        this.setState({ showNewLoanModal: false })
     }
     render() {
         const { username, isOpenLoans, isErrorLoans, isLoading, dashboard, visible, email, showNewLoanModal, hasError, isSending, letterType, dialog, errorMsg, snackBarVisible } = this.state;
@@ -198,104 +193,109 @@ class HomeScreen extends Component {
             <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
                 {hasError && <Fragment>
-                        <CustomText>Error has occured</CustomText>
-                    </Fragment>}
-                {dashboard && 
-                <Fragment>
-                    <Portal>
-                        <Dialog
-                            visible={isOpenLoans}
-                            onDismiss={this._hideDialogOne}>
-                            <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
-                            <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
-                                <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>You have no open loans</Paragraph>
-                            </Dialog.Content>
-                            <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Button onPress={this._hideDialogOne}>Okay</Button>
-                            </Dialog.Actions>
-                        </Dialog>
-                        <Dialog
-                            visible={isErrorLoans}
-                            onDismiss={this._hideDialogTwo}>
-                            <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
-                            <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
-                                <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>There is an error with your account. Please contact admin</Paragraph>
-                            </Dialog.Content>
-                            <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Button onPress={this._hideDialogTwo}>Okay</Button>
-                            </Dialog.Actions>
-                        </Dialog>
-                        <Dialog
-                            visible={dialog}
-                            onDismiss={this._hideDialog}>
-                            <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
-                            <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
-                                <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>You currently have an open loan of <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
-                                    {this.formatAsCurrency(dashboard.loan_balance)}
-                                </CustomText> so you can not get letter of Non-Indebtness at this point. Kindly pay off your loan</Paragraph>
-                            </Dialog.Content>
-                            <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Button onPress={this._hideDialog}>Okay</Button>
-                            </Dialog.Actions>
-                        </Dialog>
-                        <Modal 
-                        animationType='slide'
-                        contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
-                            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
-                                <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
-                                        <Appbar.Action icon="close" onPress={this._hideModal} />
-                                    </Appbar.Header>
-                                    <View style={{ alignSelf: 'center', width: resWidth(90) }}>
-                                        <Title style={{ fontSize: 25, fontFamily: 'Baloo-extra-bold' }}>Letter of {letterType}</Title>
-                                        <CustomText>Get your letter of {letterType} and send to any preferred email address</CustomText>
-                                        <View style={{ marginTop: resHeight(2) }}>
-                                            {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error }}>{errorMsg}</CustomText>}
-                                            <TextInput
-                                                autoCapitalize={'none'}
-                                                label='Email'
-                                                value={email}
-                                                mode={'outlined'}
-                                                ref={this.textInputRef}
-                                                onChangeText={email => this.setState({ email })}
-                                            />
-                                            <Button
-                                            disabled={isSending}
-                                                style={{ marginTop: resHeight(2) }}
-                                                labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
-                                                contentStyle={styles.loginbtn}
-                                                mode="contained"
-                                                onPress={this.handleSendEmail}>
-                                                {isSending ? 'Sending' : 'Get my letter'}
-                                    </Button>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <CustomText style={{marginVertical: 10, fontFamily: 'Baloo'}}>An error has occured</CustomText>
+                        <Button icon="reload" mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadDashboard}>
+                            reload
+  </Button>
+                    </View>
+                </Fragment>}
+                {dashboard &&
+                    <Fragment>
+                        <Portal>
+                            <Dialog
+                                visible={isOpenLoans}
+                                onDismiss={this._hideDialogOne}>
+                                <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
+                                <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
+                                    <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>You have no open loans</Paragraph>
+                                </Dialog.Content>
+                                <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                    <Button onPress={this._hideDialogOne}>Okay</Button>
+                                </Dialog.Actions>
+                            </Dialog>
+                            <Dialog
+                                visible={isErrorLoans}
+                                onDismiss={this._hideDialogTwo}>
+                                <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
+                                <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
+                                    <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>There is an error with your account. Please contact admin</Paragraph>
+                                </Dialog.Content>
+                                <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                    <Button onPress={this._hideDialogTwo}>Okay</Button>
+                                </Dialog.Actions>
+                            </Dialog>
+                            <Dialog
+                                visible={dialog}
+                                onDismiss={this._hideDialog}>
+                                <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
+                                <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
+                                    <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>You currently have an open loan of <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
+                                        {this.formatAsCurrency(dashboard.loan_balance)}
+                                    </CustomText> so you can not get letter of Non-Indebtness at this point. Kindly pay off your loan</Paragraph>
+                                </Dialog.Content>
+                                <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                    <Button onPress={this._hideDialog}>Okay</Button>
+                                </Dialog.Actions>
+                            </Dialog>
+                            <Modal
+                                animationType='slide'
+                                contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
+                                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
+                                    <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                                        <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                                            <Appbar.Action icon="close" onPress={this._hideModal} />
+                                        </Appbar.Header>
+                                        <View style={{ alignSelf: 'center', width: resWidth(90) }}>
+                                            <Title style={{ fontSize: 25, fontFamily: 'Baloo-extra-bold' }}>Letter of {letterType}</Title>
+                                            <CustomText>Get your letter of {letterType} and send to any preferred email address</CustomText>
+                                            <View style={{ marginTop: resHeight(2) }}>
+                                                {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error }}>{errorMsg}</CustomText>}
+                                                <TextInput
+                                                    autoCapitalize={'none'}
+                                                    label='Email'
+                                                    value={email}
+                                                    mode={'outlined'}
+                                                    ref={this.textInputRef}
+                                                    onChangeText={email => this.setState({ email })}
+                                                />
+                                                <Button
+                                                    disabled={isSending}
+                                                    style={{ marginTop: resHeight(2) }}
+                                                    labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                                    contentStyle={styles.loginbtn}
+                                                    mode="contained"
+                                                    onPress={this.handleSendEmail}>
+                                                    {isSending ? 'Sending' : 'Get my letter'}
+                                                </Button>
+                                            </View>
+                                            <SafeAreaView />
                                         </View>
-                                        <SafeAreaView />
-                                    </View>
-                                </SafeAreaView>
-                            </TouchableWithoutFeedback>
-                        </Modal>
-                    </Portal>
-                    <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
-                        <SafeAreaView/>
-                        <View style={styles.header}>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>
-                                Welcome, {username}
-                            </CustomText>
-                            {/* <TouchableOpacity onPress={this.makeCall} activeOpacity={0.7} >
+                                    </SafeAreaView>
+                                </TouchableWithoutFeedback>
+                            </Modal>
+                        </Portal>
+                        <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
+                            <SafeAreaView />
+                            <View style={styles.header}>
+                                <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>
+                                    Welcome, {username}
+                                </CustomText>
+                                {/* <TouchableOpacity onPress={this.makeCall} activeOpacity={0.7} >
                                 <AntDesign name="customerservice" size={24} color="black" />
                             </TouchableOpacity> */}
-                        </View>
-                        <ScrollView
-                        refreshControl={
-                            <RefreshControl 
-                            refreshing = {this.state.refreshing}
-                            onRefresh={this._onrefresh}
-                            />
-                        }
-                            showsVerticalScrollIndicator={false}
-                            style={{ backgroundColor: '#f5fcff' }} contentContainerStyle={{ flexGrow: 1 }}>
+                            </View>
+                            <ScrollView
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={this.state.refreshing}
+                                        onRefresh={this._onrefresh}
+                                    />
+                                }
+                                showsVerticalScrollIndicator={false}
+                                style={{ backgroundColor: '#f5fcff' }} contentContainerStyle={{ flexGrow: 1 }}>
 
-                            {/* <View style={{ flex: 1, marginVertical: 10 }}>
+                                {/* <View style={{ flex: 1, marginVertical: 10 }}>
                                 <ScrollView
                                     snapToAlignment={'center'}
                                     snapToInterval={1}
@@ -333,7 +333,7 @@ class HomeScreen extends Component {
                                 </ScrollView>
                             </View> */}
 
-                            {/* <View style={{ flex: 3 }}>
+                                {/* <View style={{ flex: 3 }}>
                                 <View style={styles.surface}>
                                     <MaterialCommunityIcons color={'#f56b2a'} name='bank-plus' size={40} />
                                     <Title style={{ fontFamily: 'Baloo-extra-bold' }}>Loan Liquidation</Title>
@@ -368,93 +368,95 @@ class HomeScreen extends Component {
                                 </Button>
                                 </View>
                             </View> */}
-                        
-                        {/* <NewLoanScreen visible={showNewLoanModal} hideNewLoanModal={this._hideNewLoanModal} /> */}
-                        <View style={{marginTop: resHeight(1)}}>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Current Loan Balance</CustomText>
-                            <CustomText style={{ fontSize: resFont(30), fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.loan_balance)}</CustomText>
+
+                                {/* <NewLoanScreen visible={showNewLoanModal} hideNewLoanModal={this._hideNewLoanModal} /> */}
+                                <View style={{ marginTop: resHeight(1) }}>
+                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Current Loan Balance</CustomText>
+                                    <CustomText style={{ fontSize: resFont(30), fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.loan_balance)}</CustomText>
+                                </View>
+                                <View style={{ marginVertical: resHeight(3) }}>
+                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>What would you like to do?</CustomText>
+                                    <View style={styles.cardContainer}>
+                                        <TouchableWithoutFeedback onPress={this._liquidateLoan}>
+                                            <View style={[styles.loanCard, styles.card]}>
+                                                <View>
+                                                    <MaterialCommunityIcons color={'#fff'} name='bank-plus' size={30} />
+                                                </View>
+                                                <View>
+                                                    <CustomText style={styles.cardText}>Liquidate Loan</CustomText>
+                                                </View>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('New Loan')}>
+                                            <View style={[styles.newloanCard, styles.card]}>
+                                                <View>
+                                                    <SimpleLineIcons name="wallet" size={30} color="#fff" />
+                                                </View>
+                                                <View>
+                                                    <CustomText style={styles.cardText}>Apply for a new loan</CustomText>
+                                                </View>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={styles.cardContainer}>
+                                        <TouchableWithoutFeedback onPress={() => this._showModal(1)}>
+                                            <View style={[styles.indebtCard, styles.card]}>
+                                                <View>
+                                                    <MaterialCommunityIcons color={'#fff'} name='file-document' size={30} />
+                                                </View>
+                                                <View>
+                                                    <CustomText style={styles.cardText}>Indebtedness Letter</CustomText>
+                                                </View>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <TouchableWithoutFeedback onPress={() => this._showModal(2)}>
+                                            <View style={[styles.nonidebtCard, styles.card]}>
+                                                <View>
+                                                    <MaterialCommunityIcons color={'#fff'} name='file-document' size={30} />
+                                                </View>
+                                                <View>
+                                                    <CustomText style={styles.cardText}>Non-Indebtedness Letter</CustomText>
+                                                </View>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    </View>
+                                    <View style={styles.cardContainer}>
+                                        <TouchableWithoutFeedback onPress={this.makeCall} >
+                                            <View style={[styles.callAgent, styles.card]}>
+                                                <View>
+                                                    <AntDesign name="customerservice" size={30} color="white" />
+                                                </View>
+                                                <View>
+                                                    <CustomText style={styles.cardText}>Speak to an agent</CustomText>
+                                                </View>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    </View>
+                                </View>
+                            </ScrollView>
                         </View>
-                        <View style={{marginVertical: resHeight(3)}}>
-                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>What would you like to do?</CustomText>
-                            <View style={styles.cardContainer}>
-                                <TouchableWithoutFeedback onPress={this._liquidateLoan}>
-                                <View style={[styles.loanCard, styles.card]}>
-                                    <View>
-                                    <MaterialCommunityIcons color={'#fff'} name='bank-plus' size={30} />
-                                    </View>
-                                    <View>
-                                    <CustomText style={styles.cardText}>Liquidate Loan</CustomText>
-                                    </View>
-                                </View>
-                                </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('New Loan')}>
-                                <View style={[styles.newloanCard, styles.card]}>
-                                    <View>
-                                    <SimpleLineIcons name="wallet" size={30} color="#fff" />
-                                    </View>
-                                    <View>
-                                    <CustomText style={styles.cardText}>Apply for a new loan</CustomText>
-                                    </View>
-                                </View>
-                                </TouchableWithoutFeedback>
-                            </View>
-                            <View style={styles.cardContainer}>
-                                <TouchableWithoutFeedback onPress={() => this._showModal(1)}>
-                                <View style={[styles.indebtCard, styles.card]}>
-                                    <View>
-                                    <MaterialCommunityIcons color={'#fff'} name='file-document' size={30} />
-                                    </View>
-                                    <View>
-                                    <CustomText style={styles.cardText}>Indebtedness Letter</CustomText>
-                                    </View>
-                                </View>
-                                </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={() => this._showModal(2)}>
-                                <View style={[styles.nonidebtCard, styles.card]}>
-                                    <View>
-                                    <MaterialCommunityIcons color={'#fff'} name='file-document' size={30} />
-                                    </View>
-                                    <View>
-                                    <CustomText style={styles.cardText}>Non-Indebtedness Letter</CustomText>
-                                    </View>
-                                </View>
-                                </TouchableWithoutFeedback>
-                            </View>
-                            <View style={styles.cardContainer}>
-                               <TouchableWithoutFeedback onPress={this.makeCall} >
-                               <View style={[styles.callAgent, styles.card]}>
-                                    <View>
-                                    <AntDesign name="customerservice" size={30} color="white" />
-                                    </View>
-                                    <View>
-                                    <CustomText style={styles.cardText}>Speak to an agent</CustomText>
-                                    </View>
-                                </View>
-                               </TouchableWithoutFeedback>
-                            </View>
-                        </View>
-                        </ScrollView>
-                    </View>
-                    {/* <FAB
+                        {/* <FAB
                         style={[styles.fab, { bottom: snackBarVisible ? 50 : 0 }]}
                         // small
                         color="white"
                         icon="plus"
-                        onPress={() => console.log('Pressed')}
+                        onPress={() => // // console.log('Pressed')}
                     /> */}
-                    <Snackbar
-                        visible={snackBarVisible}
-                        onDismiss={this._onDismissSnackBar}
-                        action={{
-                            label: 'Okay',
-                            onPress: () => {
-                                // Do something
-                            },
-                        }}
-                    >
-                        Email Sent
+                        <Snackbar
+                            visible={snackBarVisible}
+                            onDismiss={this._onDismissSnackBar}
+                            style={{backgroundColor: '#f56b2a',}}
+                            action={{
+                                label: 'Okay',
+                                accessibilityLabel: 'Okay',
+                                onPress: () => {
+                                    // Do something
+                                },
+                            }}
+                        >
+                            Email Sent
                             </Snackbar>
-                </Fragment>}
+                    </Fragment>}
             </SafeAreaView>
         )
     }
@@ -472,7 +474,7 @@ const styles = StyleSheet.create({
     card: {
         borderRadius: 15,
         width: '49%',
-        height: resHeight(15),
+        height: resHeight(16),
         padding: 10,
         // backgroundColor: '#f7971e',
         display: 'flex',
@@ -483,7 +485,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: resFont(13),
         fontFamily: 'Baloo-bold'
-    },  
+    },
     loanCard: {
         backgroundColor: '#f7971e',
     },
@@ -501,7 +503,7 @@ const styles = StyleSheet.create({
     },
     header: {
         height: resHeight(5),
-        marginTop: Platform.OS ==='android' ? Constants.statusBarHeight + resHeight(3) : Constants.statusBarHeight,
+        marginTop: Platform.OS === 'android' ? Constants.statusBarHeight + resHeight(3) : Constants.statusBarHeight,
         // backgroundColor: 'blue',
         justifyContent: 'space-between',
         display: 'flex',

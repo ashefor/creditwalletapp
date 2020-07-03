@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native'
 import { Appbar, TextInput, Button, withTheme, TouchableRipple, Snackbar } from 'react-native-paper';
 import OnboardCarousel from '../../components/OnboardCarousel';
 import { SafeAreaView } from 'react-navigation';
@@ -42,12 +42,12 @@ class ForgotPasswordScreen extends Component {
                     this.props.navigation.navigate('Login')
                 })
                 setToken(data.token);
-                console.log()
+                // console.log()
                 setUser(data.customer);
-                console.log(data)
+                // console.log(data)
             }).catch(error => {
                 this.setState({ isLoading: false, errorMsg: error.message })
-                console.log(error)
+                // console.log(error)
             })
         }
 
@@ -59,8 +59,8 @@ class ForgotPasswordScreen extends Component {
         const { username, isLoading, errorMsg, visible } = this.state;
         const { colors } = this.props.theme
         return (
-            <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
+            <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />
@@ -72,7 +72,7 @@ class ForgotPasswordScreen extends Component {
                     />
                 </Appbar.Header>
                 <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'" />
-                <TouchableWithoutFeedback style={{ backgroundColor: 'red' }} onPress={() => Keyboard.dismiss()}>
+                <ScrollView  style={{flex: 1}} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         <View style={{ marginTop: resHeight(3) }}>
                             {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error }}>{errorMsg}</CustomText>}
@@ -111,7 +111,7 @@ class ForgotPasswordScreen extends Component {
                             Success
                             </Snackbar>
                     </View>
-                </TouchableWithoutFeedback>
+                </ScrollView>
             </View>
 
 

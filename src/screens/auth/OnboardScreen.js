@@ -24,7 +24,7 @@ class OnboardScreen extends Component {
                <OnboardCarousel />
                </View>
                 <Button
-                labelStyle={{textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med'}}
+                labelStyle={{textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white'}}
                     contentStyle={styles.signpbtn}
                     mode="contained" onPress={() => this.props.navigation.navigate('Get Started')}>
                     Apply for a loan
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#f5fcff',
-        fontFamily: 'Baloo'
+        fontFamily: 'Baloo',
+        backgroundColor: 'white'
         // justifyContent: 'flex-end'
     },
     avatarContainer: {
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     signpbtn: {
-        height: resHeight(5),
+        height: resHeight(6),
         width: resWidth(90)
     },
     loginInfo: {

@@ -3,28 +3,31 @@ import navigationservice from "./navigationservice"
 
 export const apiURL = 'https://creditwallet.ng/api/public/customer/'
 export const loanApiURL = 'https://creditwallet.ng/api/public/'
+const axios = require('axios').default;
 
 export const request = (url, options) => {
     const requestOptions = {
         ...options,
-        headers: {
-            'Content-Type': 'application/json'
-        }
     }
     return new Promise((resolve, reject) => {
-        console.log('firing')
-        fetch(url, requestOptions).then(res => res.json()).then(data => {
-            if (data.status === "success") {
-                return resolve(data)
+        fetch(url, requestOptions).then(res => res.text()).then(data => {
+            
+            const parsedData = JSON.parse(data);
+            console.log(parsedData)
+            if (parsedData.status === "success") {
+                return resolve(parsedData)
             } else {
-                return reject(data)
+                return reject(parsedData)
             }
         }).catch(error => {
-            return reject(error)
+            console.log(error)
+            reject(error)
         })
     })
 }
-
+export const axiosPost = (options) => {
+    return axios.post(options)
+}
 export const requestWithToken = async (url, options) => {
     const token = await getToken();
     if (token) {

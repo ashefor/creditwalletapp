@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text, Dimensions, StyleSheet, ScrollView, RefreshControl } from 'react-native'
-import { Appbar, FAB } from 'react-native-paper';
+import { Appbar, FAB, Button } from 'react-native-paper';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-navigation';
 import LoanCard from '../../components/LoanCard';
@@ -8,6 +8,7 @@ import { resWidth, resFont } from '../../utils/utils';
 import CurrentLoan from '../../components/CurrentLoan';
 import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
+import CustomText from '../../components/CustomText';
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -23,7 +24,8 @@ class LoanScreen extends Component {
             isLoading: false,
             openLoans: [],
             closedLoans: [],
-            refreshing: false
+            refreshing: false,
+            hasError: null
         }
     }
     componentDidMount = () => {
@@ -52,13 +54,14 @@ class LoanScreen extends Component {
         }
         return new Promise((resolve, reject) => {
             requestWithToken(url, options).then(data => {
-                console.log(data)
+                // console.log(data)
                 this.setState({ openLoans: data.open_loans })
                 this.setState({ closedLoans: data.fully_paid })
                 this.setState({ isLoading: false })
                 resolve()
             }).catch(error => {
                 this.setState({ isLoading: false })
+                this.setState({ hasError: 'An error has occured' })
                 reject()
             })
         })
@@ -67,13 +70,13 @@ class LoanScreen extends Component {
         <TabBar
             {...props}
             indicatorStyle={{ backgroundColor: '#f56b2a' }}
-            style={{ backgroundColor: 'white' }}
+            style={{ backgroundColor: 'f5fcff' }}
             labelStyle={{ color: 'black', fontFamily: 'Baloo-extra-bold', fontSize: resFont(15), textTransform: 'capitalize' }}
         />
     );
 
     render() {
-        const { index, routes, openLoans, closedLoans, isLoading, refreshing } = this.state
+        const { index, routes, openLoans, closedLoans, isLoading, refreshing, hasError } = this.state
         const renderScene = ({ route }) => {
             switch (route.key) {
                 case 'first':
@@ -108,10 +111,18 @@ class LoanScreen extends Component {
         }
 
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
-                <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
-                    
+                {hasError && <Fragment>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>An error has occured</CustomText>
+                        <Button icon="reload" mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadLoans}>
+                            reload
+                        </Button>
+                    </View>
+                </Fragment>}
+               {!hasError && <Fragment>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                 <Appbar.Action />
                     <Appbar.Content
                         titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
@@ -126,12 +137,13 @@ class LoanScreen extends Component {
                     onIndexChange={(index) => this.changeIndex(index)}
                     initialLayout={initialLayout}
                 />
+                   </Fragment>}
                 {/* <FAB
                         style={styles.fab}
                         // small
                         color="white"
                         icon="plus"
-                        onPress={() => console.log('Pressed')}
+                        onPress={() => // console.log('Pressed')}
                     /> */}
             </SafeAreaView>
         )

@@ -17,7 +17,7 @@ const CurrentLoan = props => {
         navigation.navigate('Loan Details', {loan_id: loan.loan_id, type: 'open'})
     }
     return (
-        <View style={{ width: '100%', backgroundColor: 'white', paddingHorizontal: 10, marginVertical: 10 }}>
+        <View style={{ width: '100%', backgroundColor: '#f5fcff', paddingHorizontal: 10, marginVertical: 10 }}>
             <View style={{ paddingVertical: 10, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
                 <MaterialCommunityIcons name="information-variant" size={24} color="black" />
                 <View style={{ alignItems: 'flex-end' }}>
@@ -27,7 +27,8 @@ const CurrentLoan = props => {
             </View>
             <Divider />
             <View style={{ paddingVertical: 10, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
-                <MaterialIcons name="attach-money" size={24} color="black" />
+                {/* <MaterialIcons name="attach-money" size={24} color="black" /> */}
+                <CustomText style={{fontSize: resFont(20), fontFamily: 'Baloo-semi-bold'}}>₦</CustomText>
                 <View style={{ alignItems: 'flex-end' }}>
                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo' }}>Loan Amount</CustomText>
                     <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{formatAsCurrency(loan.loan_principal_amount)}</CustomText>

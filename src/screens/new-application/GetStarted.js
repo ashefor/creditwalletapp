@@ -4,8 +4,7 @@ import { SafeAreaView } from 'react-navigation';
 import CustomText from '../../components/CustomText';
 import { ScrollView } from 'react-native-gesture-handler';
 import {
-    Ionicons, Entypo, FontAwesome5,
-    Foundation, AntDesign, MaterialIcons
+    MaterialCommunityIcons, MaterialIcons
 } from '@expo/vector-icons';
 import { resWidth, resFont, resHeight } from '../../utils/utils';
 import { Divider, List, Appbar, Button, Surface } from 'react-native-paper';
@@ -32,18 +31,22 @@ class GetStartedScreen extends Component {
                     <View style={styles.uppercontainer}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(3) }}>
                             <Surface style={styles.surface}>
-                                <CustomText>1</CustomText>
+                            <MaterialIcons name="no-sim" size={30} color="#f56b2a" />
+                                <CustomText style={{fontFamily: 'Baloo-med', textAlign: 'center', fontSize: resFont(15), marginTop: 20}}>No Collaterals</CustomText>
                             </Surface>
                             <Surface style={styles.surface}>
-                                <CustomText>1</CustomText>
+                            <MaterialCommunityIcons name="clock-fast" size={30} color="#f56b2a" />
+                                <CustomText style={{fontFamily: 'Baloo-med', textAlign: 'center', fontSize: resFont(15), marginTop: 20 }}>Quick Loans</CustomText>
                             </Surface>
                         </View>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(3) }}>
                             <Surface style={styles.surface}>
-                                <CustomText>1</CustomText>
+                            <MaterialCommunityIcons name="percent" size={30} color="#f56b2a" />
+                                <CustomText style={{fontFamily: 'Baloo-med', textAlign: 'center', fontSize: resFont(15),  marginTop: 20}}>Low Interate Rate</CustomText>
                             </Surface>
                             <Surface style={styles.surface}>
-                                <CustomText>1</CustomText>
+                            <MaterialCommunityIcons name="cellphone-lock" size={30} color="#f56b2a" />
+                                <CustomText style={{fontFamily: 'Baloo-med', textAlign: 'center', fontSize: resFont(15),  marginTop: 20}}>Secure lending platform</CustomText>
                             </Surface>
                         </View>
                     </View>
@@ -94,6 +97,6 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase'
     },
     button: {
-        height: resHeight(5),
+        height: resHeight(6),
     }
 })

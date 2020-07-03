@@ -21,6 +21,7 @@ class LoanDetails extends Component {
             visible: false,
             singleLoan: {},
             showLiquidation: false,
+            hasError: null
         }
     }
 
@@ -34,10 +35,11 @@ class LoanDetails extends Component {
         })
     };
     _hideModal = () => this.setState({ visible: false });
+
     getLoanDetails = () => {
         this.setState({ isLoading: true })
-        console.log('new loan o')
-        console.log(this.state.loan_id, this.state.loanType);
+        // console.log('new loan o')
+        // console.log(this.state.loan_id, this.state.loanType);
         apiURL
         const url = `${apiURL}loan/one`;
         const loan_id = {
@@ -53,20 +55,21 @@ class LoanDetails extends Component {
                 this.setState({ loan: data })
             }
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
             this.setState({ isLoading: false })
+            this.setState({ hasError: 'An error has occured' })
         })
     }
     // openLoan = () => (
 
     // )
     showLiquidationModal = () => {
-        console.log('showing', this.state.loan_id)
+        // console.log('showing', this.state.loan_id)
         this.setState({showLiquidation: true})
     }
 
     closeLiquidationModal = () => {
-        console.log('close liquidation')
+        // console.log('close liquidation')
         this.setState({showLiquidation: false})
     }
     formatAsCurrency = (value) => {
@@ -75,108 +78,32 @@ class LoanDetails extends Component {
     }
     render() {
         const { colors } = this.props.theme;
-        const { isLoading, loan, loanType, visible, singleLoan, loan_id, showLiquidation } = this.state;
+        const { isLoading, loan, loanType, visible, singleLoan, loan_id, showLiquidation, hasError } = this.state;
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white', }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff', }}>
                 <Loader isLoading={isLoading} />
-                <Portal>
-                    <Modal contentContainerStyle={[StyleSheet.absoluteFill, { justifyContent: 'flex-end' }]} visible={visible}>
-                        <View style={{ backgroundColor: 'white', position: 'absolute', bottom: 0, left: 0, right: 0, width: '100%' }}>
-                            <View style={{ height: resHeight(25), width: resWidth(90), alignSelf: 'center' }}>
-                                <View style={{ marginVertical: resHeight(1), display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <CustomText style={{ fontSize: 17, fontFamily: 'Baloo-bold' }}>Payment Details</CustomText>
-                                    {/* <TouchableWithoutFeedback onPress={this._hideModal}>
-                                    <CustomText style={{color: colors.primary, fontFamily: 'Baloo-med'}}>Close</CustomText>
-                                </TouchableWithoutFeedback> */}
-                                    <Button labelStyle={{ textTransform: 'capitalize' }} onPress={this._hideModal}>close</Button>
-                                </View>
-                                <View>
-                                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Principal Repayment</CustomText>
-                                        <View>
-                                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(singleLoan.principal_repayment_amount)}</CustomText>
-                                        </View>
-                                    </View>
-                                    <Divider />
-                                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Interest (7.5%)</CustomText>
-                                        <View>
-                                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(singleLoan.interest_repayment_amount)}</CustomText>
-                                        </View>
-                                    </View>
-                                    <Divider />
-                                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Repayment date</CustomText>
-                                        <View>
-                                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{singleLoan.repayment_collected_date}</CustomText>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            <SafeAreaView />
-                        </View>
-                    </Modal>
-                    {/* <Modal contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={showLiquidation}>
-                            <LiquidateLoan loan_id={loan_id} closeModal={this.closeLiquidationModal}/>
-                        </Modal> */}
-                </Portal>
-                <RBSheet
-                    closeOnDragDown={true}
-                    ref={ref => {
-                        this.RBSheet = ref;
-                    }}
-                    height={300}
-                    openDuration={250}
-                    customStyles={{
-                        container: {
-                            //   justifyContent: "center",
-                            //   alignItems: "center"
-                        }
-                    }}
-                >
-                    <View style={{ backgroundColor: 'white' }}>
-                        <View style={{ height: resHeight(25), width: resWidth(90), alignSelf: 'center' }}>
-                            <CustomText style={{ textAlign: 'center', fontSize: 17, fontFamily: 'Baloo-bold' }}>Payment Details</CustomText>
-                            <View style={{ paddingTop: resHeight(1.5) }}>
-                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
-                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Principal Repayment</CustomText>
-                                    <View>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(singleLoan.principal_repayment_amount)}</CustomText>
-                                    </View>
-                                </View>
-                                <Divider />
-                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
-                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Interest (7.5%)</CustomText>
-                                    <View>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(singleLoan.interest_repayment_amount)}</CustomText>
-                                    </View>
-                                </View>
-                                <Divider />
-                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
-                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Repayment date</CustomText>
-                                    <View>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{singleLoan.repayment_collected_date}</CustomText>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                        <SafeAreaView />
+                {hasError && <Fragment>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>An error has occured</CustomText>
+                        <Button icon="reload" mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.getLoanDetails}>
+                            reload
+                        </Button>
                     </View>
-
-                </RBSheet>
-                <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
-                    <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
-                    <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                        subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                        title="Loans Details"
-                    />
-                    <Appbar.Action />
-                </Appbar.Header>
+                </Fragment>}
                 <Fragment>
                     {loan && (
+                        <Fragment>
+                         <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                         <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
+                         <Appbar.Content
+                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                             subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                             title="Loans Details"
+                         />
+                         <Appbar.Action />
+                     </Appbar.Header>
                         <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
-                            <View style={{ width: '100%', backgroundColor: 'white', marginVertical: 10 }}>
+                            <View style={{ width: '100%', backgroundColor: '#f5fcff', marginVertical: 10 }}>
                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
                                     <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Loan Id</CustomText>
                                     <View>
@@ -256,8 +183,7 @@ class LoanDetails extends Component {
                                 ))}
                             </ScrollView>
                         </View>
-                    )}
-                    {loanType === 'open' && <View style={{ width: resWidth(90), alignSelf: 'center' }}>
+                        {loanType === 'open' && <View style={{ width: resWidth(90), alignSelf: 'center' }}>
                         <Button
                             style={{ marginVertical: resHeight(2) }}
                             labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
@@ -265,7 +191,54 @@ class LoanDetails extends Component {
                             Liquidate/Pay off Loan
                         </Button>
                     </View>}
+                        </Fragment>
+                    )}
+                   
                 </Fragment>
+                <RBSheet
+                    closeOnDragDown={true}
+                    ref={ref => {
+                        this.RBSheet = ref;
+                    }}
+                    height={300}
+                    openDuration={250}
+                    customStyles={{
+                        container: {
+                            //   justifyContent: "center",
+                            //   alignItems: "center"
+                        }
+                    }}
+                >
+                    <View style={{ backgroundColor: 'white' }}>
+                        <View style={{ height: resHeight(25), width: resWidth(90), alignSelf: 'center' }}>
+                            <CustomText style={{ textAlign: 'center', fontSize: 17, fontFamily: 'Baloo-bold' }}>Payment Details</CustomText>
+                            <View style={{ paddingTop: resHeight(1.5) }}>
+                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
+                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Principal Repayment</CustomText>
+                                    <View>
+                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(singleLoan.principal_repayment_amount)}</CustomText>
+                                    </View>
+                                </View>
+                                <Divider />
+                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
+                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Interest (7.5%)</CustomText>
+                                    <View>
+                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(singleLoan.interest_repayment_amount)}</CustomText>
+                                    </View>
+                                </View>
+                                <Divider />
+                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
+                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Repayment date</CustomText>
+                                    <View>
+                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{singleLoan.repayment_collected_date}</CustomText>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                        <SafeAreaView />
+                    </View>
+
+                </RBSheet>
             </SafeAreaView>
         )
     }

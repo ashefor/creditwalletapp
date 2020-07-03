@@ -78,6 +78,7 @@ class ChangePasswordScreen extends Component {
                                 style={{ backgroundColor: 'transparent' }}
                                 label='Old Password'
                                 value={oldPassword}
+                                returnKeyType='done'
                                 onChangeText={oldPassword => this.setState({ oldPassword })}
                             />
                             <TextInput
@@ -85,11 +86,12 @@ class ChangePasswordScreen extends Component {
                                 style={{ backgroundColor: 'transparent' }}
                                 label='New Password'
                                 value={newPassword}
+                                returnKeyType='done'
                                 onChangeText={newPassword => this.setState({ newPassword })}
                             />
                             <Button
                                 style={{ marginTop: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                 contentStyle={styles.loginbtn}
                                 mode="contained" onPress={this.handleChangePassword}>
                                 Change password
