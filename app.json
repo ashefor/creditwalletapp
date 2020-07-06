@@ -9,8 +9,8 @@
       "backgroundColor": "#fff"
     },
     "icon": "src/assets/images/logo.png",
-    "slug": "expo-template-bare",
-    "privacy": "unlisted",
+    "slug": "credit-wallet",
+    "privacy": "public",
     "orientation": "portrait",
     "version": "1.0.0",
     "ios": {

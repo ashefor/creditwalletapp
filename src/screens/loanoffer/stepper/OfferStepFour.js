@@ -4,7 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
-import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
+import { resWidth, resHeight, resFont, getBankCode, width } from '../../../utils/utils';
 import { loanApiURL, requestWithToken } from '../../../utils/request';
 import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
@@ -12,26 +12,49 @@ import { salaryBanks } from '../../../utils/salaryBanks';
 import { LoanOfferContext } from '../provider/LoanOfferProvider';
 import * as DocumentPicker from 'expo-document-picker';
 import PickerComponent from '../../../components/PickerComponent';
-
+const axios = require('axios').default;
 const banksPlaceholder = {
     label: 'Salary Bank Name',
     value: null,
     color: '#9EA0A4',
 };
 
-class OfferStepTwo extends Component {
+class OfferStepFour extends Component {
+    static contextType = LoanOfferContext
     constructor(props) {
         super(props)
         this._textInput = createRef()
         this.state = {
+            passportName: null,
+            isUploading: false
         }
     }
     pickDocument = async () => {
         let result = await DocumentPicker.getDocumentAsync({});
+        const url = `${loanApiURL}passport/upload`
+        const formData = new FormData();
+        formData.append('file[]', result, result.name)
+        // alert(result.uri)
+        if(result) {
+            this.setState({passportName: result.name, isUploading: true})
+            axios({
+                method: 'POST',
+                url: url,
+                data: formData
+            }).then((data) => {
+               this.setState({ isAccepting: false })
+               if (data.data.status === 'success') {
+                   console.log(data.data);
+                   this.setState({isUploading: false})
+                   this.context.setPassport(data.data.message)
+               }
+           }).catch((error) => {
+            this.setState({isUploading: false})
+               console.log(error)
+           })
+        }
 
-        alert(result.uri)
-
-        console.log(result);
+        // console.log(result);
     }
 
     renderBankSelect = props => {
@@ -59,46 +82,38 @@ class OfferStepTwo extends Component {
     };
 
     render() {
-        const { colors } = this.props.theme
+        const { colors } = this.props.theme;
+        const {passportName, isUploading} = this.state
         return (
             <LoanOfferContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <CustomText style={{fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center'}}>
-                            To proceed please provide details of your preferred account to receive your funds
+                        Please select a copy of your passport photograph and upload
                      </CustomText>
                         <View style={{ flex: 1, marginTop: resHeight(1) }}>
                             <KeyboardAvoidingView behavior="position">
-                                <View style={{ marginVertical: resHeight(1) }}>
-                                <TextInput
-                                        ref={this._textInput}
-                                        render={this.renderBankSelect}
-                                        mode="outlined"
-                                        label='Salary Bank Name'
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.salary_bank_name}
-                                        keyboardType='default'
-                                        selectBank={loan.setBankCode}
-                                    />
+                                <View style={{ marginVertical: resHeight(2) }}>
+                                <Button mode='outlined' 
+                                icon='upload'
+                                style={{width: resWidth(50), alignSelf: 'center'}}
+                                     labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                        onPress={this.pickDocument}>
+                                        {isUploading ? 'Uploading' : 'Select File'}
+                        </Button>
+                        {passportName && <CustomText style={{fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(1)}}>
+                            {passportName}
+                        </CustomText>}
                                 </View>
-                                <View style={{ marginVertical: resHeight(1) }}>
-                                    <TextInput
-
-                                        mode="outlined"
-                                        label='Salary Bank Account'
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.salary_bank_account}
-                                        keyboardType='number-pad'
-                                        returnKeyType='done'
-                                        onChangeText={account => loan.setBankAccount(account)}
-                                    />
-                                </View>
+                                <CustomText style={{fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(2)}}>
+                                You can skip this step and send your identification document via WhatsApp to 07085698828 or email to support@creditwallet.ng
+                     </CustomText>
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained" 
-                                    disabled={!loan.salary_bank_account || !loan.salary_bank_name}
+                                    disabled={isUploading}
                                     contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.goNext}>
-                                        Start Application
+                                         {passportName ? 'Continue' : 'Skip'}
                         </Button>
                                 </View>
                             </KeyboardAvoidingView>
@@ -112,7 +127,7 @@ class OfferStepTwo extends Component {
     }
 }
 
-export default withTheme(OfferStepTwo)
+export default withTheme(OfferStepFour)
 
 const styles = StyleSheet.create({
     loaninforow: {

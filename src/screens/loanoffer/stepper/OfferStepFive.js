@@ -19,44 +19,12 @@ const banksPlaceholder = {
     color: '#9EA0A4',
 };
 
-class OfferStepTwo extends Component {
+class OfferStepFive extends Component {
     constructor(props) {
         super(props)
-        this._textInput = createRef()
         this.state = {
         }
     }
-    pickDocument = async () => {
-        let result = await DocumentPicker.getDocumentAsync({});
-
-        alert(result.uri)
-
-        console.log(result);
-    }
-
-    renderBankSelect = props => {
-        const { style, value, selectBank } = props;
-        return (
-            <PickerComponent
-                handleFocus={this.handleFocus}
-                handleBlur={this.handleBlur}
-                placeholder={banksPlaceholder}
-                items={salaryBanks}
-                onValueChange={bankcode => selectBank(bankcode)}
-                value={value}
-            />
-        );
-    };
-
-    handleFocus = () => {
-        this._textInput.current.handleFocus();
-    };
-
-    handleBlur = () => {
-        setTimeout(() => {
-            this._textInput.current.handleBlur()
-        }, 100)
-    };
 
     render() {
         const { colors } = this.props.theme
@@ -64,41 +32,37 @@ class OfferStepTwo extends Component {
             <LoanOfferContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center'}}>
-                            To proceed please provide details of your preferred account to receive your funds
+                        <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
+                        Please use the code that was sent to your email or phone number to authorize the transaction
                      </CustomText>
                         <View style={{ flex: 1, marginTop: resHeight(1) }}>
                             <KeyboardAvoidingView behavior="position">
                                 <View style={{ marginVertical: resHeight(1) }}>
-                                <TextInput
-                                        ref={this._textInput}
-                                        render={this.renderBankSelect}
+                                    <TextInput
                                         mode="outlined"
-                                        label='Salary Bank Name'
+                                        label='Email'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.salary_bank_name}
-                                        keyboardType='default'
-                                        selectBank={loan.setBankCode}
+                                        value={loan.offerLetter.email}
+                                        disabled={true}
                                     />
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
-
                                         mode="outlined"
-                                        label='Salary Bank Account'
+                                        label='Code'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.salary_bank_account}
+                                        value={loan.code}
                                         keyboardType='number-pad'
                                         returnKeyType='done'
-                                        onChangeText={account => loan.setBankAccount(account)}
+                                        onChangeText={code => loan.setCode(code)}
                                     />
                                 </View>
                                 <View style={styles.bottomcontainer}>
-                                    <Button mode="contained" 
-                                    disabled={!loan.salary_bank_account || !loan.salary_bank_name}
-                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                    <Button mode="contained"
+                                        disabled={!loan.code}
+                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.goNext}>
-                                        Start Application
+                                        Continue
                         </Button>
                                 </View>
                             </KeyboardAvoidingView>
@@ -112,7 +76,7 @@ class OfferStepTwo extends Component {
     }
 }
 
-export default withTheme(OfferStepTwo)
+export default withTheme(OfferStepFive)
 
 const styles = StyleSheet.create({
     loaninforow: {

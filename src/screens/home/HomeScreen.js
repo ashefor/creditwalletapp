@@ -253,8 +253,8 @@ class HomeScreen extends Component {
                                             <Appbar.Action icon="close" onPress={this._hideModal} />
                                         </Appbar.Header>
                                         <View style={{ alignSelf: 'center', width: resWidth(90) }}>
-                                            <Title style={{ fontSize: 25, fontFamily: 'Baloo-extra-bold' }}>Letter of {letterType}</Title>
-                                            <CustomText>Get your letter of {letterType} and send to any preferred email address</CustomText>
+                                            <Title style={{ fontSize: resFont(20), fontFamily: 'Baloo-extra-bold', color: colors.primary }}>Letter of {letterType}</Title>
+                                            <CustomText style={{fontFamily: 'Baloo'}}>Get your letter of {letterType} and send to any preferred email address</CustomText>
                                             <View style={{ marginTop: resHeight(2) }}>
                                                 {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error }}>{errorMsg}</CustomText>}
                                                 <TextInput
@@ -452,15 +452,8 @@ class HomeScreen extends Component {
                             visible={snackBarVisible}
                             onDismiss={this._onDismissSnackBar}
                             style={{backgroundColor: '#f56b2a',}}
-                            action={{
-                                label: 'Okay',
-                                accessibilityLabel: 'Okay',
-                                onPress: () => {
-                                    // Do something
-                                },
-                            }}
                         >
-                            Email Sent
+                            Email Successfully Sent
                             </Snackbar>
                     </Fragment>}
             </SafeAreaView>

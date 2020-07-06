@@ -177,7 +177,7 @@ class LoanDetails extends Component {
                                                 <View>
                                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(item.repayment_amount)}</CustomText>
                                                 </View>
-                                                <MaterialIcons name="keyboard-arrow-right" size={24} color="green" />
+                                                <MaterialIcons name="keyboard-arrow-right" size={24} color={colors.primary} />
                                             </View>
                                             <Divider />
                                         </Fragment>
@@ -202,7 +202,7 @@ class LoanDetails extends Component {
                     ref={ref => {
                         this.RBSheet = ref;
                     }}
-                    height={300}
+                    height={250}
                     openDuration={250}
                     customStyles={{
                         container: {

@@ -135,4 +135,7 @@ const styles = StyleSheet.create({
         height: resHeight(5),
         width: resWidth(90)
     },
+    textboxfieldd: {
+        fontFamily: 'Baloo'
+    }
 });

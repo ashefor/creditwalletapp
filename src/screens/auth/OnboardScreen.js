@@ -29,12 +29,12 @@ class OnboardScreen extends Component {
                     mode="contained" onPress={() => this.props.navigation.navigate('Get Started')}>
                     Apply for a loan
                 </Button>
-                {/* <Button
+                <Button
                 labelStyle={{textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white'}}
                     contentStyle={styles.signpbtn}
-                    mode="contained" onPress={() => this.props.navigation.navigate('Offer Letter')}>
+                    mode="contained" onPress={() => this.props.navigation.navigate('Offer Letter', { loan_id: '28780' })}>
                     Offer Letter
-                </Button> */}
+                </Button>
                 <View style={styles.loginInfo}>
                     <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Existing Customer?</CustomText>
                     <TouchableWithoutFeedback onPress={()=> this.props.navigation.navigate('Login')} style={styles.loginTxt}>

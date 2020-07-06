@@ -13,8 +13,24 @@ import CustomText from '../../../components/CustomText';
 import { LoanOfferContext } from '../provider/LoanOfferProvider';
 import Loader from '../../../components/Loader';
 import OfferStepOne from './OfferStepOne';
+import OfferStepTwo from './OfferStepTwo';
+import OfferStepThree from './OfferStepThree';
+import OfferStepFour from './OfferStepFour';
+import OfferStepFive from './OfferStepFive';
 
 class OfferLetter extends Component {
+    static contextType = LoanOfferContext;
+    constructor(props) {
+        super(props);
+        this.state = {
+            loan_id: this.props.navigation.getParam('loan_id'),
+        }
+    }
+    componentDidMount() {
+        console.log(this.state.loan_id)
+        console.log(this.context)
+        this.context.fetchLoanOffer(this.state.loan_id)
+    }
     _handleCancel = () => {
         this.props.navigation.navigate('Auth')
     }
@@ -22,7 +38,8 @@ class OfferLetter extends Component {
         return (
             <LoanOfferContext.Consumer>
                 {loan =>  <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-           <Fragment>
+                    <Loader isLoading={loan.isFetchingOffer}/>
+          {loan.offerLetter &&  <Fragment>
            {loan.applicationSuccess ? 
            <Fragment>
             <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 , display: 'flex', justifyContent: 'space-between'}}>
@@ -54,10 +71,14 @@ class OfferLetter extends Component {
                      <ProgressBar progress={0.2 * loan.currentPage} color={'#f56b2a'} />
                      <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false} keyboardDismissMode='interactive' keyboardShouldPersistTaps='always'>
                          {loan.currentPage === 1 && <OfferStepOne/>}
+                         {loan.currentPage === 2 && <OfferStepTwo/>}
+                         {loan.currentPage === 3 && <OfferStepThree/>}
+                         {loan.currentPage === 4 && <OfferStepFour/>}
+                         {loan.currentPage === 5 && <OfferStepFive/>}
                      </ScrollView>
              </View>
                </Fragment>}
-           </Fragment>
+           </Fragment>}
          </SafeAreaView>}
             </LoanOfferContext.Consumer>
         )

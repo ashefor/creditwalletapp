@@ -71,8 +71,8 @@ class LiquidateLoan extends Component {
     }
 
     formatAsCurrency = (value) => {
-        const newvalue = parseFloat(value)
-        return `₦${newvalue.toLocaleString()}`
+        const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        return `₦${newvalue}`
     }
     render() {
         const { paymentType, isLoading, loan, refreshing, hasError } = this.state;
@@ -105,8 +105,8 @@ class LiquidateLoan extends Component {
                         }
                         showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
                         <View style={{ paddingTop: resHeight(2), width: resWidth(90), alignSelf: 'center' }}>
-                            <CustomText style={{ textAlign: 'center', fontFamily: 'Baloo-med' }}>
-                                Loan Liquidation Details as at today May 17, 2020
+                            <CustomText style={{ textAlign: 'center', fontFamily: 'Baloo-med', color: colors.primary }}>
+                                Loan Liquidation Details as at today {new Date(Date.now()).toDateString()}
                     </CustomText>
                             <View style={{ marginVertical: resHeight(1) }}>
                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(.5) }}>
