@@ -5,9 +5,9 @@ import { requestWithToken, loanApiURL, request, axiosPost, apiURL } from '../../
 import navigationservice from '../../../utils/navigationservice';
 import { states } from '../../../utils/states';
 const axios = require('axios').default;
-const LoanContext = React.createContext();
+const LoanOfferContext = React.createContext();
 
-class LoanProvider extends Component {
+class LoanOfferProvider extends Component {
     constructor(props) {
         super(props);
         this.initialstate = {
@@ -38,6 +38,10 @@ class LoanProvider extends Component {
             gender: null,
         }
         this.state = this.initialstate
+    }
+
+    fetchLoanOffer = () => {
+        
     }
 
     setAmount = amount => {
@@ -247,7 +251,7 @@ class LoanProvider extends Component {
     render() {
         const {currentPage, amount, duration, isApplying, loanOffer, isLoading, applicationSuccess, firstname, lastname, category, title, gender, date, dob, email, telephone, address, city, selectedState, place_of_work, ippisnumber, salary_bank_name, salary_bank_account, referralcode, showDatePicker} = this.state;
         return (
-            <LoanContext.Provider
+            <LoanOfferContext.Provider
             value={{
                 amount: amount,
                 duration: duration,
@@ -304,9 +308,10 @@ class LoanProvider extends Component {
             }}
             >
                {this.props.children}
-            </LoanContext.Provider>
+            </LoanOfferContext.Provider>
         )
     }
 }
 
-export {LoanContext, LoanProvider}
+
+export {LoanOfferContext, LoanOfferProvider}

@@ -8,7 +8,7 @@ import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils'
 import { loanApiURL, requestWithToken } from '../../../utils/request';
 import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
+import { LoanContext } from '../provider/LoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -110,14 +110,14 @@ class StepThree extends Component {
     handleDatePickerFocus = (loan) => {
         console.log('open')
         loan.setShowDatePicker();
-        Platform.OS === 'ios' && this._datePicker.current.handleFocus()
+        this._datePicker.current.handleFocus()
         // this.setState({showDatePicker: true}, () => )
     };
     handleFocus = () => {
-        Platform.OS === 'ios' && this._textInput.current.handleFocus();
+        this._textInput.current.handleFocus();
     };
     handleGenderPickerFocus = () => {
-        Platform.OS === 'ios' && this._selectGenderPicker.current.handleFocus();
+        this._selectGenderPicker.current.handleFocus();
     };
 
     handleBlur = () => {
@@ -127,7 +127,6 @@ class StepThree extends Component {
     };
 
     handleGenderPickerBlur = () => {
-        console.log('blur')
         setTimeout(() => {
             this._selectGenderPicker.current.handleBlur()
         }, 100)
@@ -135,7 +134,7 @@ class StepThree extends Component {
 
     handleDatePickerBlur = () => {
         setTimeout(() => {
-            this._datePicker && this._datePicker.current.handleBlur()
+            this._datePicker.current.handleBlur()
         }, 100)
     };
 
@@ -265,8 +264,7 @@ class StepThree extends Component {
                                     </Modal>}
                                     {Platform.OS === 'android' && loan.showDatePicker && <DateTimePicker 
                                     mode={'date'}  
-                                    maximumDate={new Date(2002, 11, 31)}
-                                    minimumDate={new Date(1937, 0, 1)}
+                                    
                                     testID="dateTimePicker"
                                      is24Hour={true} 
                                      display='calendar'

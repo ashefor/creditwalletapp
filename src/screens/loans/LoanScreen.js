@@ -39,12 +39,6 @@ class LoanScreen extends Component {
         this.loadLoans(false).then(() => {
             this.setState({ refreshing: false })
         })
-        // this.wait(2000).then(() => this.setState({refreshing: false}))
-    }
-    wait = (timeout) => {
-        return new Promise(resolve => {
-            setTimeout(resolve, timeout);
-        });
     }
     loadLoans = (value) => {
         this.setState({ isLoading: value })
@@ -55,9 +49,13 @@ class LoanScreen extends Component {
         return new Promise((resolve, reject) => {
             requestWithToken(url, options).then(data => {
                 // console.log(data)
-                this.setState({ openLoans: data.open_loans })
-                this.setState({ closedLoans: data.fully_paid })
                 this.setState({ isLoading: false })
+                if(data.status === 'success') {
+                    this.setState({ openLoans: data.open_loans })
+                    this.setState({ closedLoans: data.fully_paid })
+                } else {
+                    alert(data.message ? data.message : 'An error has occured. Try again later')
+                }
                 resolve()
             }).catch(error => {
                 this.setState({ isLoading: false })

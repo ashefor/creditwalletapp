@@ -5,10 +5,11 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import { AppLoading } from 'expo';
 
 import { useFonts } from '@use-expo/font';
-import { Provider as PaperProvider, DefaultTheme, DarkTheme , configureFonts,} from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme, DarkTheme, configureFonts, } from 'react-native-paper';
 import AppNavigation from './src/utils/Navigator';
 import navigationservice from './src/utils/navigationservice';
-import { LoanProvider } from './src/screens/new-application/provider/LoanProvider';
+import { NewLoanProvider } from './src/screens/new-application/provider/NewLoanProvider';
+import { LoanOfferProvider } from './src/screens/loanoffer/provider/LoanOfferProvider';
 const theme = {
   ...DefaultTheme,
   roundness: 5,
@@ -31,15 +32,17 @@ export default function App() {
     'Baloo-extra-bold': require('./src/assets/fonts/baloo/Baloo2-ExtraBold.ttf'),
     'Baloo-semi-bold': require('./src/assets/fonts/baloo/Baloo2-SemiBold.ttf')
   });
-  if(!fontsLoaded) {
+  if (!fontsLoaded) {
     return (<AppLoading />)
   } else {
     return (
       <View style={styles.container}>
         <PaperProvider theme={theme}>
-          <LoanProvider>
-          <AppNavigation ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/>
-          </LoanProvider>
+          <LoanOfferProvider>
+            <NewLoanProvider>
+              <AppNavigation ref={navRef => navigationservice.setTopLevelNavigator(navRef)} />
+            </NewLoanProvider>
+          </LoanOfferProvider>
         </PaperProvider>
       </View>
     );

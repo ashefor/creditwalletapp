@@ -8,7 +8,7 @@ import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils'
 import { loanApiURL, requestWithToken } from '../../../utils/request';
 import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
+import { LoanContext } from '../provider/LoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { states } from '../../../utils/states';
@@ -77,6 +77,10 @@ class StepFive extends Component {
 
     render() {
         const { colors } = this.props.theme
+        const completeApplication = (loan) => {
+            loan.goNext()
+            console.log(loan)
+        }
         return (
             <LoanContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

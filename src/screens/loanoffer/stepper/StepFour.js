@@ -8,11 +8,10 @@ import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils'
 import { loanApiURL, requestWithToken } from '../../../utils/request';
 import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
+import { LoanContext } from '../provider/LoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { states } from '../../../utils/states';
-import { salaryBanks } from '../../../utils/salaryBanks';
 
 const titles = [
     {
@@ -37,28 +36,32 @@ const titles = [
     },
 ];
 
-const banksPlaceholder = {
-    label: 'Salary Bank Name',
+const statesPlaceholder = {
+    label: 'State',
     value: null,
     color: '#9EA0A4',
 };
 
-class StepFive extends Component {
+class StepFour extends Component {
     constructor(props) {
         super(props)
         this._textInput = createRef()
         this.state = {
         }
     }
-    renderBankSelect = props => {
-        const { style, value, selectBank } = props;
+    renderStateSelect = props => {
+        const { style, value, selectState } = props;
+        const valueChange = (selectedState) => {
+            selectState(selectedState)
+            this.handleBlur();
+        }
         return (
             <PickerComponent
                 handleFocus={this.handleFocus}
                 handleBlur={this.handleBlur}
-                placeholder={banksPlaceholder}
-                items={salaryBanks}
-                onValueChange={bankcode => selectBank(bankcode)}
+                placeholder={statesPlaceholder}
+                items={states}
+                onValueChange={selectedState => valueChange(selectedState)}
                 value={value}
             />
         );
@@ -83,7 +86,7 @@ class StepFive extends Component {
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
         textTransform: 'uppercase'}}>
-                            employment information
+                            contact information
                      </CustomText>
                         <View style={{ flex: 1 }}>
                             <KeyboardAvoidingView behavior="position">
@@ -91,58 +94,66 @@ class StepFive extends Component {
                                     <TextInput
 
                                         mode="outlined"
-                                        label='Place of Work'
+                                        label='Email'
                                         returnKeyType='done'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.place_of_work}
+                                        value={loan.email}
                                         autoCapitalize='none'
                                         keyboardType='email-address'
-                                        onChangeText={work => loan.setPlaceOfWork(work)}
+                                        onChangeText={email => loan.setEmail(email)}
                                     />
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
 
                                         mode="outlined"
-                                        label='IPPIS Number'
+                                        label='Phone Number'
                                         returnKeyType='done'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.ippisnumber}
+                                        value={loan.telephone}
                                         autoCapitalize='none'
-                                        keyboardType='number-pad'
-                                        onChangeText={ippisnumber => loan.setIppisNumber(ippisnumber)}
+                                        keyboardType='phone-pad'
+                                        onChangeText={phonenumber => loan.setPhone(phonenumber)}
                                     />
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
+                                    <TextInput
+
+                                        mode="outlined"
+                                        label='House Address'
+                                        multiline={true}
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.address}
+                                        keyboardType='default'
+                                        onChangeText={address => loan.setAddress(address)}
+                                    />
+                                </View>
+                                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
+                                <TextInput
+                                        mode="outlined"
+                                        label='City'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        value={loan.city}
+                                        keyboardType='default'
+                                        onChangeText={city => loan.setCity(city)}
+                                    />
                                 <TextInput
                                         ref={this._textInput}
-                                        render={this.renderBankSelect}
+                                        render={this.renderStateSelect}
                                         mode="outlined"
-                                        label='Salary Bank Name'
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.salary_bank_name}
+                                        label='State'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        value={loan.selectedState}
                                         keyboardType='default'
-                                        selectBank={loan.setBankCode}
-                                    />
-                                </View>
-                                <View style={{ marginVertical: resHeight(1) }}>
-                                    <TextInput
-
-                                        mode="outlined"
-                                        label='Salary Bank Account'
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.salary_bank_account}
-                                        keyboardType='number-pad'
-                                        returnKeyType='done'
-                                        onChangeText={account => loan.setBankAccount(account)}
+                                        selectState={loan.setSelectedState}
                                     />
                                 </View>
                                 <View style={styles.bottomcontainer}>
-                                    <Button mode="contained" 
-                                    disabled={!loan.salary_bank_account || !loan.salary_bank_name || !loan.place_of_work}
+                                    <Button mode="contained"
+                                    disabled={!loan.email || !loan.address || !loan.telephone || !loan.city || !loan.selectedState}
                                     contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
-                                        onPress={loan.acceptLoan}>
-                                        Complete
+                                        onPress={loan.goNext}>
+                                        Next
                         </Button>
                                 </View>
                             </KeyboardAvoidingView>
@@ -156,7 +167,7 @@ class StepFive extends Component {
     }
 }
 
-export default withTheme(StepFive)
+export default withTheme(StepFour)
 
 const styles = StyleSheet.create({
     loaninforow: {

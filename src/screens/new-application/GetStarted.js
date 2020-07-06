@@ -25,7 +25,8 @@ class GetStartedScreen extends Component {
                     />
                 </Appbar.Header>
                 <View style={styles.container}>
-                    <CustomText style={styles.headerText}>
+                    <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
+        textTransform: 'uppercase'}}>
                         Let's do this
                         </CustomText>
                     <View style={styles.uppercontainer}>
@@ -91,7 +92,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     headerText: {
-        fontFamily: 'Baloo-bold',
         fontWeight: 'bold',
         fontSize: resFont(25),
         textTransform: 'uppercase'

@@ -74,28 +74,31 @@ class ForgotPasswordScreen extends Component {
                 <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'" />
                 <ScrollView  style={{flex: 1}} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
-                        <View style={{ marginTop: resHeight(3) }}>
-                            {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error }}>{errorMsg}</CustomText>}
+                        <View style={{ marginTop: resHeight(1) }}>
+                        <CustomText style={{textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary}}>Forgot Password</CustomText>
+                        <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Reset your password</CustomText>
+                            {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                             <TextInput
-                                style={{ backgroundColor: 'transparent' }}
+                                style={{marginTop: resHeight(1) }}
                                 label='Username'
+                                mode='outlined'
                                 value={username}
                                 autoCapitalize='none'
                                 onChangeText={username => this.setState({ username })}
                             />
                             <Button
                                 style={{ marginTop: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
                                 contentStyle={styles.loginbtn}
                                 mode="contained" onPress={this.handleLogin}>
                                 Reset Password
                             </Button>
                             <Button
                 style={{marginTop: resHeight(3)}}
-                labelStyle={{textTransform: 'capitalize', color: colors.primary}}
+                labelStyle={{textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary}}
           onPress={() => this.props.navigation.navigate('Login')}
         >
-         Forgot Password?
+         Back to Login
         </Button>
                         </View>
                         <Snackbar

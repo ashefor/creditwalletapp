@@ -57,7 +57,7 @@ class ChangePasswordScreen extends Component {
         const {colors} = this.props.theme
         return (
             <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />
@@ -71,11 +71,14 @@ class ChangePasswordScreen extends Component {
                 <Loader isLoading={isLoading}/>
                 <TouchableWithoutFeedback style={{ backgroundColor: 'red' }} onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
-                        <View style={{ marginTop: resHeight(3) }}>
-                        {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error}}>{errorMsg}</CustomText>}
+                        <View style={{ marginTop: resHeight(1) }}>
+                        <CustomText style={{textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary}}>Change your password</CustomText>
+                        <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Change your Account Password</CustomText>
+                        {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>}
                         <TextInput
                                 secureTextEntry
-                                style={{ backgroundColor: 'transparent' }}
+                                style={{marginTop: resHeight(1) }}
+                                mode='outlined'
                                 label='Old Password'
                                 value={oldPassword}
                                 returnKeyType='done'
@@ -83,7 +86,8 @@ class ChangePasswordScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{ backgroundColor: 'transparent' }}
+                                style={{marginTop: resHeight(1) }}
+                                mode='outlined'
                                 label='New Password'
                                 value={newPassword}
                                 returnKeyType='done'

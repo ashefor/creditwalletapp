@@ -8,7 +8,7 @@ import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils'
 import { loanApiURL, requestWithToken } from '../../../utils/request';
 import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/LoanProvider';
+import { LoanContext } from '../provider/NewLoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { states } from '../../../utils/states';
@@ -84,7 +84,8 @@ class StepFour extends Component {
             <LoanContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={styles.headerText}>
+                        <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
+        textTransform: 'uppercase'}}>
                             contact information
                      </CustomText>
                         <View style={{ flex: 1 }}>

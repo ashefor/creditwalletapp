@@ -11,98 +11,111 @@ import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils'
 import { loanApiURL, requestWithToken } from '../../../utils/request';
 import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
+import { LoanOfferContext } from '../provider/LoanOfferProvider';
 
-class StepTwo extends Component {
-
+class OfferStepOne extends Component {
+    constructor(props) {
+        super(props)
+    }
     formatAsCurrency = (value) => {
         const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         return `₦${newvalue}`
     }
 
+    componentDidMount = () => {
+        console.log(this.props.loan)
+    }
+
     render() {
         const { colors } = this.props.theme
         return (
-           <LoanContext.Consumer>
+           <LoanOfferContext.Consumer>
                {loan =>  <View style={{ flex: 1, marginTop: resHeight(2)}}>
-                   <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
-                    Loan breakdown
+               <CustomText style={{fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'justify', textTransform: 'capitalize'}}>
+                    We are pleased to inform you that your loan request has been approved under the following terms and conditions
                      </CustomText>
                     <View style={styles.loanofferdetails}>
-                    
                         <View style={styles.loaninforow}>
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>
-                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Amount</CustomText>
+                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Borrower</CustomText>
                             </View>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.amount)}</CustomText>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{loan.firstname} {loan.lastname}</CustomText>
+                        </View>
+                        <View style={styles.loaninforow}>
+                            <View style={{ alignItems: 'flex-start', width: '70%' }}>
+                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Borrower Employer</CustomText>
+                            </View>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{loan.place_of_work}</CustomText>
+                        </View>
+                        <View style={styles.loaninforow}>
+                            <View style={{ alignItems: 'flex-start', width: '70%' }}>
+                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Amount</CustomText>
+                            </View>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.loan_amount)}</CustomText>
                         </View>
                         <View style={styles.loaninforow}>
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                 <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Duration</CustomText>
                             </View>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{loan.duration} month(s)</CustomText>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{loan.tenor}</CustomText>
                         </View>
                         <View style={styles.loaninforow}>
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                 <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Monthly Repayment</CustomText>
                             </View>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.loanOffer.monthlyrepayment)}</CustomText>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.monthly_repayment)}</CustomText>
                         </View>
                         <View style={styles.loaninforow}>
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>
-                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Start Date</CustomText>
+                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Interest rate</CustomText>
                             </View>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{loan.loanOffer.startdate}</CustomText>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>7.5% per month (i.e 0.25% per day porated</CustomText>
                         </View>
                         <View style={styles.loaninforow}>
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>
-                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan End Date</CustomText>
+                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Number of repayments</CustomText>
                             </View>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{loan.loanOffer.expectedenddate}</CustomText>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{loan.tenor}</CustomText>
                         </View>
                         <View style={styles.loaninforow}>
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>
-                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Interest per day</CustomText>
+                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Insurance</CustomText>
                             </View>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>0.25%</CustomText>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.insurance)}</CustomText>
+                        </View>
+                        <View style={styles.loaninforow}>
+                            <View style={{ alignItems: 'flex-start', width: '70%' }}>
+                                <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Interest rate</CustomText>
+                            </View>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.disbursementfee)}porated</CustomText>
                         </View>
                     </View>
 
                     <View>
-                        <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'justify' }}>
-                            By clicking Start Application, I consent to Credit Wallet obtaining information from relevant third parties as may be necessary, on my employment details, salary payment, loans and other related data, to make a decision on my loan application. I also consent to the loan amounts being deducted from my salary at source before credit to my account and any outstanding loans being recovered automatically from any other accounts linked to me in the case of default
+                        <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'center' }}>
+                        By Clicking Continue, I, Test Test accept the Credit Offer with a full understanding of the Loans Terms and Conditions
                         </CustomText>
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                         <Button
-                            disabled={loan.isLoading}
-                            contentStyle={styles.button}
-                            onPress={loan.goBack}
-                            style={{ backgroundColor: loan.isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
-                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
-                            mode="contained">
-                            Back
-                        </Button>
-                        <Button
                             loading={loan.isLoading}
                             disabled={loan.isLoading}
-contentStyle={styles.button}
+                            contentStyle={styles.button}
                             style={{ marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
                             onPress={loan.goNext}
                             labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
                             mode="contained">
-                            Proceed
+                            Continue
                         </Button>
                     </View>
                
             </View>}
-           </LoanContext.Consumer>
+           </LoanOfferContext.Consumer>
         )
     }
 }
 
-export default withTheme(StepTwo)
+export default withTheme(OfferStepOne)
 
 const styles = StyleSheet.create({
     loaninforow: {

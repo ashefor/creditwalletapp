@@ -39,6 +39,8 @@ class NewLoanScreen extends Component {
             if (data.status === 'success') {
                 // console.log(data);
                 this.setState({ loanOffer: data })
+            } else {
+                alert(data.message ? data.message : 'An error has occured. Try again later')
             }
         }).catch((error) => {
             this.setState({ isApplying: false })

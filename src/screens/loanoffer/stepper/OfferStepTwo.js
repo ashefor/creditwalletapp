@@ -8,14 +8,11 @@ import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils'
 import { loanApiURL, requestWithToken } from '../../../utils/request';
 import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
+import { LoanContext } from '../provider/LoanOfferProvider';
 import * as DocumentPicker from 'expo-document-picker';
-const myContext = React.createContext(LoanContext)
-class StepOne extends Component {
 
-    componentDidMount = () => {
-        console.log(this.context)
-    }
+class OfferStepTwo extends Component {
+
     pickDocument = async () => {
         let result = await DocumentPicker.getDocumentAsync({});
 
@@ -24,6 +21,7 @@ class StepOne extends Component {
         console.log(result);
     }
     render() {
+        const { colors } = this.props.theme
         return (
             <LoanContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -61,7 +59,6 @@ class StepOne extends Component {
                         minimumValue={1}
                         maximumValue={24}
                         onValueChange={(duration) => loan.setDuration(duration)}
-                        onSlidingComplete={(duration) => loan.setDuration(duration)}
                         value={loan.duration}
                         step={1}
                         minimumTrackTintColor="#f56b2a"
@@ -74,17 +71,17 @@ class StepOne extends Component {
                     onPress={loan.loanApply}
                     contentStyle={styles.button}
                     style={{ marginVertical: resHeight(2) }}
-                    labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white'}}
+                    labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
                     mode="contained">
                     Apply for loan
                  </Button>
 
 
-                 {/* <Button
+                 <Button
                  onPress={this.pickDocument}
                     mode="contained">
                     Pick flexDirection
-                 </Button> */}
+                 </Button>
             </View>
             </View>
 
@@ -94,7 +91,7 @@ class StepOne extends Component {
     }
 }
 
-export default StepOne
+export default withTheme(OfferStepTwo)
 
 const styles = StyleSheet.create({
     loaninforow: {

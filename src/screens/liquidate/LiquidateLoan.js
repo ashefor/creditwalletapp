@@ -57,8 +57,10 @@ class LiquidateLoan extends Component {
                 if (data.status === 'success') {
                     // console.log(data)
                     this.setState({ loan: data })
-                    resolve()
+                } else {
+                    alert(data.message ? data.message : 'An error has occured. Try again later')
                 }
+                resolve()
             }).catch(error => {
                 // console.log(error);
                 this.setState({ isLoading: false })

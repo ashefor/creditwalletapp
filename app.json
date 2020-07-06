@@ -1,8 +1,8 @@
 {
-  "name": "creditWalletApp",
+  "name": "Credit Wallet",
   "displayName": " Credit Wallet Mobile App ",
   "expo": {
-    "name": "creditWalletApp",
+    "name": "Credit Wallet",
     "splash": {
       "image": "src/assets/images/splash.png",
       "resizeMode": "cover",
@@ -10,10 +10,13 @@
     },
     "icon": "src/assets/images/logo.png",
     "slug": "expo-template-bare",
+    "privacy": "unlisted",
+    "orientation": "portrait",
     "version": "1.0.0",
     "ios": {
       "bundleIdentifier": "com.princepsfinance.creditwallet",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "usesIcloudStorage": true
     },
     "android": {
       "package": "com.princepsfinance.creditwallet",

@@ -65,8 +65,14 @@ class HomeScreen extends Component {
         return new Promise((resolve, reject) => {
             requestWithToken(url, options).then(data => {
                 // // console.log(data)
-                this.setState({ dashboard: data })
+                
                 this.setState({ isLoading: false })
+                if( data.status === 'success') {
+                    this.setState({ dashboard: data })
+                }
+                else {
+                    alert(data.message ? data.message : 'An error has occured. Try again later')
+                }
                 resolve()
             }).catch(error => {
                 // // console.log(error);

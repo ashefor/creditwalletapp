@@ -53,6 +53,8 @@ class LoanDetails extends Component {
             this.setState({ isLoading: false })
             if (data.status === 'success') {
                 this.setState({ loan: data })
+            } else {
+                alert(data.message ? data.message : 'An error has occured. Try again later')
             }
         }).catch(error => {
             // console.log(error);

@@ -10,6 +10,7 @@ import LiquidateLoan from '../screens/liquidate/LiquidateLoan';
 import Splashscreen from '../screens/SplashScreen';
 import GetStartedScreen from '../screens/new-application/GetStarted';
 import NewApplicationBaseScreen from '../screens/new-application/stepper/NewApplicationBaseScreen';
+import OfferLetter from '../screens/loanoffer/stepper/OfferLetter';
 
 const AppNavigation = createAppContainer(createSwitchNavigator({
     Loading: {
@@ -17,6 +18,10 @@ const AppNavigation = createAppContainer(createSwitchNavigator({
     },
     'Get Started': {
         screen: GetStartedScreen
+    },
+    'Offer Letter': {
+        screen: OfferLetter,
+        path: 'offerletter/:loanid'
     },
     Auth: {
         screen: AuthStack

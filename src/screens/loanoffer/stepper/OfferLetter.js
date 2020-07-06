@@ -10,21 +10,17 @@ import { Constants } from 'react-native-unimodules';
 import { signOut } from '../../../utils/storage';
 import { color } from 'react-native-reanimated';
 import CustomText from '../../../components/CustomText';
-import StepOne from './StepOne';
-import StepTwo from './StepTwo';
-import { NewLoanProvider, LoanContext } from '../provider/NewLoanProvider';
-import StepThree from './StepThree';
-import StepFour from './StepFour';
-import StepFive from './StepFive';
+import { LoanOfferContext } from '../provider/LoanOfferProvider';
 import Loader from '../../../components/Loader';
+import OfferStepOne from './OfferStepOne';
 
-class NewApplicationBaseScreen extends Component {
+class OfferLetter extends Component {
     _handleCancel = () => {
         this.props.navigation.navigate('Auth')
     }
     render() {
         return (
-            <LoanContext.Consumer>
+            <LoanOfferContext.Consumer>
                 {loan =>  <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
            <Fragment>
            {loan.applicationSuccess ? 
@@ -57,22 +53,18 @@ class NewApplicationBaseScreen extends Component {
                      </CustomText>
                      <ProgressBar progress={0.2 * loan.currentPage} color={'#f56b2a'} />
                      <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false} keyboardDismissMode='interactive' keyboardShouldPersistTaps='always'>
-                         {loan.currentPage === 1 && <StepOne/>}
-                         {loan.currentPage === 2 && <StepTwo />}
-                         {loan.currentPage === 3 && <StepThree />}
-                         {loan.currentPage === 4 && <StepFour />}
-                         {loan.currentPage === 5 && <StepFive />}
+                         {loan.currentPage === 1 && <OfferStepOne/>}
                      </ScrollView>
              </View>
                </Fragment>}
            </Fragment>
          </SafeAreaView>}
-            </LoanContext.Consumer>
+            </LoanOfferContext.Consumer>
         )
     }
 }
 
-export default NewApplicationBaseScreen
+export default OfferLetter
 
 const styles = StyleSheet.create({
     container: {

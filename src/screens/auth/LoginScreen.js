@@ -69,34 +69,38 @@ class LoginScreen extends Component {
                 <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/>
                 <ScrollView  style={{flex: 1}} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
-                        <View style={{ marginTop: resHeight(3) }}>
-                        {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error}}>{errorMsg}</CustomText>}
+                        <View style={{ marginTop: resHeight(1) }}>
+                        <CustomText style={{textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary}}>Hi, Welcome Back</CustomText>
+                        <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Kindly provide your username and password to access your account</CustomText>
+                        {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>}
                             <TextInput
-                                style={{ backgroundColor: 'transparent' }}
+                                style={{marginTop: resHeight(1) }}
                                 label='Username'
                                 value={username}
+                                mode="outlined"
                                 autoCapitalize='none'
                                 returnKeyType='done'
                                 onChangeText={username => this.setState({ username })}
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{ backgroundColor: 'transparent' }}
+                                style={{marginTop: resHeight(1) }}
                                 label='Password'
+                                mode="outlined"
                                 value={password}
                                 returnKeyType='done'
                                 onChangeText={password => this.setState({ password })}
                             />
                             <Button
                                 style={{ marginTop: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
                                 contentStyle={styles.loginbtn}
                                 mode="contained" onPress={this.handleLogin}>
                                 Login
                 </Button>
                 <Button
                 style={{marginTop: resHeight(3)}}
-                labelStyle={{textTransform: 'capitalize', color: colors.primary}}
+                labelStyle={{textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary}}
           onPress={() => this.props.navigation.navigate('Forgot Password')}
         >
          Forgot Password?
