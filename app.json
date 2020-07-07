@@ -2,6 +2,7 @@
   "name": "Credit Wallet",
   "displayName": " Credit Wallet Mobile App ",
   "expo": {
+    "scheme": "creditwallet",
     "name": "Credit Wallet",
     "splash": {
       "image": "src/assets/images/splash.png",

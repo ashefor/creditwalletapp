@@ -23,7 +23,7 @@ class OfferLetter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loan_id: this.props.navigation.getParam('loan_id'),
+            loan_id: this.props.navigation.getParam('loanid'),
         }
     }
     componentDidMount() {

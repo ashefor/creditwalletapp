@@ -3,6 +3,7 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { Platform, StatusBar } from 'react-native';
+import {Linking} from 'expo'
 import AuthStack from '../stacks/AuthStack';
 import { Constants } from 'react-native-unimodules';
 import TabNavigator from '../stacks/TabStack';
@@ -12,7 +13,7 @@ import GetStartedScreen from '../screens/new-application/GetStarted';
 import NewApplicationBaseScreen from '../screens/new-application/stepper/NewApplicationBaseScreen';
 import OfferLetter from '../screens/loanoffer/stepper/OfferLetter';
 
-const AppNavigation = createAppContainer(createSwitchNavigator({
+const AppNavigation = createSwitchNavigator({
     Loading: {
         screen: Splashscreen
     },
@@ -41,6 +42,11 @@ const AppNavigation = createAppContainer(createSwitchNavigator({
             paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
         },
     }
-}))
+})
 
-export default AppNavigation;
+const App = createAppContainer(AppNavigation)
+const prefix = Linking.makeUrl('/');
+// const MainApp = () => 
+export default () => {
+    return <App  uriPrefix={prefix} />
+};

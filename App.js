@@ -10,6 +10,8 @@ import AppNavigation from './src/utils/Navigator';
 import navigationservice from './src/utils/navigationservice';
 import { NewLoanProvider } from './src/screens/new-application/provider/NewLoanProvider';
 import { LoanOfferProvider } from './src/screens/loanoffer/provider/LoanOfferProvider';
+import MainApp from './src/utils/Navigator';
+
 const theme = {
   ...DefaultTheme,
   roundness: 5,
@@ -23,8 +25,11 @@ const theme = {
 
 
 
-
+const AppWrapper = React.forwardRef((props, ref) => (
+<MainApp ref={ref}>{props.children}</MainApp>
+));
 export default function App() {
+  const ref = React.createRef()
   let [fontsLoaded] = useFonts({
     'Baloo': require('./src/assets/fonts/baloo/Baloo2-Regular.ttf'),
     'Baloo-med': require('./src/assets/fonts/baloo/Baloo2-Medium.ttf'),
@@ -40,7 +45,7 @@ export default function App() {
         <PaperProvider theme={theme}>
           <LoanOfferProvider>
             <NewLoanProvider>
-              <AppNavigation ref={navRef => navigationservice.setTopLevelNavigator(navRef)} />
+             <MainApp ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/>
             </NewLoanProvider>
           </LoanOfferProvider>
         </PaperProvider>
