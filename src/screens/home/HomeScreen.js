@@ -15,6 +15,7 @@ import NewLoanScreen from './NewLoanScreen';
 const { width } = Dimensions.get('window')
 class HomeScreen extends Component {
     constructor(props) {
+        _isMounted = false;
         super(props)
         this.carouselRef = createRef(null)
         this.textInputRef = createRef(null)
@@ -39,14 +40,21 @@ class HomeScreen extends Component {
         }
     }
     componentDidMount = () => {
+        this._isMounted = true;
         this.getLoggedInUser();
         this.loadDashboard(true)
     }
+
+    componentWillUnmount = () => {
+        this._isMounted = false;
+    }
     getLoggedInUser = async () => {
         const user = await getUser();
+       if(this._isMounted && user) {
         this.setState({
             username: JSON.parse(user).borrower_firstname
         })
+       }
         // // // console.log(JSON.parse(user).username)
     }
 
@@ -57,7 +65,8 @@ class HomeScreen extends Component {
         })
     }
     loadDashboard = (val) => {
-        this.setState({ isLoading: val })
+        if(this._isMounted) {
+            this.setState({ isLoading: val })
         const url = `${apiURL}account/dashboard`;
         const options = {
             method: 'GET',
@@ -75,12 +84,13 @@ class HomeScreen extends Component {
                 }
                 resolve()
             }).catch(error => {
-                // // console.log(error);
+                // console.log(error);
                 this.setState({ isLoading: false })
                 this.setState({ hasError: 'An error has occured' })
                 reject()
             })
         })
+        }
     }
 
     makeCall = () => {

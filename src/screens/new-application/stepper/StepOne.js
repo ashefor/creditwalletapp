@@ -12,83 +12,67 @@ import { LoanContext } from '../provider/NewLoanProvider';
 import * as DocumentPicker from 'expo-document-picker';
 const myContext = React.createContext(LoanContext)
 class StepOne extends Component {
-
-    componentDidMount = () => {
-        console.log(this.context)
-    }
-    pickDocument = async () => {
-        let result = await DocumentPicker.getDocumentAsync({});
-
-        alert(result.uri)
-
-        console.log(result);
-    }
     render() {
         return (
             <LoanContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={{flex: 1}}>
-            <View style={{ marginVertical: resHeight(2) }}>
-                <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
-                    How much would you like?
+                    <View style={{ flex: 1 }}>
+                        <View style={{ marginVertical: resHeight(2) }}>
+                            <CustomText style={{
+                                fontFamily: 'Baloo-bold', fontSize: resFont(20),
+                                textTransform: 'uppercase'
+                            }}>
+                                How much would you like?
                      </CustomText>
-                <View style={{ marginVertical: resHeight(1) }}>
-                    <TextInput
-                        mode="outlined"
-                        label='Amount'
-                        style={{ backgroundColor: 'white' }}
-                        value={loan.amount}
-                        keyboardType='number-pad'
-                        returnKeyType='done'
-                        onChangeText={amount => loan.setAmount(amount)}
-                    />
-                </View>
-            </View>
-            <View style={{ marginVertical: resHeight(3) }}>
-                <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
-                    For how long?
+                            <View style={{ marginVertical: resHeight(1) }}>
+                                <TextInput
+                                    mode="outlined"
+                                    label='Amount'
+                                    style={{ backgroundColor: 'white' }}
+                                    value={loan.amount}
+                                    keyboardType='number-pad'
+                                    returnKeyType='done'
+                                    onChangeText={amount => loan.setAmount(amount)}
+                                />
+                            </View>
+                        </View>
+                        <View style={{ marginVertical: resHeight(3) }}>
+                            <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
+                                For how long?
                      </CustomText>
-                <View style={{ marginVertical: resHeight(1) }}>
-                    <CustomText style={{
-                        fontSize: resFont(15),
-                        textAlign: 'center', fontFamily: 'Baloo-med'
-                    }}>
-                        {loan.duration} month{loan.duration > 1 ? 's' : ''}
-                    </CustomText>
-                    <Slider
-                        style={{ width: '100%', marginVertical: resHeight(3), height: 40 }}
-                        minimumValue={1}
-                        maximumValue={24}
-                        onValueChange={(duration) => loan.setDuration(duration)}
-                        onSlidingComplete={(duration) => loan.setDuration(duration)}
-                        value={loan.duration}
-                        step={1}
-                        minimumTrackTintColor="#f56b2a"
-                        maximumTrackTintColor="#f7971e"
-                    />
-                </View>
-                <Button
-                    loading={loan.isApplying}
-                    disabled={loan.isApplying || !loan.amount}
-                    onPress={loan.loanApply}
-                    contentStyle={styles.button}
-                    style={{ marginVertical: resHeight(2) }}
-                    labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white'}}
-                    mode="contained">
-                    Apply for loan
+                            <View style={{ marginVertical: resHeight(1) }}>
+                                <CustomText style={{
+                                    fontSize: resFont(15),
+                                    textAlign: 'center', fontFamily: 'Baloo-med'
+                                }}>
+                                    {loan.duration} month{loan.duration > 1 ? 's' : ''}
+                                </CustomText>
+                                <Slider
+                                    style={{ width: '100%', marginVertical: resHeight(3), height: 40 }}
+                                    minimumValue={1}
+                                    maximumValue={24}
+                                    onValueChange={(duration) => loan.setDuration(duration)}
+                                    onSlidingComplete={(duration) => loan.setDuration(duration)}
+                                    value={loan.duration}
+                                    step={1}
+                                    minimumTrackTintColor="#f56b2a"
+                                    maximumTrackTintColor="#f7971e"
+                                />
+                            </View>
+                            <Button
+                                loading={loan.isApplying}
+                                disabled={loan.isApplying || !loan.amount}
+                                onPress={loan.loanApply}
+                                contentStyle={styles.button}
+                                style={{ marginVertical: resHeight(2) }}
+                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
+                                mode="contained">
+                                Apply for loan
                  </Button>
+                        </View>
+                    </View>
 
-
-                 {/* <Button
-                 onPress={this.pickDocument}
-                    mode="contained">
-                    Pick flexDirection
-                 </Button> */}
-            </View>
-            </View>
-
-        </TouchableWithoutFeedback>}
+                </TouchableWithoutFeedback>}
             </LoanContext.Consumer>
         )
     }

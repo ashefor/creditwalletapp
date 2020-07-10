@@ -15,6 +15,8 @@ class LoanOfferProvider extends Component {
             isAccepting: false,
             noOffer: false,
             isFetchingOffer: false,
+            hasFinishedFetching: false,
+            applicationSuccess: false,
             idCard: '',
             passport: '',
             code: null,
@@ -75,7 +77,7 @@ class LoanOfferProvider extends Component {
     }
     
     _handleCancelApplication = () => {
-        this.setState(this.initialstate, ()=> navigationservice.navigate('Home'))
+        this.setState(this.initialstate, () => navigationservice.navigate('Home'))
     }
     _handleLoanApply = () => {
         const url = `${loanApiURL}loan/finalize/new`;
@@ -108,13 +110,13 @@ class LoanOfferProvider extends Component {
     }
 
 
-    _handleLoanOffer = async () => {
+    _handleComplete = async () => {
         const url = `${loanApiURL}loan/finalize/new`;
             // console.log(userObj);
             const loan = {
-                id: '',
-                idCard: '',
-                passport: '',
+                id: this.state.offerLetter.id,
+                idcard: this.state.idCard,
+                passport: this.state.passport,
             }
             console.log(loan)
             this.setState({ isAccepting: true })
@@ -127,10 +129,12 @@ class LoanOfferProvider extends Component {
             this.setState({ isAccepting: false })
             if (data.data.status === 'success') {
                 console.log(data);
-                // this.setState({ })
+                this.setState({ applicationSuccess: true })
+            } else {
+                alert(data.data.message ? data.data.message : 'An error has occured. Try again later')
             }
         }).catch((error) => {
-            this.setState({ isAccepting: false })
+            this.setState({ isAccepting: false, applicationSuccess: false  })
             console.log(error)
         })
     }
@@ -149,10 +153,10 @@ class LoanOfferProvider extends Component {
                 url: url,
                 data:  loan_id
             }).then((data) => {
-                this.setState({ isFetchingOffer: false })
+                this.setState({ isFetchingOffer: false , hasFinishedFetching: true})
                 if (data.data.status === 'success') {
-                    console.log(data.data);
-                    this.setState({ offerLetter: data.data.loan })
+                    console.log(data);
+                    this.setState({ offerLetter: data.data.loan})
                 } else {
                     this.setState({noOffer: true})
                 }
@@ -163,7 +167,7 @@ class LoanOfferProvider extends Component {
 
 
     render() {
-        const {currentPage, isAccepting, email, code, salary_bank_name, salary_bank_account, isFetchingOffer, offerLetter, noOffer, idCard, passport} = this.state;
+        const {currentPage, isAccepting,  hasFinishedFetching, applicationSuccess, email, code, salary_bank_name, salary_bank_account, isFetchingOffer, offerLetter, noOffer, idCard, passport} = this.state;
         return (
             <LoanOfferContext.Provider
             value={{
@@ -171,6 +175,8 @@ class LoanOfferProvider extends Component {
                 currentPage: currentPage,
                 isAccepting: isAccepting,
                 isFetchingOffer: isFetchingOffer,
+                applicationSuccess: applicationSuccess,
+                hasFinishedFetching: hasFinishedFetching,
                 noOffer: noOffer,
                 email: email,
                 idCard: idCard,
@@ -187,7 +193,8 @@ class LoanOfferProvider extends Component {
                 setBankAccount: this.setBankAccount,
                 fetchLoanOffer: this._handleFetchLoanOffer,
                 setIdCard: this.setIdCard,
-                setPassport: this.setPassport
+                setPassport: this.setPassport,
+                complete: this._handleComplete
             }}
             >
                {this.props.children}

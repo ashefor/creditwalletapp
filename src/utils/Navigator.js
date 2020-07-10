@@ -3,7 +3,7 @@
 import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { Platform, StatusBar } from 'react-native';
-import {Linking} from 'expo'
+import * as Linking from 'expo-linking'
 import AuthStack from '../stacks/AuthStack';
 import { Constants } from 'react-native-unimodules';
 import TabNavigator from '../stacks/TabStack';
@@ -47,6 +47,11 @@ const AppNavigation = createSwitchNavigator({
 const App = createAppContainer(AppNavigation)
 const prefix = Linking.makeUrl('/');
 // const MainApp = () => 
-export default () => {
-    return <App  uriPrefix={prefix} />
-};
+// export default () => {
+//     return <App  uriPrefix={prefix}/>
+// };
+
+export default AppContainer = React.forwardRef((props, ref) => {
+    return <App  {...props}  uriPrefix={prefix} ref={ref}/>
+})
+// export default AppContainer = createAppContainer(AppNavigation);

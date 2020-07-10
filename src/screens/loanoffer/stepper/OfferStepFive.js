@@ -61,8 +61,8 @@ class OfferStepFive extends Component {
                                     <Button mode="contained"
                                         disabled={!loan.code}
                                         contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
-                                        onPress={loan.goNext}>
-                                        Continue
+                                        onPress={loan.complete}>
+                                        Complete
                         </Button>
                                 </View>
                             </KeyboardAvoidingView>

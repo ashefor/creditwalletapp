@@ -13,6 +13,7 @@ import CustomText from '../../components/CustomText';
 const initialLayout = { width: Dimensions.get('window').width };
 
 class LoanScreen extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props)
         this.state = {
@@ -29,7 +30,12 @@ class LoanScreen extends Component {
         }
     }
     componentDidMount = () => {
+        this._isMounted = true;
         this.loadLoans(true);
+    }
+
+    componentWillUnmount = () => {
+        this._isMounted = false;
     }
     changeIndex = index => {
         this.setState({ index })
@@ -41,6 +47,7 @@ class LoanScreen extends Component {
         })
     }
     loadLoans = (value) => {
+       if(this._isMounted) {
         this.setState({ isLoading: value })
         const url = `${apiURL}account/dashboard`;
         const options = {
@@ -63,6 +70,7 @@ class LoanScreen extends Component {
                 reject()
             })
         })
+       }
     }
     renderTabBar = props => (
         <TabBar

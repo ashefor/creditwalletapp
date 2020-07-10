@@ -1,8 +1,8 @@
 import React, { Component, Fragment, createRef } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
-import { Slider } from 'react-native'
+import { Appbar, TextInput, Button, withTheme, ProgressBar } from 'react-native-paper';
+import { Slider, Image } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode, width } from '../../../utils/utils';
 import { loanApiURL, requestWithToken, request } from '../../../utils/request';
@@ -27,7 +27,8 @@ class OfferStepThree extends Component {
         this._textInput = createRef()
         this.state = {
             idCardName: null,
-            isUploading: false
+            isUploading: false,
+            uploadPercentage: 0,
         }
     }
     pickDocument = async () => {
@@ -35,24 +36,40 @@ class OfferStepThree extends Component {
         const url = `${loanApiURL}passport/upload`
         const formData = new FormData();
         formData.append('file[]', result, result.name)
-        // alert(result.uri)
-        if(result) {
-            this.setState({idCardName: result.name, isUploading: true})
+        console.log(result)
+        if (result && result.type === 'success') {
+            this.setState({ idCardName: null, isUploading: true })
             axios({
                 method: 'POST',
                 url: url,
-                data: formData
+                data: formData,
+                onUploadProgress: (progressEvent) => {
+                    const { loaded, total } = progressEvent;
+                    console.log(progressEvent)
+                    let percent = (Math.floor((loaded * 100) / total) / 100);
+                    // console.log(percent)
+                    if (percent < 100) {
+                        this.setState({ uploadPercentage: percent })
+                    }
+                    // console.log(this.state.uploadPercentage)
+                }
             }).then((data) => {
-               this.setState({ isAccepting: false })
-               if (data.data.status === 'success') {
-                   console.log(data.data);
-                   this.setState({isUploading: false})
-                   this.context.setIdCard(data.data.message)
-               }
-           }).catch((error) => {
-            this.setState({isUploading: false})
-               console.log(error)
-           })
+                this.setState({ isAccepting: false, isUploading: false })
+                if (data.data.status === 'success') {
+                    console.log(data.data);
+                    this.setState({uploadPercentage: 1 , idCardName: result.name }, () => {
+                        setTimeout(() => {
+                            this.setState({uploadPercentage: 0 })
+                        }, 100);
+                    })
+                    this.context.setIdCard(data.data.message)
+                } else {
+                    alert(data.data.message)
+                }
+            }).catch((error) => {
+                this.setState({ isUploading: false })
+                console.log(error)
+            })
         }
 
         // console.log(result);
@@ -84,39 +101,40 @@ class OfferStepThree extends Component {
 
     render() {
         const { colors } = this.props.theme;
-        const {idCardName, isUploading} = this.state
+        const { idCardName, isUploading, uploadPercentage } = this.state
         return (
             <LoanOfferContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
-                        Please upload a copy of a valid identification document (Driver’s Licence, International Passport, National ID, Voter’s or Staff ID)
+                        <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
+                            Please upload a copy of a valid identification document (Driver’s Licence, International Passport, National ID, Voter’s or Staff ID)
                      </CustomText>
                         <View style={{ flex: 1, marginTop: resHeight(1) }}>
                             <KeyboardAvoidingView behavior="position">
                                 <View style={{ marginVertical: resHeight(2) }}>
-                                <Button mode='outlined' 
-                                icon='upload'
-                                disabled={isUploading}
-                                style={{width: resWidth(50), alignSelf: 'center'}}
-                                     labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                    <Button mode='outlined'
+                                        icon='upload'
+                                        disabled={isUploading}
+                                        style={{ width: resWidth(50), alignSelf: 'center' }}
+                                        labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
                                         onPress={this.pickDocument}>
                                         {isUploading ? 'Uploading' : 'Select File'}
-                        </Button>
-                       {idCardName && <CustomText style={{fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(1)}}>
-                            {idCardName}
-                        </CustomText>}
+                                    </Button>
+                                    {uploadPercentage > 0 && <ProgressBar style={{marginTop: resHeight(2)}} progress={uploadPercentage} color={'#f56b2a'} />}
+                                    {idCardName && <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(1) }}>
+                                        {idCardName}
+                                    </CustomText>}
                                 </View>
-                                <CustomText style={{fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(2)}}>
-                                You can skip this step and send your identification document via WhatsApp to 07085698828 or email to support@creditwallet.ng
+                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(2) }}>
+                                    You can skip this step and send your identification document via WhatsApp to 07085698828 or email to support@creditwallet.ng
                      </CustomText>
                                 <View style={styles.bottomcontainer}>
-                                    <Button mode="contained" 
-                                    disabled={isUploading}
-                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                    <Button mode="contained"
+                                        disabled={isUploading}
+                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.goNext}>
                                         {idCardName ? 'Continue' : 'Skip'}
-                        </Button>
+                                    </Button>
                                 </View>
                             </KeyboardAvoidingView>
                         </View>

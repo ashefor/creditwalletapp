@@ -5,6 +5,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import { AppLoading } from 'expo';
 
 import { useFonts } from '@use-expo/font';
+import * as Font from 'expo-font'
 import { Provider as PaperProvider, DefaultTheme, DarkTheme, configureFonts, } from 'react-native-paper';
 import AppNavigation from './src/utils/Navigator';
 import navigationservice from './src/utils/navigationservice';
@@ -22,36 +23,62 @@ const theme = {
     surface: '#F5FCFF'
   }
 };
+let fontsLoaded = {
+  'Baloo': require('./src/assets/fonts/baloo/Baloo2-Regular.ttf'),
+  'Baloo-med': require('./src/assets/fonts/baloo/Baloo2-Medium.ttf'),
+  'Baloo-bold': require('./src/assets/fonts/baloo/Baloo2-Bold.ttf'),
+  'Baloo-extra-bold': require('./src/assets/fonts/baloo/Baloo2-ExtraBold.ttf'),
+  'Baloo-semi-bold': require('./src/assets/fonts/baloo/Baloo2-SemiBold.ttf')
+};
 
 
-
-const AppWrapper = React.forwardRef((props, ref) => (
-<MainApp ref={ref}>{props.children}</MainApp>
-));
-export default function App() {
-  const ref = React.createRef()
-  let [fontsLoaded] = useFonts({
-    'Baloo': require('./src/assets/fonts/baloo/Baloo2-Regular.ttf'),
-    'Baloo-med': require('./src/assets/fonts/baloo/Baloo2-Medium.ttf'),
-    'Baloo-bold': require('./src/assets/fonts/baloo/Baloo2-Bold.ttf'),
-    'Baloo-extra-bold': require('./src/assets/fonts/baloo/Baloo2-ExtraBold.ttf'),
-    'Baloo-semi-bold': require('./src/assets/fonts/baloo/Baloo2-SemiBold.ttf')
-  });
-  if (!fontsLoaded) {
-    return (<AppLoading />)
-  } else {
-    return (
-      <View style={styles.container}>
-        <PaperProvider theme={theme}>
-          <LoanOfferProvider>
-            <NewLoanProvider>
-             <MainApp ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/>
-            </NewLoanProvider>
-          </LoanOfferProvider>
-        </PaperProvider>
-      </View>
-    );
+// const AppWrapper = React.forwardRef((props, ref) => (
+// <MainApp ref={ref}>{props.children}</MainApp>
+// ));
+export default class App extends React.Component {
+  _isMounted = false;
+  constructor(props) {
+    super(props);
+    this.ref = React.createRef();
+    this.state = {
+      fontsLoaded: false,
+    };
   }
+ 
+  
+ 
+
+  async _loadFontsAsync() {
+    await Font.loadAsync(fontsLoaded);
+    this.setState({ fontsLoaded: true });
+  }
+
+  componentDidMount = async() => {
+    console.log(fontsLoaded)
+    await this._loadFontsAsync();
+  }
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+render() {
+  if(this.state.fontsLoaded) {
+   return (
+    <View style={styles.container}>
+    <PaperProvider theme={theme}>
+      <LoanOfferProvider>
+        <NewLoanProvider>
+          
+         {/* <MainApp ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/> */}
+         <AppNavigation ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/>
+        </NewLoanProvider>
+      </LoanOfferProvider>
+    </PaperProvider>
+  </View>
+   )
+  } else {
+    return <AppLoading />;
+  }
+}
 }
 
 const styles = StyleSheet.create({

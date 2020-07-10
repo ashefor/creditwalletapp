@@ -1,8 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
-import { Slider } from 'react-native'
+import { Appbar, TextInput, Button, withTheme, ProgressBar } from 'react-native-paper';
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode, width } from '../../../utils/utils';
 import { loanApiURL, requestWithToken } from '../../../utils/request';
@@ -26,7 +25,8 @@ class OfferStepFour extends Component {
         this._textInput = createRef()
         this.state = {
             passportName: null,
-            isUploading: false
+            isUploading: false,
+            uploadPercentage: 0,
         }
     }
     pickDocument = async () => {
@@ -35,19 +35,32 @@ class OfferStepFour extends Component {
         const formData = new FormData();
         formData.append('file[]', result, result.name)
         // alert(result.uri)
-        if(result) {
-            this.setState({passportName: result.name, isUploading: true})
+        if(result && result.type === 'success') {
+            this.setState({passportName: null, isUploading: true})
             axios({
                 method: 'POST',
                 url: url,
-                data: formData
+                data: formData, 
+                onUploadProgress: (progressEvent) => {
+                    const { loaded, total } = progressEvent;
+                    let percent = (Math.floor((loaded * 100) / total) / 100);
+                    if (percent < 100) {
+                        this.setState({ uploadPercentage: percent })
+                    }
+                }
             }).then((data) => {
-               this.setState({ isAccepting: false })
+               this.setState({ isAccepting: false, isUploading : false })
                if (data.data.status === 'success') {
                    console.log(data.data);
-                   this.setState({isUploading: false})
+                   this.setState({uploadPercentage: 1 , passportName: result.name}, () => {
+                    setTimeout(() => {
+                        this.setState({uploadPercentage: 0 })
+                    }, 100);
+                })
                    this.context.setPassport(data.data.message)
-               }
+               } else {
+                alert(data.data.message)
+            }
            }).catch((error) => {
             this.setState({isUploading: false})
                console.log(error)
@@ -83,7 +96,7 @@ class OfferStepFour extends Component {
 
     render() {
         const { colors } = this.props.theme;
-        const {passportName, isUploading} = this.state
+        const {passportName, isUploading, uploadPercentage} = this.state
         return (
             <LoanOfferContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -101,6 +114,7 @@ class OfferStepFour extends Component {
                                         onPress={this.pickDocument}>
                                         {isUploading ? 'Uploading' : 'Select File'}
                         </Button>
+                        {uploadPercentage > 0 && <ProgressBar style={{marginTop: resHeight(2)}} progress={uploadPercentage} color={'#f56b2a'} />}
                         {passportName && <CustomText style={{fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(1)}}>
                             {passportName}
                         </CustomText>}

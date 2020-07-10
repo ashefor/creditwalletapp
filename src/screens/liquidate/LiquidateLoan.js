@@ -11,6 +11,7 @@ import Loader from '../../components/Loader';
 
 
 class LiquidateLoan extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props)
         this.state = {
@@ -32,7 +33,12 @@ class LiquidateLoan extends Component {
         }
     }
     componentDidMount = () => {
+        this._isMounted = true;
         this.loadLoanDetails(true)
+    }
+
+    componentWillUnmount = () => {
+        this._isMounted = false;
     }
 
     _onrefresh = () => {
@@ -50,6 +56,7 @@ class LiquidateLoan extends Component {
             method: 'POST',
             body: JSON.stringify(loan_id),
         }
+       if(this._isMounted) {
         this.setState({ isLoading: value })
         return new Promise((resolve, reject) => {
             requestWithToken(url, options).then(data => {
@@ -68,6 +75,7 @@ class LiquidateLoan extends Component {
                 reject()
             })
         })
+       }
     }
 
     formatAsCurrency = (value) => {
