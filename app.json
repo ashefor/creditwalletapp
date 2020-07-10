@@ -2,7 +2,6 @@
   "name": "Credit Wallet",
   "displayName": " Credit Wallet Mobile App ",
   "expo": {
-    "sdkVersion": "38.0.0",
     "scheme": "creditwallet",
     "name": "Credit Wallet",
     "splash": {

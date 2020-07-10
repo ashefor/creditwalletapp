@@ -53,9 +53,9 @@ export default class App extends React.Component {
     this.setState({ fontsLoaded: true });
   }
 
-  componentDidMount = async() => {
+  componentDidMount() {
     console.log(fontsLoaded)
-    await this._loadFontsAsync();
+    this._loadFontsAsync();
   }
   componentWillUnmount() {
     this._isMounted = false
