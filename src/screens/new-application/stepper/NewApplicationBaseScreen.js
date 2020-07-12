@@ -9,6 +9,7 @@ import { Divider, List, Appbar, ProgressBar, Colors, Surface } from 'react-nativ
 import { Constants } from 'react-native-unimodules';
 import { signOut } from '../../../utils/storage';
 import { color } from 'react-native-reanimated';
+import Toast from 'react-native-root-toast';
 import CustomText from '../../../components/CustomText';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
@@ -26,6 +27,15 @@ class NewApplicationBaseScreen extends Component {
         return (
             <LoanContext.Consumer>
                 {loan => <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                <Toast
+                        visible={loan.hasError}
+                        position={Constants.statusBarHeight}
+                        backgroundColor='red'
+                        shadow={false}
+                        opacity={0.7}
+                        animation={false}
+                        hideOnPress={true}
+                    >{loan.errorMsg}</Toast>
                     <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
@@ -33,7 +43,7 @@ class NewApplicationBaseScreen extends Component {
                                     <Appbar.BackAction onPress={loan.cancel}/>
                                     <Appbar.Action />
                                 </Appbar.Header>
-                                <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
+                                {loan.falseautomate && <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(5) }}>
                                             <Image
@@ -43,7 +53,21 @@ class NewApplicationBaseScreen extends Component {
                                         </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Application submitted successfully. Kindly await a response from our team!</CustomText>
                                     </Surface>
-                                </View>
+                                </View>}
+                                {loan.automate && <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
+                                   {loan.processing &&  <Surface style={styles.surface}>
+                                        <View style={{ marginBottom: resHeight(5) }}>
+                                            <Image
+                                                style={{ width: 50, height: 50, alignSelf: 'center' }}
+                                                source={require('../../../assets/images/success.gif')}
+                                            />
+                                        </View>
+                                        <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Processing... please wait</CustomText>
+                                    </Surface>}
+                                    {!loan.processing &&  <Surface style={styles.surface}>
+                                        <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>An error has occured</CustomText>
+                                    </Surface>}
+                                </View>}
                             </Fragment> :
 
                             <Fragment>

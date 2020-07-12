@@ -19,7 +19,7 @@ class ForgotPasswordScreen extends Component {
         visible: false,
     };
 
-    handleLogin = () => {
+    handleResetPassword = () => {
         this.setState({
             errorMsg: null
         })
@@ -29,7 +29,7 @@ class ForgotPasswordScreen extends Component {
         }
         const options = {
             method: 'POST',
-            body: JSON.stringify(user),
+            body: user,
         }
         if (!this.state.username) {
             return alert('Enter username')
@@ -38,7 +38,7 @@ class ForgotPasswordScreen extends Component {
             this.setState({ isLoading: true })
             request(url, options).then(data => {
                 this.setState({ isLoading: false });
-                this.setState({visible: true}, () => {
+                this.setState({ visible: true }, () => {
                     this.props.navigation.navigate('Login')
                 })
                 setToken(data.token);
@@ -46,8 +46,8 @@ class ForgotPasswordScreen extends Component {
                 setUser(data.customer);
                 // console.log(data)
             }).catch(error => {
-                this.setState({ isLoading: false, errorMsg: error.message })
-                // console.log(error)
+                this.setState({ isLoading: false, errorMsg: 'Error connecting to server. Please try again later' })
+                console.log(error)
             })
         }
 
@@ -71,15 +71,15 @@ class ForgotPasswordScreen extends Component {
                     <Appbar.Action
                     />
                 </Appbar.Header>
-                <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'" />
-                <ScrollView  style={{flex: 1}} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
+                {/* <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'" /> */}
+                <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         <View style={{ marginTop: resHeight(1) }}>
-                        <CustomText style={{textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary}}>Forgot Password</CustomText>
-                        <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Reset your password</CustomText>
+                            <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Forgot Password</CustomText>
+                            <CustomText style={{ textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo' }}>Reset your password</CustomText>
                             {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                             <TextInput
-                                style={{marginTop: resHeight(1) }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white' }}
                                 label='Username'
                                 mode='outlined'
                                 value={username}
@@ -90,28 +90,31 @@ class ForgotPasswordScreen extends Component {
                                 style={{ marginTop: resHeight(2) }}
                                 labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
                                 contentStyle={styles.loginbtn}
-                                mode="contained" onPress={this.handleLogin}>
-                                Reset Password
+                                loading={isLoading}
+                                disabled={isLoading}
+                                mode="contained" onPress={this.handleResetPassword}>
+                                {isLoading ? 'Resetting' : 'Reset Password'}
                             </Button>
                             <Button
-                style={{marginTop: resHeight(3)}}
-                labelStyle={{textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary}}
-          onPress={() => this.props.navigation.navigate('Login')}
-        >
-         Back to Login
+                                style={{ marginTop: resHeight(3) }}
+                                labelStyle={{ textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary }}
+                                onPress={() => this.props.navigation.navigate('Login')}
+                            >
+                                Back to Login
         </Button>
                         </View>
                         <Snackbar
                             visible={visible}
                             onDismiss={this._onDismissSnackBar}
+                            style={{ backgroundColor: '#f56b2a', color: '#fff' }}
                             action={{
-                                label: 'Undo',
+                                label: 'okay',
                                 onPress: () => {
                                     // Do something
                                 },
                             }}
                         >
-                            Success
+                            Password successfully reset
                             </Snackbar>
                     </View>
                 </ScrollView>

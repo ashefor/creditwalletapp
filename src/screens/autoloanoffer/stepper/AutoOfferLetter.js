@@ -1,27 +1,25 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, Platform, StyleSheet, ScrollView } from 'react-native'
+import { View, Image,  StyleSheet, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-navigation';
 import {
     Feather
 } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
 import { resWidth, resFont, resHeight } from '../../../utils/utils';
-import { Divider, List, Appbar, ProgressBar, Colors, Surface } from 'react-native-paper';
+import {  Appbar, ProgressBar, Surface } from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
-import { signOut } from '../../../utils/storage';
-import { color } from 'react-native-reanimated';
 import CustomText from '../../../components/CustomText';
-import { LoanOfferContext } from '../provider/LoanOfferProvider';
+import { AutoLoanOfferContext } from '../provider/AutoLoanOfferProvider';
 import Loader from '../../../components/Loader';
-import OfferStepOne from './OfferStepOne';
-import OfferStepTwo from './OfferStepTwo';
-import OfferStepThree from './OfferStepThree';
-import OfferStepFour from './OfferStepFour';
-import OfferStepFive from './OfferStepFive';
+import AutoOfferStepOne from './AutoOfferStepOne';
+import AutoOfferStepTwo from './AutoOfferStepTwo';
+import AutoOfferStepThree from './AutoOfferStepThree';
+import AutoOfferStepFour from './AutoOfferStepFour';
+import AutoOfferStepFive from './AutoOfferStepFive';
 
-class OfferLetter extends Component {
+class AutoOfferLetter extends Component {
     _isMounted = false;
-    static contextType = LoanOfferContext;
+   static contextType = AutoLoanOfferContext
     constructor(props) {
         super(props);
         this.state = {
@@ -31,8 +29,6 @@ class OfferLetter extends Component {
     }
     componentDidMount() {
         this._isMounted = true;
-        console.log(this.state.loan_id)
-        console.log(this.context)
         if (this._isMounted) {
             this.context.fetchLoanOffer(this.state.loan_id)
         }
@@ -46,7 +42,7 @@ class OfferLetter extends Component {
     }
     render() {
         return (
-            <LoanOfferContext.Consumer>
+            <AutoLoanOfferContext.Consumer>
                 {loan => <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Toast
                         visible={loan.hasError}
@@ -58,6 +54,9 @@ class OfferLetter extends Component {
                         hideOnPress={true}
                     >{loan.errorMsg}</Toast>
                     <Loader isLoading={loan.isFetchingOffer || loan.isAccepting} />
+                    <Loader isLoading={loan.loadingRepayment} backgroundColor="'rgba(247, 247, 247, .3)'">
+                        <CustomText style={{textAlign: 'center', fontSize: resFont(15), color: 'white', marginVertical: resHeight(2)}}>Loading</CustomText>
+                        </Loader>
                     {loan.hasFinishedFetching && loan.offerLetter && <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
@@ -90,11 +89,11 @@ class OfferLetter extends Component {
                      </CustomText>
                                     <ProgressBar progress={0.2 * loan.currentPage} color={'#f56b2a'} />
                                     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} keyboardDismissMode='interactive' keyboardShouldPersistTaps='always'>
-                                        {loan.currentPage === 1 && <OfferStepOne />}
-                                        {loan.currentPage === 2 && <OfferStepTwo />}
-                                        {loan.currentPage === 3 && <OfferStepThree />}
-                                        {loan.currentPage === 4 && <OfferStepFour />}
-                                        {loan.currentPage === 5 && <OfferStepFive />}
+                                        {loan.currentPage === 1 && <AutoOfferStepOne />}
+                                        {loan.currentPage === 2 && <AutoOfferStepTwo />}
+                                        {loan.currentPage === 3 && <AutoOfferStepThree />}
+                                        {loan.currentPage === 4 && <AutoOfferStepFour />}
+                                        {loan.currentPage === 5 && <AutoOfferStepFive />}
                                     </ScrollView>
                                 </View>
                             </Fragment>}
@@ -114,12 +113,12 @@ class OfferLetter extends Component {
                  </Fragment>
                     }
                 </SafeAreaView>}
-            </LoanOfferContext.Consumer>
+            </AutoLoanOfferContext.Consumer>
         )
     }
 }
 
-export default OfferLetter
+export default AutoOfferLetter
 
 const styles = StyleSheet.create({
     container: {

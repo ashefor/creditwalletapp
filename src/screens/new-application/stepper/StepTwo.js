@@ -79,7 +79,7 @@ class StepTwo extends Component {
                             disabled={loan.isLoading}
                             contentStyle={styles.button}
                             onPress={loan.goBack}
-                            style={{ backgroundColor: loan.isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
+                            style={{ backgroundColor: loan.isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '45%', marginHorizontal: resWidth(2) }}
                             labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
                             mode="contained">
                             Back
@@ -88,7 +88,7 @@ class StepTwo extends Component {
                             loading={loan.isLoading}
                             disabled={loan.isLoading}
 contentStyle={styles.button}
-                            style={{ marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
+                            style={{ marginVertical: resHeight(2), width: '45%', marginHorizontal: resWidth(2) }}
                             onPress={loan.goNext}
                             labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
                             mode="contained">

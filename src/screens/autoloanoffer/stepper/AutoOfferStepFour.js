@@ -5,7 +5,7 @@ import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode, width } from '../../../utils/utils';
 import { loanApiURL } from '../../../utils/request';
 import Toast from 'react-native-root-toast';
-import { LoanOfferContext } from '../provider/LoanOfferProvider';
+import { AutoLoanOfferContext } from '../provider/AutoLoanOfferProvider';
 import * as DocumentPicker from 'expo-document-picker';
 import { Constants } from 'react-native-unimodules';
 const axios = require('axios').default;
@@ -15,8 +15,8 @@ const banksPlaceholder = {
     color: '#9EA0A4',
 };
 
-class OfferStepFour extends Component {
-    static contextType = LoanOfferContext
+class AutoOfferStepFour extends Component {
+    static contextType = AutoLoanOfferContext
     constructor(props) {
         super(props)
         this._textInput = createRef()
@@ -74,7 +74,7 @@ class OfferStepFour extends Component {
         const { colors } = this.props.theme;
         const {passportName, isUploading, uploadPercentage, hasError, errorMsg} = this.state
         return (
-            <LoanOfferContext.Consumer>
+            <AutoLoanOfferContext.Consumer>
                 {loan => <Fragment>
                     <Toast
                         visible={hasError}
@@ -122,12 +122,12 @@ class OfferStepFour extends Component {
                     </View>
 
                 </Fragment>}
-            </LoanOfferContext.Consumer>
+            </AutoLoanOfferContext.Consumer>
         )
     }
 }
 
-export default withTheme(OfferStepFour)
+export default withTheme(AutoOfferStepFour)
 
 const styles = StyleSheet.create({
     loaninforow: {

@@ -11,7 +11,7 @@ export const request = (url, options) => {
     }
     return new Promise((resolve, reject) => {
         fetch(url, requestOptions).then(res => res.text()).then(data => {
-            
+            console.log(data);
             const parsedData = JSON.parse(data);
             console.log(parsedData)
             if (parsedData.status === "success") {

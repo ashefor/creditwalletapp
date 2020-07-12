@@ -15,9 +15,12 @@ class LoanOfferProvider extends Component {
             isAccepting: false,
             noOffer: false,
             isFetchingOffer: false,
+            isValidating: false,
+            hasError: false,
             hasFinishedFetching: false,
             applicationSuccess: false,
             idCard: '',
+            errorMsg: null,
             passport: '',
             code: null,
             email: null,
@@ -76,6 +79,35 @@ class LoanOfferProvider extends Component {
         })
     }
     
+    validateAccountDetails = () => {
+        const url = `${loanApiURL}verify/account`;
+        const account = {
+            bankcode: this.state.salary_bank_name,
+            accountnumber: this.state.salary_bank_account
+        }
+        console.log(account)
+        this.setState({ isValidating: true, hasError: false })
+         axios({
+             method: 'POST',
+             url: url,
+             data: account
+         }).then((data) => {
+             console.log(data)
+            this.setState({ isValidating: false })
+            if (data.data.status === 'success') {
+                console.log(data);
+                this._handleGoNext();
+            } else {
+                this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
+            }
+        }).catch((error) => {
+            this.setState({ isValidating: false })
+            this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+            console.log(error)
+        })
+    }
+
+
     _handleCancelApplication = () => {
         this.setState(this.initialstate, () => navigationservice.navigate('Home'))
     }
@@ -131,10 +163,11 @@ class LoanOfferProvider extends Component {
                 console.log(data);
                 this.setState({ applicationSuccess: true })
             } else {
-                alert(data.data.message ? data.data.message : 'An error has occured. Try again later')
+                this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
             }
         }).catch((error) => {
             this.setState({ isAccepting: false, applicationSuccess: false  })
+            this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
             console.log(error)
         })
     }
@@ -167,7 +200,7 @@ class LoanOfferProvider extends Component {
 
 
     render() {
-        const {currentPage, isAccepting,  hasFinishedFetching, applicationSuccess, email, code, salary_bank_name, salary_bank_account, isFetchingOffer, offerLetter, noOffer, idCard, passport} = this.state;
+        const {currentPage, hasError, errorMsg, isValidating, isAccepting,  hasFinishedFetching, applicationSuccess, email, code, salary_bank_name, salary_bank_account, isFetchingOffer, offerLetter, noOffer, idCard, passport} = this.state;
         return (
             <LoanOfferContext.Provider
             value={{
@@ -175,9 +208,12 @@ class LoanOfferProvider extends Component {
                 currentPage: currentPage,
                 isAccepting: isAccepting,
                 isFetchingOffer: isFetchingOffer,
+                isValidating: isValidating,
                 applicationSuccess: applicationSuccess,
                 hasFinishedFetching: hasFinishedFetching,
                 noOffer: noOffer,
+                hasError: hasError,
+                errorMsg: errorMsg,
                 email: email,
                 idCard: idCard,
                 passport: passport,
@@ -194,7 +230,8 @@ class LoanOfferProvider extends Component {
                 fetchLoanOffer: this._handleFetchLoanOffer,
                 setIdCard: this.setIdCard,
                 setPassport: this.setPassport,
-                complete: this._handleComplete
+                complete: this._handleComplete,
+                verifyAccount: this.validateAccountDetails
             }}
             >
                {this.props.children}

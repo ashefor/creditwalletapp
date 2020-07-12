@@ -13,6 +13,7 @@ import PickerComponent from '../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { states } from '../../../utils/states';
 import { salaryBanks } from '../../../utils/salaryBanks';
+import { Constants } from 'react-native-unimodules';
 
 const titles = [
     {
@@ -86,7 +87,7 @@ class StepFive extends Component {
                             employment information
                      </CustomText>
                         <View style={{ flex: 1 }}>
-                            <KeyboardAvoidingView behavior="position">
+                            <KeyboardAvoidingView behavior='padding'>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
 
@@ -127,7 +128,6 @@ class StepFive extends Component {
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
-
                                         mode="outlined"
                                         label='Salary Bank Account'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
@@ -139,10 +139,11 @@ class StepFive extends Component {
                                 </View>
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained" 
-                                    disabled={!loan.salary_bank_account || !loan.salary_bank_name || !loan.place_of_work}
+                                    disabled={!loan.salary_bank_account || !loan.salary_bank_name || !loan.place_of_work || loan.isValidating}
+                                    loading={loan.isValidating}
                                     contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
-                                        onPress={loan.acceptLoan}>
-                                        Complete
+                                        onPress={loan.verifyAccount}>
+                                        {loan.isValidating ? 'Applying' : 'Complete'}
                         </Button>
                                 </View>
                             </KeyboardAvoidingView>

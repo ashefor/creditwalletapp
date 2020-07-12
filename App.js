@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, I18nManager } from 'react-native';
 import { AppLoading } from 'expo';
 
 import { useFonts } from '@use-expo/font';
@@ -12,7 +12,9 @@ import navigationservice from './src/utils/navigationservice';
 import { NewLoanProvider } from './src/screens/new-application/provider/NewLoanProvider';
 import { LoanOfferProvider } from './src/screens/loanoffer/provider/LoanOfferProvider';
 import MainApp from './src/utils/Navigator';
+import { AutoLoanOfferProvider } from './src/screens/autoloanoffer/provider/AutoLoanOfferProvider';
 
+I18nManager.forceRTL(false);
 const theme = {
   ...DefaultTheme,
   roundness: 5,
@@ -54,7 +56,6 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(fontsLoaded)
     this._loadFontsAsync();
   }
   componentWillUnmount() {
@@ -65,13 +66,13 @@ render() {
    return (
     <View style={styles.container}>
     <PaperProvider theme={theme}>
-      <LoanOfferProvider>
+     <AutoLoanOfferProvider>
+     <LoanOfferProvider>
         <NewLoanProvider>
-          
-         {/* <MainApp ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/> */}
          <AppNavigation ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/>
         </NewLoanProvider>
       </LoanOfferProvider>
+     </AutoLoanOfferProvider>
     </PaperProvider>
   </View>
    )

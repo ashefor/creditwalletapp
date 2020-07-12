@@ -4,7 +4,7 @@ import { TextInput, Button, withTheme } from 'react-native-paper';
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont } from '../../../utils/utils';
 import { salaryBanks } from '../../../utils/salaryBanks';
-import { LoanOfferContext } from '../provider/LoanOfferProvider';
+import { AutoLoanOfferContext } from '../provider/AutoLoanOfferProvider';
 import * as DocumentPicker from 'expo-document-picker';
 import PickerComponent from '../../../components/PickerComponent';
 
@@ -14,7 +14,7 @@ const banksPlaceholder = {
     color: '#9EA0A4',
 };
 
-class OfferStepTwo extends Component {
+class AutoOfferStepTwo extends Component {
     constructor(props) {
         super(props)
         this._textInput = createRef()
@@ -56,7 +56,7 @@ class OfferStepTwo extends Component {
     render() {
         const { colors } = this.props.theme
         return (
-            <LoanOfferContext.Consumer>
+            <AutoLoanOfferContext.Consumer>
                 {loan => <Fragment>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
@@ -103,12 +103,12 @@ class OfferStepTwo extends Component {
                     </View>
 
                 </Fragment>}
-            </LoanOfferContext.Consumer>
+            </AutoLoanOfferContext.Consumer>
         )
     }
 }
 
-export default withTheme(OfferStepTwo)
+export default withTheme(AutoOfferStepTwo)
 
 const styles = StyleSheet.create({
     loaninforow: {

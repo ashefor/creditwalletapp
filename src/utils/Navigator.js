@@ -12,6 +12,7 @@ import Splashscreen from '../screens/SplashScreen';
 import GetStartedScreen from '../screens/new-application/GetStarted';
 import NewApplicationBaseScreen from '../screens/new-application/stepper/NewApplicationBaseScreen';
 import OfferLetter from '../screens/loanoffer/stepper/OfferLetter';
+import AutoOfferLetter from '../screens/autoloanoffer/stepper/AutoOfferLetter';
 
 const AppNavigation = createSwitchNavigator({
     Loading: {
@@ -23,6 +24,10 @@ const AppNavigation = createSwitchNavigator({
     'Offer Letter': {
         screen: OfferLetter,
         path: 'offerletter/:loanid'
+    },
+    'Offer': {
+        screen: AutoOfferLetter,
+        path: 'offer/:loanid'
     },
     Auth: {
         screen: AuthStack

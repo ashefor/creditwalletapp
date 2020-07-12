@@ -1,17 +1,10 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
-import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
-import { loanApiURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
-import Loader from '../../../components/Loader';
-import { salaryBanks } from '../../../utils/salaryBanks';
 import { LoanOfferContext } from '../provider/LoanOfferProvider';
-import * as DocumentPicker from 'expo-document-picker';
-import PickerComponent from '../../../components/PickerComponent';
 
 const banksPlaceholder = {
     label: 'Salary Bank Name',
@@ -30,7 +23,7 @@ class OfferStepFive extends Component {
         const { colors } = this.props.theme
         return (
             <LoanOfferContext.Consumer>
-                {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                {loan => <Fragment>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
                         Please use the code that was sent to your email or phone number to authorize the transaction
@@ -59,7 +52,8 @@ class OfferStepFive extends Component {
                                 </View>
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained"
-                                        disabled={!loan.code}
+                                        disabled={!loan.code || loan.isAccepting}
+                                        loading={loan.isAccepting}
                                         contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.complete}>
                                         Complete
@@ -70,7 +64,7 @@ class OfferStepFive extends Component {
 
                     </View>
 
-                </TouchableWithoutFeedback>}
+                </Fragment>}
             </LoanOfferContext.Consumer>
         )
     }

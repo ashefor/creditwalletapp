@@ -461,7 +461,7 @@ class HomeScreen extends Component {
                         <Snackbar
                             visible={snackBarVisible}
                             onDismiss={this._onDismissSnackBar}
-                            style={{backgroundColor: '#f56b2a',}}
+                            style={{backgroundColor: '#f56b2a', color: '#fff'}}
                         >
                             Email Successfully Sent
                             </Snackbar>

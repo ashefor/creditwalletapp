@@ -45,11 +45,11 @@ class StepOne extends Component {
                                     fontSize: resFont(15),
                                     textAlign: 'center', fontFamily: 'Baloo-med'
                                 }}>
-                                    {loan.duration} month{loan.duration > 1 ? 's' : ''}
+                                    {loan.duration} months
                                 </CustomText>
                                 <Slider
                                     style={{ width: '100%', marginVertical: resHeight(3), height: 40 }}
-                                    minimumValue={1}
+                                    minimumValue={2}
                                     maximumValue={24}
                                     onValueChange={(duration) => loan.setDuration(duration)}
                                     onSlidingComplete={(duration) => loan.setDuration(duration)}

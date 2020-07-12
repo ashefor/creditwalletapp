@@ -66,7 +66,7 @@ class LoginScreen extends Component {
                     <Appbar.Action
                         />
                 </Appbar.Header>
-                <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/>
+                {/* <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/> */}
                 <ScrollView  style={{flex: 1}} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         <View style={{ marginTop: resHeight(1) }}>
@@ -74,7 +74,7 @@ class LoginScreen extends Component {
                         <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Kindly provide your username and password to access your account</CustomText>
                         {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>}
                             <TextInput
-                                style={{marginTop: resHeight(1) }}
+                                style={{marginTop: resHeight(1), backgroundColor: 'white'  }}
                                 label='Username'
                                 value={username}
                                 mode="outlined"
@@ -84,7 +84,7 @@ class LoginScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{marginTop: resHeight(1) }}
+                                style={{marginTop: resHeight(1), backgroundColor: 'white'  }}
                                 label='Password'
                                 mode="outlined"
                                 value={password}
@@ -95,8 +95,10 @@ class LoginScreen extends Component {
                                 style={{ marginTop: resHeight(2) }}
                                 labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
                                 contentStyle={styles.loginbtn}
+                                loading={isLoading}
+                                disabled={isLoading}
                                 mode="contained" onPress={this.handleLogin}>
-                                Login
+                                {isLoading? 'Logging in' : 'Login'}
                 </Button>
                 <Button
                 style={{marginTop: resHeight(3)}}

@@ -13,14 +13,20 @@ class NewLoanProvider extends Component {
         this.initialstate = {
             currentPage:1,
             amount: '',
-            duration: 1,
+            duration: 2,
             isApplying: false,
             isLoading: false,
             applicationSuccess: false,
             showDatePicker: false,
+            isValidating: false,
+            automate: false,
+            falseautomate: false,
+            processing: false,
+            hasError: false,
             loanOffer: null,
             firstname: null,
             lastname: null,
+            errorMsg: null,
             telephone: null,
             referralcode: '',
             email: null,
@@ -139,6 +145,33 @@ class NewLoanProvider extends Component {
         })
     }
 
+    validateAccountDetails = () => {
+        const url = `${loanApiURL}verify/account`;
+        const account = {
+            bankcode: this.state.salary_bank_name,
+            accountnumber: this.state.salary_bank_account
+        }
+        console.log(account)
+        this.setState({ isValidating: true, hasError: false })
+         axios({
+             method: 'POST',
+             url: url,
+             data: account
+         }).then((data) => {
+             console.log(data)
+            this.setState({ isValidating: false })
+            if (data.data.status === 'success') {
+                console.log(data);
+                this._handleAcceptLoan();
+            } else {
+                this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
+            }
+        }).catch((error) => {
+            this.setState({ isValidating: false })
+            this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+            console.log(error)
+        })
+    }
     _handleCancelApplication = () => {
         this.setState(this.initialstate, ()=> navigationservice.navigate('Auth'))
     }
@@ -178,10 +211,11 @@ class NewLoanProvider extends Component {
                 // console.log(data);
                 this.setState({ loanOffer: data.data, currentPage: 2 })
             } else {
-                alert(data.message ? data.message : 'An error has occured. Try again later')
+                this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
             }
         }).catch((error) => {
             this.setState({ isApplying: false })
+            this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
             // console.log(error)
         })
     }
@@ -211,27 +245,29 @@ class NewLoanProvider extends Component {
                 dob: dob.toDateString(),
                 referralcode: referralcode
             }
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(loan),
-            }
-            // console.log(loan)
+            console.log(loan)
             this.setState({ isLoading: true })
             axios({
                 method: 'POST',
                 url: url,
                 data: loan
             }).then((data) => {
-                console.log(data);
+                console.log(data.data);
                 this.setState({ isLoading: false })
                 if (data.data.status === 'success') {
                     this.setState({ applicationSuccess: true })
+                    if (data.data.returnstatus) {
+                        this.setState({ automate: true, processing: true }, () => navigationservice.navigate('Offer', {loanid: data.data.id}))
+                    } else {
+                        this.setState({ falseautomate: true })
+                    }
                 } else {
-                    alert(data.data.message ? data.data.message : 'An error has occured. Try again later')
+                    this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
                 }
             }).catch((error) => {
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
+                this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
                 // console.log(`this is the error -> ${error}`)
             })
             // request(url, options).then((data) => {
@@ -249,7 +285,7 @@ class NewLoanProvider extends Component {
 
 
     render() {
-        const {currentPage, amount, duration, isApplying, loanOffer, isLoading, applicationSuccess, firstname, lastname, category, title, gender, date, dob, email, telephone, address, city, selectedState, place_of_work, ippisnumber, salary_bank_name, salary_bank_account, referralcode, showDatePicker} = this.state;
+        const {currentPage, amount, duration, isApplying, loanOffer, isLoading, applicationSuccess, firstname, lastname, category, title, gender, date, dob, email, telephone, address, city, selectedState, place_of_work, ippisnumber, salary_bank_name, salary_bank_account, referralcode, showDatePicker, isValidating, hasError, errorMsg, automate, falseautomate, processing} = this.state;
         return (
             <LoanContext.Provider
             value={{
@@ -262,11 +298,17 @@ class NewLoanProvider extends Component {
                 showDatePicker: showDatePicker,
                 dob: dob,
                 date: date,
+                errorMsg: errorMsg,
                 firstname: firstname,
                 lastname: lastname,
                 isLoading: isLoading,
                 currentPage: currentPage,
+                automate,
+                falseautomate,
+                processing,
                 isApplying: isApplying,
+                isValidating: isValidating,
+                hasError: hasError,
                 applicationSuccess: applicationSuccess,
                 email: email,
                 address: address,
@@ -305,6 +347,7 @@ class NewLoanProvider extends Component {
                 dateOnChange: this.dateOnChange,
                 closeDatePicker: this.closeDatePicker,
                 setShowDatePicker: this.setShowDatePicker,
+                verifyAccount: this.validateAccountDetails
             }}
             >
                {this.props.children}

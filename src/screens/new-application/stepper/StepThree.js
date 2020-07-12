@@ -139,7 +139,7 @@ class StepThree extends Component {
         }, 100)
     };
 
-    _handleHideDatePicker = () => {
+    _handleHideDatePicker = (loan) => {
         this.setState({showDatePicker: false}, this.handleDatePickerBlur())
     }
 
@@ -149,6 +149,11 @@ class StepThree extends Component {
 
         const handleCloseModal = (loan) => {
             loan.confirmDatePicker()
+            loan.closeDatePicker()
+            this.handleDatePickerBlur()
+        }
+
+        const closeDatePicker =(loan) => {
             loan.closeDatePicker()
             this.handleDatePickerBlur()
         }
@@ -169,12 +174,12 @@ class StepThree extends Component {
             <LoanContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
+                        <View style={{ flex: 1 }}>
+                            <KeyboardAvoidingView>
+                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
         textTransform: 'uppercase'}}>
                             personal information
                      </CustomText>
-                        <View style={{ flex: 1 }}>
-                            <KeyboardAvoidingView behavior="position">
                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
                                     <TextInput
                                         ref={this._textInput}
@@ -230,7 +235,7 @@ class StepThree extends Component {
                                         value={loan.dob && new Date(loan.dob).toLocaleDateString()}
                                     />
 
-                                   {Platform.OS === 'ios' &&  <Modal visible={loan.showDatePicker} transparent={true} onRequestClose={this._handleHideDatePicker} >
+                                   {Platform.OS === 'ios' &&  <Modal visible={loan.showDatePicker} transparent={true} onRequestClose={() => closeDatePicker(loan)} >
                                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
                                  <View style={{width: resWidth(95), marginBottom: 20}}>
                                  <View style={{backgroundColor: 'white', borderRadius: 10}}>
@@ -256,7 +261,7 @@ class StepThree extends Component {
                                   </View>
                                   <View style={{marginVertical: 10}}>
                                   <Button mode="contained" style={{backgroundColor: '#fff', borderRadius: 10, overflow: 'hidden'}} contentStyle={styles.datePickerBtn} labelStyle={{ textTransform: 'none', fontSize: 17, fontFamily: 'Baloo-med', color: '#f56b2a' }}
-                                        onPress={this._handleHideDatePicker}>
+                                        onPress={() => closeDatePicker(loan)}>
                                         Cancel
                         </Button>
                                   </View>
