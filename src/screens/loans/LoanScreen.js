@@ -9,6 +9,7 @@ import CurrentLoan from '../../components/CurrentLoan';
 import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
 import CustomText from '../../components/CustomText';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -117,7 +118,7 @@ class LoanScreen extends Component {
         }
 
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+            <CustomSafeAreaView style={{flex:1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -151,7 +152,7 @@ class LoanScreen extends Component {
                         icon="plus"
                         onPress={() => // console.log('Pressed')}
                     /> */}
-            </SafeAreaView>
+            </CustomSafeAreaView>
         )
     }
 }

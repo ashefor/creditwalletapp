@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 
 import * as React from 'react';
 import { Platform, StyleSheet, Text, View, I18nManager } from 'react-native';
+import * as Linking from 'expo-linking'
 import { AppLoading } from 'expo';
 
 import { useFonts } from '@use-expo/font';
@@ -57,9 +58,30 @@ export default class App extends React.Component {
 
   componentDidMount() {
     this._loadFontsAsync();
+    Linking.getInitialURL().then(data => this.goToLink(data))
+
+    Linking.addEventListener('url' , (data) => {
+      this.handleOpenURL(data)
+    })
+  }
+
+  handleOpenURL = (event) => { // D
+    this.goToLink(event.url);
+  }
+
+  goToLink = (url) => {
+    const route = url.replace(/.*?:\/\//g, '');
+    const id = route.match(/\/([^\/]+)\/?$/)[1];
+    const routeName = route.split('/')[0]
+    if (routeName === 'offerletter') {
+      navigationservice.navigate('Offer Letter', {loanid: id})
+    } else if (routeName === 'offerletter') {
+      navigationservice.navigate('Offer', {loanid: id})
+    }
   }
   componentWillUnmount() {
-    this._isMounted = false
+    this._isMounted = false;
+    Linking.removeEventListener('url', this.handleOpenURL);
   }
 render() {
   if(this.state.fontsLoaded) {

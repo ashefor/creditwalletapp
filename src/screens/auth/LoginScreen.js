@@ -6,6 +6,7 @@ import { apiURL, request } from '../../utils/request';
 import Loader from '../../components/Loader';
 import { setToken, setUser } from '../../utils/storage';
 import CustomText from '../../components/CustomText';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
 
 
@@ -54,7 +55,8 @@ class LoginScreen extends Component {
         const {username, password, isLoading, errorMsg} = this.state;
         const {colors} = this.props.theme
         return (
-            <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+            <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
+            <View style={{ flex: 1}}>
                 <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
@@ -112,6 +114,7 @@ class LoginScreen extends Component {
                     </View>
                 </ScrollView>
             </View>
+            </CustomSafeAreaView>
 
 
         )

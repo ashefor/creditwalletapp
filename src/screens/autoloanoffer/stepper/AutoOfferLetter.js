@@ -16,6 +16,7 @@ import AutoOfferStepTwo from './AutoOfferStepTwo';
 import AutoOfferStepThree from './AutoOfferStepThree';
 import AutoOfferStepFour from './AutoOfferStepFour';
 import AutoOfferStepFive from './AutoOfferStepFive';
+import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 
 class AutoOfferLetter extends Component {
     _isMounted = false;
@@ -43,7 +44,8 @@ class AutoOfferLetter extends Component {
     render() {
         return (
             <AutoLoanOfferContext.Consumer>
-                {loan => <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                
+                {loan => <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
                 <Toast
                         visible={loan.hasError}
                         position={Constants.statusBarHeight}
@@ -112,7 +114,7 @@ class AutoOfferLetter extends Component {
                      </View>
                  </Fragment>
                     }
-                </SafeAreaView>}
+                </CustomSafeAreaView>}
             </AutoLoanOfferContext.Consumer>
         )
     }

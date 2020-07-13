@@ -11,6 +11,7 @@ import { Divider, List, Appbar, Button, Surface } from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
 import { signOut } from '../../utils/storage';
 import { color } from 'react-native-reanimated';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
 class GetStartedScreen extends Component {
 
@@ -19,7 +20,7 @@ class GetStartedScreen extends Component {
     }
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+            <CustomSafeAreaView style={{flex:1,backgroundColor: '#f5fcff' }}>
                 <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction onPress={() => this.props.navigation.navigate('Auth')}
                     />
@@ -58,7 +59,7 @@ class GetStartedScreen extends Component {
                         </Button>
                     </View>
                 </View>
-            </SafeAreaView>
+            </CustomSafeAreaView>
         )
     }
 }

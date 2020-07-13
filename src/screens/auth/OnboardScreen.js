@@ -7,6 +7,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import OnboardCarousel from '../../components/OnboardCarousel';
 import CustomText from '../../components/CustomText';
 import { Constants } from 'react-native-unimodules';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 class OnboardScreen extends Component {
     constructor(props) {
         super(props)
@@ -14,8 +15,9 @@ class OnboardScreen extends Component {
     render() {
         const { colors } = this.props.theme;
         return (
+            <CustomSafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
             <View style={styles.page}>
-                <SafeAreaView />
+                {/* <SafeAreaView /> */}
                 <View style={styles.avatarContainer}>
                     <Avatar.Image style={styles.avatar} size={40} source={require('../../assets/images/logo.png')} />
                     <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-semi-bold' }}>Credit Wallet</CustomText>
@@ -42,8 +44,8 @@ class OnboardScreen extends Component {
                     </TouchableWithoutFeedback>
                 </View>
 
-                <SafeAreaView />
             </View>
+                </CustomSafeAreaView>
         )
     }
 }
@@ -59,7 +61,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f5fcff',
         fontFamily: 'Baloo',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginTop: Constants.statusBarHeight
         // justifyContent: 'flex-end'
     },
     avatarContainer: {

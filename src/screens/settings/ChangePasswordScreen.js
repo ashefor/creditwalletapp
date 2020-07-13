@@ -77,7 +77,7 @@ class ChangePasswordScreen extends Component {
                         {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>}
                         <TextInput
                                 secureTextEntry
-                                style={{marginTop: resHeight(1) }}
+                                style={{marginTop: resHeight(1), backgroundColor: 'white' }}
                                 mode='outlined'
                                 label='Old Password'
                                 value={oldPassword}
@@ -86,7 +86,7 @@ class ChangePasswordScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{marginTop: resHeight(1) }}
+                                style={{marginTop: resHeight(1), backgroundColor: 'white' }}
                                 mode='outlined'
                                 label='New Password'
                                 value={newPassword}

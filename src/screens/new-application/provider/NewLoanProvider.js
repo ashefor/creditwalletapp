@@ -28,7 +28,7 @@ class NewLoanProvider extends Component {
             lastname: null,
             errorMsg: null,
             telephone: null,
-            referralcode: '',
+            referralcode: null,
             email: null,
             city: null,
             address: null,
@@ -243,7 +243,7 @@ class NewLoanProvider extends Component {
                 monthly_repayment: loanOffer.monthlyrepayment,
                 tenor: duration,
                 dob: dob.toDateString(),
-                referralcode: referralcode
+                refferalcode: referralcode ? referralcode : 0
             }
             console.log(loan)
             this.setState({ isLoading: true })

@@ -8,13 +8,14 @@ import { resWidth, resHeight, resFont, getBankCode } from '../../utils/utils';
 import { loanApiURL, requestWithToken } from '../../utils/request';
 import { getUser } from '../../utils/storage';
 import Loader from '../../components/Loader';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
 class NewLoanScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
             amount: '',
-            duration: 1,
+            duration: 2,
             isApplying: false,
             isLoading: false,
             loanOffer: null,
@@ -84,16 +85,16 @@ class NewLoanScreen extends Component {
                 method: 'POST',
                 body: JSON.stringify(loanData),
             }
-            this.setState({isLoading: true})
+            this.setState({ isLoading: true })
             requestWithToken(url, options).then((data) => {
                 this.setState({ isLoading: false })
                 if (data.status === 'success') {
                     // console.log(data);
-                    this.setState({applicationSuccess: true})
+                    this.setState({ applicationSuccess: true })
                 }
             }).catch((error) => {
                 this.setState({ isLoading: false })
-                this.setState({applicationSuccess: false})
+                this.setState({ applicationSuccess: false })
                 // console.log(error)
             })
         }
@@ -109,25 +110,25 @@ class NewLoanScreen extends Component {
         const { colors } = this.props.theme
         return (
             <View
-                style={{flex: 1, backgroundColor: '#fff'}}>
-                <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-                    <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
-                        <Appbar.BackAction onPress={()=> this.props.navigation.goBack()}/>
+                style={{ flex: 1, backgroundColor: '#fff' }}>
+                <CustomSafeAreaView style={{flex:1, backgroundColor: '#f5fcff' }}>
+                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                        <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                        subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                        title="New Loan"
-                    />
-                    <Appbar.Action />
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            title="New Loan"
+                        />
+                        <Appbar.Action />
                     </Appbar.Header>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         {applicationSuccess ? (
-                            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                                <View style={{marginBottom: resHeight(2)}}>
-                                <FontAwesome name="thumbs-o-up" size={30} color="#f56b2a" />
-                                    </View>
-                                <CustomText style={{fontSize: resFont(20), fontFamily: 'Baloo-semi-bold', textAlign: 'center'}}>Loan Application submitted successfully. Kindly await a response from our team</CustomText>
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <View style={{ marginBottom: resHeight(2) }}>
+                                    <FontAwesome name="thumbs-o-up" size={30} color="#f56b2a" />
                                 </View>
+                                <CustomText style={{ fontSize: resFont(20), fontFamily: 'Baloo-semi-bold', textAlign: 'center' }}>Loan Application submitted successfully. Kindly await a response from our team</CustomText>
+                            </View>
                         ) : <View>
                                 {loanOffer ? (
                                     <View>
@@ -178,7 +179,7 @@ class NewLoanScreen extends Component {
                                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
                                             <Button
                                                 disabled={isLoading}
-contentStyle={styles.button}
+                                                contentStyle={styles.button}
                                                 onPress={this._handleGoBack}
                                                 style={{ backgroundColor: isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
                                                 labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
@@ -218,14 +219,15 @@ contentStyle={styles.button}
                                                     For how long?
                              </CustomText>
                                                 <View style={{ marginVertical: resHeight(1) }}>
-                                                    <CustomText style={{ 
+                                                    <CustomText style={{
                                                         fontSize: resFont(15),
-                                                        textAlign: 'center', fontFamily: 'Baloo-med' }}>
-                                                        {duration} month{duration > 1 ? 's' : ''}
+                                                        textAlign: 'center', fontFamily: 'Baloo-med'
+                                                    }}>
+                                                        {duration} months
                                                     </CustomText>
                                                     <Slider
-                                                        style={{ width: '100%', marginVertical: resHeight(3),   height: 40 }}
-                                                        minimumValue={1}
+                                                        style={{ width: '100%', marginVertical: resHeight(3), height: 40 }}
+                                                        minimumValue={2}
                                                         maximumValue={24}
                                                         onValueChange={(duration) => this.setState({ duration })}
                                                         value={duration}
@@ -249,9 +251,9 @@ contentStyle={styles.button}
                                         </View>
                                     )}
                             </View>}
-                        <SafeAreaView />
+                        <CustomSafeAreaView />
                     </View>
-                </SafeAreaView>
+                </CustomSafeAreaView>
             </View>
         )
     }

@@ -9,6 +9,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
 import LiquidateLoan from '../liquidate/LiquidateLoan';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
 class LoanDetails extends Component {
     _isMounted = false;
@@ -87,7 +88,7 @@ class LoanDetails extends Component {
         const { colors } = this.props.theme;
         const { isLoading, loan, loanType, visible, singleLoan, loan_id, showLiquidation, hasError } = this.state;
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff', }}>
+            <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff', }}>
                 <Loader isLoading={isLoading} />
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -242,11 +243,11 @@ class LoanDetails extends Component {
                                 </View>
                             </View>
                         </View>
-                        <SafeAreaView />
+                        <CustomSafeAreaView />
                     </View>
 
                 </RBSheet>
-            </SafeAreaView>
+            </CustomSafeAreaView>
         )
     }
 }

@@ -11,6 +11,7 @@ import { resWidth, resFont, resHeight } from '../../utils/utils';
 import { Divider, List, Appbar } from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
 import { signOut } from '../../utils/storage';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
 class SettingScreen extends Component {
 
@@ -19,7 +20,7 @@ class SettingScreen extends Component {
     }
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff'}}>
+            <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff'}}>
                  <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     
                     <Appbar.Content
@@ -43,17 +44,8 @@ class SettingScreen extends Component {
                         onPress={() => signOut()}
                         left={props => <List.Icon {...props} icon="exit-to-app" color={'red'} />}
                     />
-                    {/* <Divider/> */}
-                    {/* <TouchableWithoutFeedback onPress={()=> this.props.navigation.navigate('Auth')} style={{paddingHorizontal: 10}}>
-                        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',  paddingVertical: 10}}>
-                           <View style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
-                           <AntDesign name='logout' size={25} color='red'/>
-                            <CustomText style={{marginHorizontal: 10, fontSize: resFont(15), fontFamily: 'Baloo', color: 'red' }}>Sign Out</CustomText>
-                           </View>
-                        </View>
-                    </TouchableWithoutFeedback> */}
                 </ScrollView>
-            </SafeAreaView>
+            </CustomSafeAreaView>
         )
     }
 }

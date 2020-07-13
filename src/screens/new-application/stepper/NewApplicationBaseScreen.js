@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, TouchableWithoutFeedback, Platform, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Platform, Image, StyleSheet, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-navigation';
 import {
     Feather
@@ -18,6 +18,7 @@ import StepThree from './StepThree';
 import StepFour from './StepFour';
 import StepFive from './StepFive';
 import Loader from '../../../components/Loader';
+import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 
 class NewApplicationBaseScreen extends Component {
     _handleCancel = () => {
@@ -26,7 +27,7 @@ class NewApplicationBaseScreen extends Component {
     render() {
         return (
             <LoanContext.Consumer>
-                {loan => <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                {loan => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Toast
                         visible={loan.hasError}
                         position={Constants.statusBarHeight}
@@ -92,7 +93,7 @@ class NewApplicationBaseScreen extends Component {
                                 </View>
                             </Fragment>}
                     </Fragment>
-                </SafeAreaView>}
+                </CustomSafeAreaView>}
             </LoanContext.Consumer>
         )
     }

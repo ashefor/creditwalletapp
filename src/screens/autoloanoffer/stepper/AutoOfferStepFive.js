@@ -42,56 +42,56 @@ class AutoOfferStepFive extends Component {
                                 </View>
                                 <CustomText style={{ fontSize: resFont(15),  width: '50%', textAlign: 'right', fontFamily: 'Baloo' }}>{loan.offerLetter.loan.firstname} {loan.offerLetter.loan.lastname}</CustomText>
                             </View>
-                            <Divider />
+                            <Divider style={{backgroundColor: colors.primary}}/>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start', width: '50%' }}>
                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Borrower Employer</CustomText>
                                 </View>
                                 <CustomText style={{ fontSize: resFont(15), width: '50%', fontFamily: 'Baloo', textAlign: 'right' }}>{loan.offerLetter.loan.place_of_work} </CustomText>
                             </View>
-                            <Divider />
+                            <Divider style={{backgroundColor: colors.primary}}/>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start', width: '50%' }}>
                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Amount</CustomText>
                                 </View>
                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' , width: '50%', textAlign: 'right', }}>{this.formatAsCurrency(loan.loan_amount)}</CustomText>
                             </View>
-                            <Divider />
+                            <Divider style={{backgroundColor: colors.primary}}/>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start', width: '50%' }}>
                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Duration</CustomText>
                                 </View>
                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo', width: '50%', textAlign: 'right', }}>{loan.duration} months</CustomText>
                             </View>
-                            <Divider />
+                            <Divider style={{backgroundColor: colors.primary}}/>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start', width: '50%' }}>
                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Monthly Repayment</CustomText>
                                 </View>
                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo', width: '50%', textAlign: 'right', }}>{this.formatAsCurrency(loan.monthlyrepayment)}</CustomText>
                             </View>
-                            <Divider />
+                            <Divider style={{backgroundColor: colors.primary}}/>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start', width: '50%' }}>
                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Interest rate</CustomText>
                                 </View>
                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo', width: '50%', textAlign: 'right', }}>7.5% per month (i.e 0.25% per day porated</CustomText>
                             </View>
-                            <Divider />
+                            <Divider style={{backgroundColor: colors.primary}}/>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med',textAlign: 'right', }}>Number of repayments</CustomText>
                                 </View>
                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{loan.duration}</CustomText>
                             </View>
-                            <Divider />
+                            <Divider style={{backgroundColor: colors.primary}}/>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start', width: '70%', textAlign: 'left' }}>
                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Insurance</CustomText>
                                 </View>
                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo', textAlign: 'right', }}>{this.formatAsCurrency(loan.insurance)}</CustomText>
                             </View>
-                            <Divider />
+                            <Divider style={{backgroundColor: colors.primary}}/>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Disbursement Fees</CustomText>

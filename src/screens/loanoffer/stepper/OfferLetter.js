@@ -18,6 +18,7 @@ import OfferStepTwo from './OfferStepTwo';
 import OfferStepThree from './OfferStepThree';
 import OfferStepFour from './OfferStepFour';
 import OfferStepFive from './OfferStepFive';
+import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 
 class OfferLetter extends Component {
     _isMounted = false;
@@ -47,7 +48,7 @@ class OfferLetter extends Component {
     render() {
         return (
             <LoanOfferContext.Consumer>
-                {loan => <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                {loan => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Toast
                         visible={loan.hasError}
                         position={Constants.statusBarHeight}
@@ -113,7 +114,7 @@ class OfferLetter extends Component {
                      </View>
                  </Fragment>
                     }
-                </SafeAreaView>}
+                </CustomSafeAreaView>}
             </LoanOfferContext.Consumer>
         )
     }

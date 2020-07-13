@@ -8,6 +8,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handler';
 import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
 
 class LiquidateLoan extends Component {
@@ -87,7 +88,7 @@ class LiquidateLoan extends Component {
         const { closeModal, loan_id } = this.props
         const { colors } = this.props.theme
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -98,7 +99,7 @@ class LiquidateLoan extends Component {
                     </View>
                 </Fragment>}
                 {loan && <Fragment>
-                    <Appbar.Header style={{ backgroundColor: 'white', elevation: 0 }}>
+                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
@@ -242,7 +243,7 @@ class LiquidateLoan extends Component {
                         </RBSheet>
                     </View>
                 </Fragment>}
-            </SafeAreaView>
+            </CustomSafeAreaView>
         )
     }
 }

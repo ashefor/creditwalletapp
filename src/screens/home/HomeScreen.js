@@ -11,6 +11,7 @@ import Loader from '../../components/Loader';
 import LiquidateLoan from '../liquidate/LiquidateLoan';
 import { Constants } from 'react-native-unimodules';
 import NewLoanScreen from './NewLoanScreen';
+import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
 const { width } = Dimensions.get('window')
 class HomeScreen extends Component {
@@ -206,7 +207,7 @@ class HomeScreen extends Component {
         const { username, isOpenLoans, isErrorLoans, isLoading, dashboard, visible, email, showNewLoanModal, hasError, isSending, letterType, dialog, errorMsg, snackBarVisible } = this.state;
         const { colors } = this.props.theme
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+            <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -258,7 +259,7 @@ class HomeScreen extends Component {
                                 animationType='slide'
                                 contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
                                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
-                                    <SafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                                    <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                                         <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                                             <Appbar.Action icon="close" onPress={this._hideModal} />
                                         </Appbar.Header>
@@ -270,6 +271,7 @@ class HomeScreen extends Component {
                                                 <TextInput
                                                     autoCapitalize={'none'}
                                                     label='Email'
+                                                    style={{backgroundColor: 'white'}}
                                                     value={email}
                                                     mode={'outlined'}
                                                     ref={this.textInputRef}
@@ -285,14 +287,14 @@ class HomeScreen extends Component {
                                                     {isSending ? 'Sending' : 'Get my letter'}
                                                 </Button>
                                             </View>
-                                            <SafeAreaView />
+                                            <CustomSafeAreaView />
                                         </View>
-                                    </SafeAreaView>
+                                    </CustomSafeAreaView>
                                 </TouchableWithoutFeedback>
                             </Modal>
                         </Portal>
                         <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
-                            <SafeAreaView />
+                            {/* <CustomSafeAreaView /> */}
                             <View style={styles.header}>
                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>
                                     Welcome, {username}
@@ -466,7 +468,7 @@ class HomeScreen extends Component {
                             Email Successfully Sent
                             </Snackbar>
                     </Fragment>}
-            </SafeAreaView>
+                    </CustomSafeAreaView>
         )
     }
 }
