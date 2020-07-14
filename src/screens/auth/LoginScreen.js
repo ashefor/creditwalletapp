@@ -55,9 +55,9 @@ class LoginScreen extends Component {
         const {username, password, isLoading, errorMsg} = this.state;
         const {colors} = this.props.theme
         return (
-            <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
+            <CustomSafeAreaView style={{backgroundColor: '#f5fcff' }}>
             <View style={{ flex: 1}}>
-                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />

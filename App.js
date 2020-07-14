@@ -70,13 +70,16 @@ export default class App extends React.Component {
   }
 
   goToLink = (url) => {
+    // alert(url)
     const route = url.replace(/.*?:\/\//g, '');
-    const id = route.match(/\/([^\/]+)\/?$/)[1];
     const routeName = route.split('/')[0]
+    const id = route.split('/')[1]
     if (routeName === 'offerletter') {
       navigationservice.navigate('Offer Letter', {loanid: id})
-    } else if (routeName === 'offerletter') {
+    } else if (routeName === 'offer') {
       navigationservice.navigate('Offer', {loanid: id})
+    } else {
+
     }
   }
   componentWillUnmount() {

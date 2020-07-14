@@ -41,12 +41,6 @@ const AppNavigation = createSwitchNavigator({
     'Liquidate Loan': {
         screen: LiquidateLoan
     }
-}, {
-    defaultNavigationOptions: {
-        cardStyle: {
-            paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
-        },
-    }
 })
 
 const App = createAppContainer(AppNavigation)

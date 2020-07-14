@@ -99,7 +99,7 @@ class LiquidateLoan extends Component {
                     </View>
                 </Fragment>}
                 {loan && <Fragment>
-                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
                         <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}

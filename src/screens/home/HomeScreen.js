@@ -259,8 +259,8 @@ class HomeScreen extends Component {
                                 animationType='slide'
                                 contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
                                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
-                                    <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                                        <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                                    <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                                        <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                                             <Appbar.Action icon="close" onPress={this._hideModal} />
                                         </Appbar.Header>
                                         <View style={{ alignSelf: 'center', width: resWidth(90) }}>
@@ -287,9 +287,9 @@ class HomeScreen extends Component {
                                                     {isSending ? 'Sending' : 'Get my letter'}
                                                 </Button>
                                             </View>
-                                            <CustomSafeAreaView />
+                                            <View />
                                         </View>
-                                    </CustomSafeAreaView>
+                                    </View>
                                 </TouchableWithoutFeedback>
                             </Modal>
                         </Portal>
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     },
     header: {
         height: resHeight(5),
-        marginTop: Platform.OS === 'android' ? Constants.statusBarHeight + resHeight(3) : Constants.statusBarHeight,
+        marginTop: Constants.statusBarHeight,
         // backgroundColor: 'blue',
         justifyContent: 'space-between',
         display: 'flex',

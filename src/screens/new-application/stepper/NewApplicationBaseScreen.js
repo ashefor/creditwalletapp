@@ -40,17 +40,18 @@ class NewApplicationBaseScreen extends Component {
                     <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
-                                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     <Appbar.BackAction onPress={loan.cancel}/>
                                     <Appbar.Action />
                                 </Appbar.Header>
                                 {loan.falseautomate && <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(5) }}>
-                                            <Image
+                                            {/* <Image
                                                 style={{ width: 50, height: 50, alignSelf: 'center' }}
                                                 source={require('../../../assets/images/success.gif')}
-                                            />
+                                            /> */}
+                                            <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={24} color="#f56b2a" />
                                         </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Application submitted successfully. Kindly await a response from our team!</CustomText>
                                     </Surface>
@@ -58,10 +59,10 @@ class NewApplicationBaseScreen extends Component {
                                 {loan.automate && <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                    {loan.processing &&  <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(5) }}>
-                                            <Image
+                                            {/* <Image
                                                 style={{ width: 50, height: 50, alignSelf: 'center' }}
                                                 source={require('../../../assets/images/success.gif')}
-                                            />
+                                            /> */}
                                         </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Processing... please wait</CustomText>
                                     </Surface>}
@@ -72,7 +73,7 @@ class NewApplicationBaseScreen extends Component {
                             </Fragment> :
 
                             <Fragment>
-                                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     {loan.currentPage > 1 && <Appbar.BackAction onPress={loan.goBack}
                                     />}
                                     <Appbar.Action icon="close" onPress={loan.cancel} />

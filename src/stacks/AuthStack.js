@@ -10,7 +10,8 @@ const AuthStack = createStackNavigator({
         screen: LoginScreen,
         navigationOptions: {
             headerTransparent: true,
-            headerShown: false
+            headerShown: false,
+            headerTitle: 'Header'
         }
     },
     'Forgot Password': {
@@ -37,7 +38,6 @@ const AuthStack = createStackNavigator({
 }, {
     initialRouteName: 'Onboard',
     mode: 'card',
-    headerMode: 'none'
 })
 
 export default AuthStack

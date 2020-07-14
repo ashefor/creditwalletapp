@@ -62,7 +62,7 @@ class ForgotPasswordScreen extends Component {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
             <View style={{flex: 1}}>
-                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />

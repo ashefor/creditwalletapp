@@ -21,7 +21,21 @@
     },
     "android": {
       "package": "com.princepsfinance.creditwallet",
-      "versionCode": 1
+      "versionCode": 1,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data":  {
+            "scheme": "http",
+            "host": "test.compound.ng"
+          },
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "platforms": [
       "ios",

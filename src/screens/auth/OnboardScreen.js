@@ -15,9 +15,9 @@ class OnboardScreen extends Component {
     render() {
         const { colors } = this.props.theme;
         return (
-            <CustomSafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
             <View style={styles.page}>
                 {/* <SafeAreaView /> */}
+                <CustomSafeAreaView/>
                 <View style={styles.avatarContainer}>
                     <Avatar.Image style={styles.avatar} size={40} source={require('../../assets/images/logo.png')} />
                     <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-semi-bold' }}>Credit Wallet</CustomText>
@@ -44,8 +44,8 @@ class OnboardScreen extends Component {
                     </TouchableWithoutFeedback>
                 </View>
 
+                <SafeAreaView />
             </View>
-                </CustomSafeAreaView>
         )
     }
 }
@@ -61,8 +61,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f5fcff',
         fontFamily: 'Baloo',
-        backgroundColor: 'white',
-        marginTop: Constants.statusBarHeight
+        backgroundColor: 'white'
         // justifyContent: 'flex-end'
     },
     avatarContainer: {

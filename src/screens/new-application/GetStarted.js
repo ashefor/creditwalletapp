@@ -21,13 +21,12 @@ class GetStartedScreen extends Component {
     render() {
         return (
             <CustomSafeAreaView style={{flex:1,backgroundColor: '#f5fcff' }}>
-                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction onPress={() => this.props.navigation.navigate('Auth')}
                     />
                 </Appbar.Header>
                 <View style={styles.container}>
-                    <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
+                    <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20), textTransform: 'uppercase'}}>
                         Let's do this
                         </CustomText>
                     <View style={styles.uppercontainer}>
