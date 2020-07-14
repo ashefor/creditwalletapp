@@ -27,8 +27,8 @@
           "action": "VIEW",
           "autoVerify": true,
           "data":  {
-            "scheme": "http",
-            "host": "test.compound.ng"
+            "scheme": "https",
+            "host": "apply.creditwallet.ng"
           },
           "category": [
             "BROWSABLE",
