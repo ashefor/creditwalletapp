@@ -59,11 +59,12 @@ class AutoOfferStepTwo extends Component {
             <AutoLoanOfferContext.Consumer>
                 {loan => <Fragment>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
+                       
+                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
+                            <KeyboardAvoidingView>
+                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
                             To proceed please provide details of your preferred account to receive your funds
                      </CustomText>
-                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
-                            <KeyboardAvoidingView behavior="position">
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
                                         ref={this._textInput}

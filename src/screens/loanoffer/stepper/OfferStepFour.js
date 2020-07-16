@@ -86,11 +86,12 @@ class OfferStepFour extends Component {
                         hideOnPress={true}
                     >{errorMsg}</Toast>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center'}}>
+                      
+                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
+                            <KeyboardAvoidingView>
+                            <CustomText style={{fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center'}}>
                         Please select a copy of your passport photograph and upload
                      </CustomText>
-                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
-                            <KeyboardAvoidingView behavior="position">
                                 <View style={{ marginVertical: resHeight(2) }}>
                                 <Button mode='outlined' 
                                 icon='upload'

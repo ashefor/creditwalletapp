@@ -90,11 +90,12 @@ class AutoOfferStepThree extends Component {
                         hideOnPress={true}
                     >{errorMsg}</Toast>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
+                      
+                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
+                            <KeyboardAvoidingView>
+                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
                             Please upload a copy of a valid identification document (Driver’s Licence, International Passport, National ID, Voter’s or Staff ID)
                      </CustomText>
-                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
-                            <KeyboardAvoidingView behavior="position">
                                 <View style={{ marginVertical: resHeight(2) }}>
                                     <Button mode='outlined'
                                         icon='upload'

@@ -25,11 +25,12 @@ class OfferStepFive extends Component {
             <LoanOfferContext.Consumer>
                 {loan => <Fragment>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
+                       
+                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
+                            <KeyboardAvoidingView>
+                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
                         Please use the code that was sent to your email or phone number to authorize the transaction
                      </CustomText>
-                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
-                            <KeyboardAvoidingView behavior="position">
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
                                         mode="outlined"

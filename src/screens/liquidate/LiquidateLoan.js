@@ -183,7 +183,7 @@ class LiquidateLoan extends Component {
                         </View>
                     </ScrollView>
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                        <Button onPress={() => this.RBSheet.open()}>Show Account Details</Button>
+                        <Button onPress={() => this.RBSheet.open()} style={{marginBottom: resHeight(2)}}>Show Account Details</Button>
                         <RBSheet
                             closeOnDragDown={true}
                             ref={ref => {

@@ -25,11 +25,16 @@
       "intentFilters": [
         {
           "action": "VIEW",
-          "autoVerify": true,
-          "data":  {
-            "scheme": "https",
-            "host": "apply.creditwallet.ng"
-          },
+          "data":  [
+            {
+              "scheme": "http",
+              "host": "test.compound.ng"
+            },
+            {
+              "scheme": "https",
+              "host": "accounts.creditwallet.ng"
+            }
+          ],
           "category": [
             "BROWSABLE",
             "DEFAULT"

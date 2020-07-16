@@ -84,12 +84,12 @@ class StepFour extends Component {
             <LoanContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
+                        <View style={{ flex: 1 }}>
+                            <KeyboardAvoidingView>
+                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
         textTransform: 'uppercase'}}>
                             contact information
                      </CustomText>
-                        <View style={{ flex: 1 }}>
-                            <KeyboardAvoidingView behavior="position">
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
 

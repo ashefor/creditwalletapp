@@ -30,11 +30,12 @@ class AutoOfferStepFive extends Component {
             <AutoLoanOfferContext.Consumer>
                 {loan => <Fragment>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                        <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
+                        
+                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
+                            <KeyboardAvoidingView>
+                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
                         Kindly confirm the acceptance of your loan details below
                      </CustomText>
-                        <View style={{ flex: 1, marginTop: resHeight(1) }}>
-                            <KeyboardAvoidingView behavior="position">
                             <View style={styles.loanofferdetails}>
                             <View style={styles.loaninforow}>
                                 <View style={{ alignItems: 'flex-start',  width: '50%' }}>
