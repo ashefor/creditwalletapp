@@ -68,8 +68,8 @@ class OfferLetter extends Component {
                                 </Appbar.Header>
                                 <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
-                                        <View style={{ marginBottom: resHeight(5) }}>
-                                        <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={24} color="#f56b2a" />
+                                        <View style={{ marginBottom: resHeight(1) }}>
+                                        <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={resFont(40)} color="#f56b2a" />
                                         </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Application submitted successfully. Kindly await a response from our team!</CustomText>
                                     </Surface>

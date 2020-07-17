@@ -39,7 +39,8 @@ const AppNavigation = createSwitchNavigator({
         screen: NewApplicationBaseScreen
     },
     'Liquidate Loan': {
-        screen: LiquidateLoan
+        screen: LiquidateLoan,
+        path: 'liquidate/:loan_id'
     }
 })
 

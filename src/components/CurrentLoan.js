@@ -3,7 +3,7 @@ import { TouchableWithoutFeedback, View, Text, } from 'react-native';
 import { Button, Divider, useTheme } from 'react-native-paper';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import CustomText from './CustomText';
-import { resFont } from '../utils/utils';
+import { resFont, resHeight } from '../utils/utils';
 
 const CurrentLoan = props => {
     const { colors } = useTheme();
@@ -68,6 +68,7 @@ const CurrentLoan = props => {
             </View>
             <Button
                 // contentStyle={{backgroundColor: colors.accent}}
+                style={{height: resHeight(6)}}
                 labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', fontSize: resFont(14), color: colors.surface }}
                 mode="contained" onPress={redirectToRepayments}>
                 View Repayments

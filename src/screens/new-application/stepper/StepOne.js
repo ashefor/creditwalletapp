@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, HelperText } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
@@ -10,8 +10,18 @@ import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 import * as DocumentPicker from 'expo-document-picker';
-const myContext = React.createContext(LoanContext)
+
 class StepOne extends Component {
+    static contextType = LoanContext;
+
+    formatAsCurrency = (value) => {
+        const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        return `₦${newvalue}`
+    }
+    
+    hasErrors() {
+        return this.context.amount && this.context.amount < 20000
+    }
     render() {
         return (
             <LoanContext.Consumer>
@@ -28,12 +38,15 @@ class StepOne extends Component {
                                 <TextInput
                                     mode="outlined"
                                     label='Amount'
-                                    style={{ backgroundColor: 'white' }}
+                                    style={{ backgroundColor: 'white', height: resHeight(7) }}
                                     value={loan.amount}
                                     keyboardType='number-pad'
                                     returnKeyType='done'
                                     onChangeText={amount => loan.setAmount(amount)}
                                 />
+                                <HelperText type='error' visible={this.hasErrors()} >
+                                            Amount should be greater than {this.formatAsCurrency(20000)}
+                                                    </HelperText>
                             </View>
                         </View>
                         <View style={{ marginVertical: resHeight(3) }}>
@@ -61,7 +74,7 @@ class StepOne extends Component {
                             </View>
                             <Button
                                 loading={loan.isApplying}
-                                disabled={loan.isApplying || !loan.amount}
+                                disabled={loan.isApplying || !loan.amount|| this.hasErrors()}
                                 onPress={loan.loanApply}
                                 contentStyle={styles.button}
                                 style={{ marginVertical: resHeight(2) }}

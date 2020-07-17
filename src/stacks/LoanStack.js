@@ -19,13 +19,13 @@ const LoanStack = createStackNavigator({
             headerShown: false,
         }
     }, 
-    'Liquidate Loan': {
-        screen: LiquidateLoan,
-        navigationOptions: {
-            headerTransparent: true,
-            headerShown: false,
-        }
-    }, 
+    // 'Liquidate Loan': {
+    //     screen: LiquidateLoan,
+    //     navigationOptions: {
+    //         headerTransparent: true,
+    //         headerShown: false,
+    //     }
+    // }, 
 }, {
     initialRouteName: 'Loans',
     mode: 'card',
@@ -33,16 +33,16 @@ const LoanStack = createStackNavigator({
 
 export default LoanStack;
 
-LoanStack.navigationOptions = ({ navigation }) => {
+// LoanStack.navigationOptions = ({ navigation }) => {
 
-    let tabBarVisible = true;
+//     let tabBarVisible = true;
 
-    let routeName = navigation.state.routes[navigation.state.index].routeName
+//     let routeName = navigation.state.routes[navigation.state.index].routeName
 
-    if ( routeName == 'Liquidate Loan' ) {
-        tabBarVisible = false
-    }
-    return {
-        tabBarVisible,
-    }
-}
+//     if ( routeName == 'Liquidate Loan' ) {
+//         tabBarVisible = false
+//     }
+//     return {
+//         tabBarVisible,
+//     }
+// }

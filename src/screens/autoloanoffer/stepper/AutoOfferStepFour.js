@@ -8,6 +8,8 @@ import Toast from 'react-native-root-toast';
 import { AutoLoanOfferContext } from '../provider/AutoLoanOfferProvider';
 import * as DocumentPicker from 'expo-document-picker';
 import { Constants } from 'react-native-unimodules';
+import * as Permissions from 'expo-permissions';
+
 const axios = require('axios').default;
 const banksPlaceholder = {
     label: 'Salary Bank Name',
@@ -28,18 +30,22 @@ class AutoOfferStepFour extends Component {
             errorMsg: null,
         }
     }
+
+    // async componentDidMount() {
+    //     const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+    // }
     pickDocument = async () => {
         let result = await DocumentPicker.getDocumentAsync({});
         const url = `${loanApiURL}passport/upload`
         const formData = new FormData();
         formData.append('file[]', result, result.name)
         // alert(result.uri)
-        if(result && result.type === 'success') {
-            this.setState({passportName: null, isUploading: true})
+        if (result && result.type === 'success') {
+            this.setState({ passportName: null, isUploading: true })
             axios({
                 method: 'POST',
                 url: url,
-                data: formData, 
+                data: formData,
                 onUploadProgress: (progressEvent) => {
                     const { loaded, total } = progressEvent;
                     let percent = (Math.floor((loaded * 100) / total) / 100);
@@ -48,23 +54,23 @@ class AutoOfferStepFour extends Component {
                     }
                 }
             }).then((data) => {
-               this.setState({ isAccepting: false, isUploading : false })
-               if (data.data.status === 'success') {
-                   console.log(data.data);
-                   this.setState({uploadPercentage: 1 , passportName: result.name}, () => {
-                    setTimeout(() => {
-                        this.setState({uploadPercentage: 0 })
-                    }, 100);
-                })
-                   this.context.setPassport(data.data.message)
-               } else {
-                this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
-            }
-           }).catch((error) => {
-            this.setState({isUploading: false})
-            this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-               console.log(error)
-           })
+                this.setState({ isAccepting: false, isUploading: false })
+                if (data.data.status === 'success') {
+                    console.log(data.data);
+                    this.setState({ uploadPercentage: 1, passportName: result.name }, () => {
+                        setTimeout(() => {
+                            this.setState({ uploadPercentage: 0 })
+                        }, 100);
+                    })
+                    this.context.setPassport(data.data.message)
+                } else {
+                    this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
+                }
+            }).catch((error) => {
+                this.setState({ isUploading: false })
+                this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+                console.log(error)
+            })
         }
 
         // console.log(result);
@@ -72,7 +78,7 @@ class AutoOfferStepFour extends Component {
 
     render() {
         const { colors } = this.props.theme;
-        const {passportName, isUploading, uploadPercentage, hasError, errorMsg} = this.state
+        const { passportName, isUploading, uploadPercentage, hasError, errorMsg } = this.state
         return (
             <AutoLoanOfferContext.Consumer>
                 {loan => <Fragment>
@@ -86,36 +92,36 @@ class AutoOfferStepFour extends Component {
                         hideOnPress={true}
                     >{errorMsg}</Toast>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                       
+
                         <View style={{ flex: 1, marginTop: resHeight(1) }}>
                             <KeyboardAvoidingView>
-                            <CustomText style={{fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center'}}>
-                        Please select a copy of your passport photograph and upload
+                                <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
+                                    Please select a copy of your passport photograph and upload
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(2) }}>
-                                <Button mode='outlined' 
-                                icon='upload'
-                                style={{width: resWidth(50), alignSelf: 'center'}}
-                                     labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                    <Button mode='outlined'
+                                        icon='upload'
+                                        style={{ width: resWidth(50), alignSelf: 'center' }}
+                                        labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
                                         onPress={this.pickDocument}>
                                         {isUploading ? 'Uploading' : 'Select File'}
-                        </Button>
-                        {uploadPercentage > 0 && <ProgressBar style={{marginTop: resHeight(2)}} progress={uploadPercentage} color={'#f56b2a'} />}
-                        {passportName && <CustomText style={{fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(1)}}>
-                            {passportName}
-                        </CustomText>}
+                                    </Button>
+                                    {uploadPercentage > 0 && <ProgressBar style={{ marginTop: resHeight(2) }} progress={uploadPercentage} color={'#f56b2a'} />}
+                                    {passportName && <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(1) }}>
+                                        {passportName}
+                                    </CustomText>}
                                 </View>
-                                <CustomText style={{fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(2)}}>
-                                You can skip this step and send your identification document via WhatsApp to 07085698828 or email to support@creditwallet.ng
+                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(2) }}>
+                                    You can skip this step and send your identification document via WhatsApp to 07085698828 or email to support@creditwallet.ng
                      </CustomText>
                                 <View style={styles.bottomcontainer}>
-                                    <Button mode="contained" 
-                                    disabled={isUploading}
-                                    loading={isUploading}
-                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                    <Button mode="contained"
+                                        disabled={isUploading}
+                                        loading={isUploading}
+                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.goNext}>
-                                         {passportName ? 'Continue' : 'Skip'}
-                        </Button>
+                                        {passportName ? 'Continue' : 'Skip'}
+                                    </Button>
                                 </View>
                             </KeyboardAvoidingView>
                         </View>

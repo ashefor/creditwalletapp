@@ -93,7 +93,9 @@ class OfferStepOne extends Component {
 
                     <View>
                         <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'center' }}>
-                        By Clicking Continue, I, {loan.offerLetter.firstname} {loan.offerLetter.lastname} accept the Credit Offer with a full understanding of the Loans Terms and Conditions
+                        By Clicking Continue, I, <CustomText style={{ color: '#f56b2a'}}>
+                        {loan.offerLetter.firstname} 
+                            </CustomText> <CustomText style={{ color: '#f56b2a'}}>{loan.offerLetter.lastname}</CustomText> accept the Credit Offer with a full understanding of the Loans Terms and Conditions
                         </CustomText>
                     </View>
                     <View>

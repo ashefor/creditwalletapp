@@ -1,6 +1,6 @@
 import React, { Component, createRef, Fragment } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Platform, Linking, RefreshControl, Modal } from 'react-native'
-import { Appbar, Button, Title, Subheading, FAB, Portal, TextInput, Dialog, Paragraph, Surface, withTheme, Snackbar } from 'react-native-paper';
+import { Appbar, Button, Title, Subheading, FAB, Portal, TextInput, Dialog, Paragraph, Surface, withTheme, Snackbar, IconButton, Colors } from 'react-native-paper';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons, AntDesign, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
@@ -87,8 +87,8 @@ class HomeScreen extends Component {
             }).catch(error => {
                 // console.log(error);
                 this.setState({ isLoading: false })
-                this.setState({ hasError: 'An error has occured' })
-                reject()
+                this.setState({ hasError: error && error.message ? error.message: 'An error has occured' })
+                // reject()
             })
         })
         }
@@ -179,7 +179,7 @@ class HomeScreen extends Component {
         } else if (this.state.dashboard.open_loans_count > 1) {
             this.setState({ isErrorLoans: true })
         } else {
-            this.props.navigation.navigate('Loan Liquidate', { loan_id: this.state.dashboard.open_loans[0].loan_id })
+            this.props.navigation.navigate('Liquidate Loan', { loan_id: this.state.dashboard.open_loans[0].loan_id, returnUrl: 'Home' })
         }
     }
 
@@ -211,10 +211,10 @@ class HomeScreen extends Component {
                 <Loader isLoading={isLoading} />
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <CustomText style={{marginVertical: 10, fontFamily: 'Baloo'}}>An error has occured</CustomText>
-                        <Button icon="reload" mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadDashboard}>
+                    <CustomText style={{marginVertical: 10, fontFamily: 'Baloo'}}>{hasError}</CustomText>
+                        <Button icon="reload" style={{backgroundColor: Colors.indigo400}} mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadDashboard}>
                             reload
-  </Button>
+                        </Button>
                     </View>
                 </Fragment>}
                 {dashboard &&
@@ -257,6 +257,7 @@ class HomeScreen extends Component {
                             </Dialog>
                             <Modal
                                 animationType='slide'
+                                presentationStyle='pageSheet'
                                 contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
                                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
                                     <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
@@ -271,7 +272,7 @@ class HomeScreen extends Component {
                                                 <TextInput
                                                     autoCapitalize={'none'}
                                                     label='Email'
-                                                    style={{backgroundColor: 'white'}}
+                                                    style={{backgroundColor: 'white', height: resHeight(7)}}
                                                     value={email}
                                                     mode={'outlined'}
                                                     ref={this.textInputRef}
@@ -311,83 +312,7 @@ class HomeScreen extends Component {
                                     />
                                 }
                                 showsVerticalScrollIndicator={false}
-                                style={{ backgroundColor: '#f5fcff' }} contentContainerStyle={{ flexGrow: 1 }}>
-
-                                {/* <View style={{ flex: 1, marginVertical: 10 }}>
-                                <ScrollView
-                                    snapToAlignment={'center'}
-                                    snapToInterval={1}
-                                    scrollEnabled
-                                    decelerationRate={'fast'}
-                                    contentInsetAsdjustmentBehavior={'automatic'}
-                                    ref={this.carouselRef}
-                                    // style={{ backgroundColor: 'green' }}
-                                    contentContainerStyle={{ height: '100%', justifyContent: 'space-between' }}
-                                    onScrollEndDrag={this.setSelectedIndex}
-                                    showsHorizontalScrollIndicator={false}
-                                    horizontal
-                                    pagingEnabled>
-                                    <Surface style={{ width: resWidth(75), borderRadius: 10 }}>
-                                        <View style={{ padding: resFont(25), backgroundColor: '#15bcbf', borderRadius: 10, alignItems: 'center', justifyContent: 'center', height: '100%', overflow: 'hidden' }}>
-                                            <MaterialCommunityIcons color={'white'} name='google-analytics' size={40} />
-                                            <CustomText style={{ fontSize: 30, color: 'white', fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.loan_balance)}</CustomText>
-                                            <CustomText style={{ fontSize: 15, color: 'white', fontFamily: 'Baloo-med', textAlign: 'center' }}>Current Loan Balance</CustomText>
-                                        </View>
-                                    </Surface>
-                                    <Surface style={{ width: resWidth(75), marginLeft: 10, borderRadius: 10 }}>
-                                        <View style={{ padding: resFont(25), backgroundColor: '#e0b94c', borderRadius: 10, alignItems: 'center', justifyContent: 'center', height: '100%', overflow: 'hidden' }}>
-                                            <MaterialCommunityIcons color={'white'} name='credit-card-plus-outline' size={40} />
-                                            <CustomText style={{ fontSize: 30, color: 'white', fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.top_up_amount)}</CustomText>
-                                            <CustomText style={{ fontSize: 15, color: 'white', fontFamily: 'Baloo-med', textAlign: 'center' }}>Amount Available for Loan Top Up</CustomText>
-                                        </View>
-                                    </Surface>
-                                    <Surface style={{ width: resWidth(75), backgroundColor: '#9b9b9b', borderRadius: 10, marginLeft: 10 }}>
-                                        <View style={{ padding: resFont(25), backgroundColor: '#9b9b9b', borderRadius: 10, alignItems: 'center', justifyContent: 'center', height: '100%', overflow: 'hidden' }}>
-                                            <MaterialCommunityIcons color={'white'} name='format-list-numbered' size={40} />
-                                            <CustomText style={{ fontSize: 30, color: 'white', fontFamily: 'Baloo-bold' }}>{dashboard.total_transactions}</CustomText>
-                                            <CustomText style={{ fontSize: 15, color: 'white', fontFamily: 'Baloo-med', textAlign: 'center' }}>Total Number of Transactions</CustomText>
-                                        </View>
-                                    </Surface>
-                                </ScrollView>
-                            </View> */}
-
-                                {/* <View style={{ flex: 3 }}>
-                                <View style={styles.surface}>
-                                    <MaterialCommunityIcons color={'#f56b2a'} name='bank-plus' size={40} />
-                                    <Title style={{ fontFamily: 'Baloo-extra-bold' }}>Loan Liquidation</Title>
-                                    <Subheading style={{ fontFamily: 'Baloo' }}>Get your liquidation calculation or loan payoff balance online</Subheading>
-                                    <Button
-                                        style={{ marginTop: resHeight(2), alignSelf: 'center', width: resWidth(50) }}
-                                        labelStyle={{ textTransform: 'none', fontSize: 15, color: 'white', fontFamily: 'Baloo-med' }}
-                                        mode="contained" onPress={this._liquidateLoan}>
-                                        Proceed
-                                </Button>
-                                </View>
-                                <View style={styles.surface}>
-                                    <MaterialCommunityIcons color={'#f56b2a'} name='file-document' size={40} />
-                                    <Title style={{ fontFamily: 'Baloo-extra-bold' }}>Indebtedness Letter</Title>
-                                    <Subheading style={{ fontFamily: 'Baloo' }}>Get your letter of Indebtedness and send to any preferred email address</Subheading>
-                                    <Button
-                                        style={{ marginTop: resHeight(2), alignSelf: 'center', width: resWidth(50) }}
-                                        labelStyle={{ textTransform: 'none', fontSize: 15, color: 'white', fontFamily: 'Baloo-med' }}
-                                        mode="contained" onPress={() => this._showModal(1)}>
-                                        Proceed
-                                </Button>
-                                </View>
-                                <View style={styles.surface}>
-                                    <MaterialCommunityIcons color={'#f56b2a'} name='file-document' size={40} />
-                                    <Title style={{ fontFamily: 'Baloo-extra-bold' }}>Non-Indebtedness Letter</Title>
-                                    <Subheading style={{ fontFamily: 'Baloo' }}>Get your letter of Non-Indebtedness and send to any preferred email address</Subheading>
-                                    <Button
-                                        style={{ marginTop: resHeight(2), alignSelf: 'center', width: resWidth(50) }}
-                                        labelStyle={{ textTransform: 'none', fontSize: 15, color: 'white', fontFamily: 'Baloo-med' }}
-                                        mode="contained" onPress={() => this._showModal(2)}>
-                                        Proceed
-                                </Button>
-                                </View>
-                            </View> */}
-
-                                {/* <NewLoanScreen visible={showNewLoanModal} hideNewLoanModal={this._hideNewLoanModal} /> */}
+                                style={{ backgroundColor: '#f5fcff' }} contentContainerStyle={{ flexGrow: 1, paddingBottom: 30 }}>
                                 <View style={{ marginTop: resHeight(1) }}>
                                     <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Current Loan Balance</CustomText>
                                     <CustomText style={{ fontSize: resFont(30), fontFamily: 'Baloo-bold' }}>{this.formatAsCurrency(dashboard.loan_balance)}</CustomText>
@@ -485,7 +410,7 @@ const styles = StyleSheet.create({
     card: {
         borderRadius: 15,
         width: '49%',
-        height: resHeight(16),
+        height: resHeight(18),
         padding: 10,
         // backgroundColor: '#f7971e',
         display: 'flex',
@@ -544,7 +469,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     loginbtn: {
-        height: resHeight(5),
+        height: resHeight(6),
         width: resWidth(90)
     },
     fab: {

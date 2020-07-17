@@ -14,13 +14,13 @@ const HomeStack = createStackNavigator({
             headerShown: false
         }
     },
-    'Loan Liquidate': {
-        screen: LiquidateLoan,
-        navigationOptions: {
-            headerTransparent: true,
-            headerShown: false,
-        }
-    }, 
+    // 'Loan Liquidate': {
+    //     screen: LiquidateLoan,
+    //     navigationOptions: {
+    //         headerTransparent: true,
+    //         headerShown: false,
+    //     }
+    // }, 
     'New Loan': {
         screen: NewLoanScreen,
         navigationOptions: {
@@ -35,16 +35,16 @@ const HomeStack = createStackNavigator({
 
 export default HomeStack;
 
-HomeStack.navigationOptions = ({ navigation }) => {
+// HomeStack.navigationOptions = ({ navigation }) => {
 
-    let tabBarVisible = true;
+//     let tabBarVisible = true;
 
-    let routeName = navigation.state.routes[navigation.state.index].routeName
+//     let routeName = navigation.state.routes[navigation.state.index].routeName
 
-    if ( routeName == 'Loan Liquidate' || routeName == 'New Loan' ) {
-        tabBarVisible = false
-    }
-    return {
-        tabBarVisible,
-    }
-}
+//     if ( routeName == 'Loan Liquidate' || routeName == 'New Loan' ) {
+//         tabBarVisible = false
+//     }
+//     return {
+//         tabBarVisible,
+//     }
+// }

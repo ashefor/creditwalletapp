@@ -196,7 +196,7 @@ class StepThree extends Component {
                                         render={this.renderGenderSelect}
                                         mode="outlined"
                                         label='Gender'
-                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13)}}
                                         value={loan.gender}
                                         keyboardType='default'
                                         selectGender={loan.setGender}
@@ -246,6 +246,8 @@ class StepThree extends Component {
                                      </View>
                                      <View style={{height: .5, backgroundColor: 'rgba(0,0,0, .2)'}}/>
                                   <DateTimePicker 
+                                    maximumDate={new Date(2002, 11, 31)}
+                                    minimumDate={new Date(1960, 0, 1)}
                                     mode={'date'}  
                                     testID="dateTimePicker"
                                      is24Hour={true} 
@@ -271,7 +273,7 @@ class StepThree extends Component {
                                     {Platform.OS === 'android' && loan.showDatePicker && <DateTimePicker 
                                     mode={'date'}  
                                     maximumDate={new Date(2002, 11, 31)}
-                                    minimumDate={new Date(1937, 0, 1)}
+                                    minimumDate={new Date(1960, 0, 1)}
                                     testID="dateTimePicker"
                                      is24Hour={true} 
                                      display='calendar'

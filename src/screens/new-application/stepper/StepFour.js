@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors, HelperText } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
@@ -43,11 +43,13 @@ const statesPlaceholder = {
 };
 
 class StepFour extends Component {
+    static contextType = LoanContext
     constructor(props) {
         super(props)
         this._textInput = createRef()
         this.state = {
         }
+        console.log(this.validateEmail())
     }
     renderStateSelect = props => {
         const { style, value, selectState } = props;
@@ -77,6 +79,12 @@ class StepFour extends Component {
         }, 100)
     };
 
+    validateEmail(email) {
+       if(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return !re.test(String(email).toLowerCase());
+       }
+    }
 
     render() {
         const { colors } = this.props.theme
@@ -92,7 +100,6 @@ class StepFour extends Component {
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
-
                                         mode="outlined"
                                         label='Email'
                                         returnKeyType='done'
@@ -102,10 +109,12 @@ class StepFour extends Component {
                                         keyboardType='email-address'
                                         onChangeText={email => loan.setEmail(email)}
                                     />
+                                  {this.validateEmail(loan.email) &&  <HelperText type='error' visible={true}>
+                                       Invalid
+                                   </HelperText>}
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
-
                                         mode="outlined"
                                         label='Phone Number'
                                         returnKeyType='done'
@@ -130,14 +139,6 @@ class StepFour extends Component {
                                 </View>
                                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
                                 <TextInput
-                                        mode="outlined"
-                                        label='City'
-                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
-                                        value={loan.city}
-                                        keyboardType='default'
-                                        onChangeText={city => loan.setCity(city)}
-                                    />
-                                <TextInput
                                         ref={this._textInput}
                                         render={this.renderStateSelect}
                                         mode="outlined"
@@ -146,6 +147,14 @@ class StepFour extends Component {
                                         value={loan.selectedState}
                                         keyboardType='default'
                                         selectState={loan.setSelectedState}
+                                    />
+                                <TextInput
+                                        mode="outlined"
+                                        label='City'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        value={loan.city}
+                                        keyboardType='default'
+                                        onChangeText={city => loan.setCity(city)}
                                     />
                                 </View>
                                 <View style={styles.bottomcontainer}>

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { View, Text, Dimensions, StyleSheet, ScrollView, RefreshControl } from 'react-native'
-import { Appbar, FAB, Button } from 'react-native-paper';
+import { Appbar, FAB, Button, Colors } from 'react-native-paper';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-navigation';
 import LoanCard from '../../components/LoanCard';
@@ -48,30 +48,30 @@ class LoanScreen extends Component {
         })
     }
     loadLoans = (value) => {
-       if(this._isMounted) {
-        this.setState({ isLoading: value })
-        const url = `${apiURL}account/dashboard`;
-        const options = {
-            method: 'GET',
-        }
-        return new Promise((resolve, reject) => {
-            requestWithToken(url, options).then(data => {
-                // console.log(data)
-                this.setState({ isLoading: false })
-                if(data.status === 'success') {
-                    this.setState({ openLoans: data.open_loans })
-                    this.setState({ closedLoans: data.fully_paid })
-                } else {
-                    alert(data.message ? data.message : 'An error has occured. Try again later')
-                }
-                resolve()
-            }).catch(error => {
-                this.setState({ isLoading: false })
-                this.setState({ hasError: 'An error has occured' })
-                reject()
+        if (this._isMounted) {
+            this.setState({ isLoading: value })
+            const url = `${apiURL}account/dashboard`;
+            const options = {
+                method: 'GET',
+            }
+            return new Promise((resolve, reject) => {
+                requestWithToken(url, options).then(data => {
+                    // console.log(data)
+                    this.setState({ isLoading: false })
+                    if (data.status === 'success') {
+                        this.setState({ openLoans: data.open_loans })
+                        this.setState({ closedLoans: data.fully_paid })
+                    } else {
+                        alert(data.message ? data.message : 'An error has occured. Try again later')
+                    }
+                    resolve()
+                }).catch(error => {
+                    this.setState({ isLoading: false })
+                    this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
+                    // reject()
+                })
             })
-        })
-       }
+        }
     }
     renderTabBar = props => (
         <TabBar
@@ -88,18 +88,22 @@ class LoanScreen extends Component {
             switch (route.key) {
                 case 'first':
                     return <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
                                 onRefresh={this._onrefresh}
                             />
-                        } style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center' }}>
+                        } style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center', paddingBottom: 20 }}>
                         {openLoans.map((loan, index) => (
                             <CurrentLoan key={index} {...this.props} loan={loan} />
                         ))}
                     </ScrollView>
                 case 'second':
                     return <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
@@ -107,7 +111,7 @@ class LoanScreen extends Component {
                             />
                         }
 
-                        style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center' }}>
+                        style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center', paddingBottom: 20 }}>
                         {closedLoans.map((loan, index) => (
                             <LoanCard key={index} {...this.props} loan={loan} />
                         ))}
@@ -118,40 +122,33 @@ class LoanScreen extends Component {
         }
 
         return (
-            <CustomSafeAreaView style={{flex:1, backgroundColor: '#f5fcff' }}>
+            <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>An error has occured</CustomText>
-                        <Button icon="reload" mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadLoans}>
+                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>{hasError}</CustomText>
+                        <Button icon="reload" mode="contained" style={{ backgroundColor: Colors.indigo400 }} labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadLoans}>
                             reload
                         </Button>
                     </View>
                 </Fragment>}
-               {!hasError && <Fragment>
-                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
-                <Appbar.Action />
-                    <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                        title="Loans"
+                {!hasError && <Fragment>
+                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                        <Appbar.Action />
+                        <Appbar.Content
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            title="Loans"
+                        />
+                        <Appbar.Action />
+                    </Appbar.Header>
+                    <TabView
+                        renderTabBar={this.renderTabBar}
+                        navigationState={{ index, routes }}
+                        renderScene={renderScene}
+                        onIndexChange={(index) => this.changeIndex(index)}
+                        initialLayout={initialLayout}
                     />
-                    <Appbar.Action />
-                </Appbar.Header>
-                <TabView
-                    renderTabBar={this.renderTabBar}
-                    navigationState={{ index, routes }}
-                    renderScene={renderScene}
-                    onIndexChange={(index) => this.changeIndex(index)}
-                    initialLayout={initialLayout}
-                />
-                   </Fragment>}
-                {/* <FAB
-                        style={styles.fab}
-                        // small
-                        color="white"
-                        icon="plus"
-                        onPress={() => // console.log('Pressed')}
-                    /> */}
+                </Fragment>}
             </CustomSafeAreaView>
         )
     }

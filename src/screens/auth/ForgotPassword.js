@@ -81,7 +81,7 @@ class ForgotPasswordScreen extends Component {
                             <CustomText style={{ textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo' }}>Reset your password</CustomText>
                             {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                             <TextInput
-                                style={{ marginTop: resHeight(1), backgroundColor: 'white' }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white',height: resHeight(7) }}
                                 label='Username'
                                 mode='outlined'
                                 value={username}
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         top: 30
     },
     loginbtn: {
-        height: resHeight(5),
+        height: resHeight(6),
         width: resWidth(90)
     },
 });

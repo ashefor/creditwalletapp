@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
-import { Slider } from 'react-native'
+import { Appbar, TextInput, Button, withTheme, HelperText } from 'react-native-paper';
+// import { Slider } from 'react-native'
+import Slider from '@react-native-community/slider'
+
 import CustomText from '../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../utils/utils';
 import { loanApiURL, requestWithToken } from '../../utils/request';
@@ -19,6 +21,7 @@ class NewLoanScreen extends Component {
             isApplying: false,
             isLoading: false,
             loanOffer: null,
+            user: null,
             applicationSuccess: false,
         }
     }
@@ -49,6 +52,10 @@ class NewLoanScreen extends Component {
         })
     }
 
+    async componentDidMount() {
+        const user = await getUser();
+        user && this.setState({ user: JSON.parse(user) })
+    }
 
     _handleGoBack = () => {
         this.setState({ loanOffer: null })
@@ -104,14 +111,18 @@ class NewLoanScreen extends Component {
         return `₦${newvalue}`
     }
 
+    hasErrors() {
+        return this.state.amount && this.state.amount < 20000
+    }
+
     render() {
-        const { amount, duration, isApplying, loanOffer, isLoading, applicationSuccess } = this.state
+        const { amount, user, duration, isApplying, loanOffer, isLoading, applicationSuccess } = this.state
         const { visible, hideNewLoanModal } = this.props;
         const { colors } = this.props.theme
         return (
             <View
                 style={{ flex: 1, backgroundColor: '#fff' }}>
-                <CustomSafeAreaView style={{flex:1, backgroundColor: '#f5fcff' }}>
+                <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                     <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
                         <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
@@ -173,7 +184,7 @@ class NewLoanScreen extends Component {
 
                                         <View>
                                             <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
-                                                By clicking Start Application, I consent to Credit Wallet obtaining information from relevant third parties as may be necessary, on my employment details, salary payment, loans and other related data, to make a decision on my loan application. I also consent to the loan amounts being deducted from my salary at source before credit to my account and any outstanding loans being recovered automatically from any other accounts linked to me in the case of default
+                                                By clicking Start Application, I, <CustomText style={{ color: '#f56b2a' }}>{user.borrower_firstname} {user.borrower_lastname}</CustomText> consent to Credit Wallet obtaining information from relevant third parties as may be necessary, on my employment details, salary payment, loans and other related data, to make a decision on my loan application. I also consent to the loan amounts being deducted from my salary at source before credit to my account and any outstanding loans being recovered automatically from any other accounts linked to me in the case of default
                                     </CustomText>
                                         </View>
                                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
@@ -181,7 +192,7 @@ class NewLoanScreen extends Component {
                                                 disabled={isLoading}
                                                 contentStyle={styles.button}
                                                 onPress={this._handleGoBack}
-                                                style={{ backgroundColor: isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
+                                                style={{ backgroundColor: isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '40%', marginHorizontal: resWidth(2) }}
                                                 labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
                                                 mode="contained">
                                                 Back
@@ -190,7 +201,7 @@ class NewLoanScreen extends Component {
                                                 loading={isLoading}
                                                 disabled={isLoading}
                                                 contentStyle={styles.button}
-                                                style={{ marginVertical: resHeight(2), width: '30%', marginHorizontal: resWidth(2) }}
+                                                style={{ marginVertical: resHeight(2), width: '40%', marginHorizontal: resWidth(2) }}
                                                 onPress={this._handleAcceptLoan}
                                                 labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
                                                 mode="contained">
@@ -207,11 +218,14 @@ class NewLoanScreen extends Component {
                                                     <TextInput
                                                         mode="outlined"
                                                         label='Amount'
-                                                        style={{ backgroundColor: 'white' }}
+                                                        style={{ backgroundColor: 'white', height: resHeight(7) }}
                                                         value={amount}
                                                         keyboardType='numeric'
                                                         onChangeText={amount => this.setState({ amount })}
                                                     />
+                                                    <HelperText type='error' visible={this.hasErrors()} >
+                                                        Amount should be greater than {this.formatAsCurrency(20000)}
+                                                    </HelperText>
                                                 </View>
                                             </View>
                                             <View style={{ marginVertical: resHeight(3) }}>
@@ -238,7 +252,7 @@ class NewLoanScreen extends Component {
                                                 </View>
                                                 <Button
                                                     loading={isApplying}
-                                                    disabled={isApplying || !amount}
+                                                    disabled={isApplying || !amount || this.hasErrors()}
                                                     onPress={this._handleLoanApply}
                                                     style={{ marginVertical: resHeight(2) }}
                                                     contentStyle={styles.button}

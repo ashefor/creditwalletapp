@@ -61,7 +61,7 @@ class OnboardCarousel extends Component {
         // const {images} = this.props;
         const { selectedIndex } = this.state;
         return (
-            <View style={{ height: '100%', width: '100%', paddingTop: resHeight(20) }}>
+            <View style={{ height: '100%', width: '100%' }}>
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     horizontal pagingEnabled onMomentumScrollEnd={this.setSelectedIndex}

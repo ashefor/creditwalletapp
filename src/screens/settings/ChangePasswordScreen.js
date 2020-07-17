@@ -87,7 +87,7 @@ class ChangePasswordScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{marginTop: resHeight(1), backgroundColor: 'white' }}
+                                style={{marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
                                 mode='outlined'
                                 label='New Password'
                                 value={newPassword}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         top: 30
     },
     loginbtn: {
-        height: resHeight(5),
+        height: resHeight(6),
         width: resWidth(90)
     },
     textboxfieldd: {

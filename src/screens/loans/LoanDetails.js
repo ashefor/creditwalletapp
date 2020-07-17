@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
-import { Appbar, Divider, Button, withTheme, Chip, Portal, Modal } from 'react-native-paper'
+import { Appbar, Divider, Button, withTheme, Chip, Portal, Modal, Colors } from 'react-native-paper'
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { resFont, resWidth, resHeight } from '../../utils/utils';
 import CustomText from '../../components/CustomText';
@@ -64,7 +64,7 @@ class LoanDetails extends Component {
             }).catch(error => {
                 // console.log(error);
                 this.setState({ isLoading: false })
-                this.setState({ hasError: 'An error has occured' })
+                this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
             })
         }
     }
@@ -90,10 +90,19 @@ class LoanDetails extends Component {
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff', }}>
                 <Loader isLoading={isLoading} />
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                    <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
+                    <Appbar.Content
+                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                        subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                        title="Loans Details"
+                    />
+                    <Appbar.Action />
+                </Appbar.Header>
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>An error has occured</CustomText>
-                        <Button icon="reload" mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.getLoanDetails}>
+                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>{hasError}</CustomText>
+                        <Button icon="reload" mode="contained" style={{ backgroundColor: Colors.indigo400 }} labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.getLoanDetails}>
                             reload
                         </Button>
                     </View>
@@ -101,15 +110,6 @@ class LoanDetails extends Component {
                 <Fragment>
                     {loan && (
                         <Fragment>
-                            <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
-                                <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
-                                <Appbar.Content
-                                    titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                                    subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                                    title="Loans Details"
-                                />
-                                <Appbar.Action />
-                            </Appbar.Header>
                             <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                                 <View style={{ width: '100%', backgroundColor: '#f5fcff', marginVertical: 10 }}>
                                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
@@ -174,11 +174,11 @@ class LoanDetails extends Component {
                                 <View style={{ marginTop: resHeight(2) }}>
                                     <CustomText style={{ fontSize: resFont(17), textAlign: 'center', fontFamily: 'Baloo-med' }}>Repayments</CustomText>
                                 </View>
-                                <ScrollView contentContainerStyle={{ flexGrow: 1, width: resWidth(80), alignSelf: 'center' }}>
+                                <ScrollView contentContainerStyle={{ flexGrow: 1, width: resWidth(90), alignSelf: 'center' }}>
                                     {loan.repayment.map((item, index) => (
                                         <TouchableWithoutFeedback key={index} onPress={() => this._showModal(item)}>
                                             <Fragment>
-                                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
+                                                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(0.8) }}>
                                                     <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{item.repayment_collected_date}</CustomText>
                                                     <View>
                                                         <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(item.repayment_amount)}</CustomText>
@@ -193,9 +193,9 @@ class LoanDetails extends Component {
                             </View>
                             {loanType === 'open' && <View style={{ width: resWidth(90), alignSelf: 'center' }}>
                                 <Button
-                                    style={{ marginVertical: resHeight(2) }}
+                                    style={{ marginVertical: resHeight(2), height: resHeight(6) }}
                                     labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
-                                    mode="contained" onPress={() => this.props.navigation.navigate('Liquidate Loan', { loan_id: loan_id })}>
+                                    mode="contained" onPress={() => this.props.navigation.navigate('Liquidate Loan', { loan_id: loan_id, returnUrl: 'Loans' })}>
                                     Liquidate/Pay off Loan
                         </Button>
                             </View>}
@@ -208,7 +208,7 @@ class LoanDetails extends Component {
                     ref={ref => {
                         this.RBSheet = ref;
                     }}
-                    height={250}
+                    height={resHeight(26)}
                     openDuration={250}
                     customStyles={{
                         container: {

@@ -19,6 +19,14 @@ export const getUser = async () => {
     return await SecureStore.getItemAsync('creditWalletUser');
 };
 
+export const setIntent = async(value) => {
+    await SecureStore.setItemAsync('cw-intent', value);
+}
+
+export const getIntent = async () => {
+    return await SecureStore.getItemAsync('cw-intent');
+};
+
 export const signOut = async() => {
     return await SecureStore.deleteItemAsync('access_token').then(SecureStore.deleteItemAsync('creditWalletUser').then(navigationservice.navigate('Auth')))
 }

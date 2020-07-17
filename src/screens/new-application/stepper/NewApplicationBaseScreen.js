@@ -46,12 +46,12 @@ class NewApplicationBaseScreen extends Component {
                                 </Appbar.Header>
                                 {loan.falseautomate && <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
-                                        <View style={{ marginBottom: resHeight(5) }}>
+                                        <View style={{ marginBottom: resHeight(1) }}>
                                             {/* <Image
                                                 style={{ width: 50, height: 50, alignSelf: 'center' }}
                                                 source={require('../../../assets/images/success.gif')}
                                             /> */}
-                                            <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={24} color="#f56b2a" />
+                                            <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={resFont(40)} color="#f56b2a" />
                                         </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Application submitted successfully. Kindly await a response from our team!</CustomText>
                                     </Surface>

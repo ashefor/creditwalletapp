@@ -90,7 +90,6 @@ class StepFive extends Component {
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
-
                                         mode="outlined"
                                         label='Place of Work'
                                         returnKeyType='done'

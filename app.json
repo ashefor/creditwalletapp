@@ -19,6 +19,9 @@
       "buildNumber": "1.0.0",
       "usesIcloudStorage": true
     },
+    "updates": {
+      "fallbackToCacheTimeout": 30000
+    },
     "android": {
       "package": "com.princepsfinance.creditwallet",
       "versionCode": 1,

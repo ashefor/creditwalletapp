@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { SafeAreaView, View, StyleSheet, RefreshControl } from 'react-native';
 
-import { Appbar, List, Text, Button, Divider, TouchableRipple, Surface, Title, Paragraph, ToggleButton, withTheme } from 'react-native-paper';
+import { Appbar, List, Text, Button, Divider, TouchableRipple, Surface, Title, Paragraph, ToggleButton, withTheme, Colors } from 'react-native-paper';
 import CustomText from '../../components/CustomText';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -18,6 +18,7 @@ class LiquidateLoan extends Component {
         this.state = {
             paymentType: 'transfer',
             loan_id: this.props.navigation.getParam('loan_id'),
+            returnUrl: this.props.navigation.getParam('returnUrl'),
             loan: null,
             isLoading: false,
             refreshing: false,
@@ -72,8 +73,8 @@ class LiquidateLoan extends Component {
             }).catch(error => {
                 // console.log(error);
                 this.setState({ isLoading: false })
-                this.setState({ hasError: 'An error has occured' })
-                reject()
+                this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
+                // reject()
             })
         })
        }
@@ -84,30 +85,30 @@ class LiquidateLoan extends Component {
         return `₦${newvalue}`
     }
     render() {
-        const { paymentType, isLoading, loan, refreshing, hasError } = this.state;
+        const { paymentType, isLoading, loan, refreshing, hasError, returnUrl } = this.state;
         const { closeModal, loan_id } = this.props
         const { colors } = this.props.theme
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                        <Appbar.BackAction onPress={() => this.props.navigation.navigate(returnUrl? returnUrl : 'Home')} />
+                        <Appbar.Content
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            title={`Liquidate ${loan && loan.transaction_reference ? loan.transaction_reference : ''}`}
+                        />
+                        <Appbar.Action />
+                    </Appbar.Header>
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>An error has occured</CustomText>
-                        <Button icon="reload" mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadLoanDetails}>
+                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>{hasError}</CustomText>
+                        <Button icon="reload" mode="contained" style={{backgroundColor: Colors.indigo400}} labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadLoanDetails}>
                             reload
                         </Button>
                     </View>
                 </Fragment>}
                 {loan && <Fragment>
-                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
-                        <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
-                        <Appbar.Content
-                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                            subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                            title={`Liquidate_${loan.transaction_reference}`}
-                        />
-                        <Appbar.Action />
-                    </Appbar.Header>
                     <ScrollView
                         refreshControl={
                             <RefreshControl onRefresh={this._onrefresh} refreshing={refreshing} />
@@ -182,14 +183,14 @@ class LiquidateLoan extends Component {
                     </Paragraph>
                         </View>
                     </ScrollView>
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                        <Button onPress={() => this.RBSheet.open()} style={{marginBottom: resHeight(2)}}>Show Account Details</Button>
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginBottom: resHeight(2) }}>
+                        <Button onPress={() => this.RBSheet.open()} style={{height: resHeight(6)}}>Show Account Details</Button>
                         <RBSheet
                             closeOnDragDown={true}
                             ref={ref => {
                                 this.RBSheet = ref;
                             }}
-                            height={300}
+                            height={resHeight(32)}
                             openDuration={250}
                             customStyles={{
                                 container: {

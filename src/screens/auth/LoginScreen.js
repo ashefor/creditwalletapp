@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback, TextInput as RNTextInput, Keyboard, ScrollView } from 'react-native'
 import { Appbar, TextInput, Button, withTheme , TouchableRipple} from 'react-native-paper';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 import { apiURL, request } from '../../utils/request';
@@ -18,6 +18,24 @@ class LoginScreen extends Component {
         errorMsg: null
     };
 
+    renderTitleSelect = props => {
+        const { style, value, selectTile } = props;
+        const valueChange = (title) => {
+            selectTile(title)
+            this.handleBlur();
+        }
+        return (
+            // <PickerComponent
+            //     handleFocus={this.handleFocus}
+            //     handleBlur={this.handleBlur}
+            //     placeholder={titlePlaceholder}
+            //     items={titles}
+            //     onValueChange={title => valueChange(title)}
+            //     value={value}
+            // />
+            <RNTextInput value={value} style={{fontFamily: 'Baloo', backgroundColor: 'transparent', paddingHorizontal: 14, paddingVertical: resHeight(2), height: resHeight(7)}} onChangeText={username => this.setState({username})}/>
+        );
+    };
     handleLogin = () => {
         this.setState({
             errorMsg: null
@@ -76,7 +94,7 @@ class LoginScreen extends Component {
                         <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Kindly provide your username and password to access your account</CustomText>
                         {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>}
                             <TextInput
-                                style={{marginTop: resHeight(1), backgroundColor: 'white'  }}
+                                style={{marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7)  }}
                                 label='Username'
                                 value={username}
                                 mode="outlined"
@@ -86,7 +104,7 @@ class LoginScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{marginTop: resHeight(1), backgroundColor: 'white'  }}
+                                style={{marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
                                 label='Password'
                                 mode="outlined"
                                 value={password}
@@ -130,7 +148,7 @@ const styles = StyleSheet.create({
         top: 30
     },
     loginbtn: {
-        height: resHeight(5),
+        height: resHeight(6),
         width: resWidth(90)
     },
 });

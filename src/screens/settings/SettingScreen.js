@@ -35,8 +35,8 @@ class SettingScreen extends Component {
                         onPress={() => this.props.navigation.navigate('Change Password')}
                         title="Change password"
                         titleStyle={{fontFamily: 'Baloo-med', fontSize: resFont(15)}}
-                        left={props => <List.Icon {...props} icon="lock" />}
-                        right={props => <List.Icon {...props} icon="arrow-right" />}
+                        left={props => <List.Icon {...props} icon="lock-outline" color='#FF9501' />}
+                        right={props => <List.Icon {...props} icon="chevron-right" />}
                     />
                     <Divider />
                     <List.Item

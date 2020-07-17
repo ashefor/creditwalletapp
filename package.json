@@ -41,7 +41,8 @@
     "react-navigation-tabs": "^2.8.13",
     "react-navigation-transitions": "^1.0.12",
     "expo-constants": "~9.1.1",
-    "expo-application": "~2.2.1"
+    "expo-application": "~2.2.1",
+    "expo-permissions": "~9.0.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

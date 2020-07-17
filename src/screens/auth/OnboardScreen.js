@@ -17,15 +17,18 @@ class OnboardScreen extends Component {
         return (
             <View style={styles.page}>
                 {/* <SafeAreaView /> */}
-                <CustomSafeAreaView/>
-                <View style={styles.avatarContainer}>
+                {/* <CustomSafeAreaView/> */}
+               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+               <View style={styles.avatarContainer}>
                     <Avatar.Image style={styles.avatar} size={40} source={require('../../assets/images/logo.png')} />
-                    <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-semi-bold' }}>Credit Wallet</CustomText>
+                    <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-bold' }}>Credit Wallet</CustomText>
                 </View>
-               <View style={{height: resHeight(50), marginVertical: resHeight(5)}}>
+               </View>
+                <View style={{flex: 2, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
                <OnboardCarousel />
                </View>
-                <Button
+               <View style={{flex: 1 ,  width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+               <Button
                 labelStyle={{textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white'}}
                     contentStyle={styles.signpbtn}
                     mode="contained" onPress={() => this.props.navigation.navigate('Get Started')}>
@@ -43,6 +46,7 @@ class OnboardScreen extends Component {
                         <CustomText style={{ color: colors.primary, fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Login</CustomText>
                     </TouchableWithoutFeedback>
                 </View>
+               </View>
 
                 <SafeAreaView />
             </View>

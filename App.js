@@ -14,11 +14,34 @@ import { NewLoanProvider } from './src/screens/new-application/provider/NewLoanP
 import { LoanOfferProvider } from './src/screens/loanoffer/provider/LoanOfferProvider';
 import MainApp from './src/utils/Navigator';
 import { AutoLoanOfferProvider } from './src/screens/autoloanoffer/provider/AutoLoanOfferProvider';
+import { getUser , setIntent} from './src/utils/storage';
 
 I18nManager.forceRTL(false);
+
+const fontConfig = {
+  ios: {
+    regular: {
+      fontFamily: 'Baloo',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'Baloo-med',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'Baloo',
+      fontWeight: '300',
+    },
+    thin: {
+      fontFamily: 'Baloo',
+      fontWeight: '200',
+    },
+  },
+};
 const theme = {
   ...DefaultTheme,
   roundness: 5,
+  fonts:configureFonts(fontConfig),
   colors: {
     ...DefaultTheme.colors,
     primary: '#f56b2a',
@@ -56,32 +79,33 @@ export default class App extends React.Component {
     this.setState({ fontsLoaded: true });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this._loadFontsAsync();
-    Linking.getInitialURL().then(data => this.goToLink(data))
-
-    Linking.addEventListener('url' , (data) => {
-      this.handleOpenURL(data)
-    })
+  //   Linking.addEventListener('url', (data) => {
+  //     this.handleUrl(data.url)
+  //   })
+  //  //  navigationservice.navigate('Loans')
+    
+  //   await Linking.getInitialURL().then(data => this.handleUrl(data));
   }
 
-  handleOpenURL = (event) => { // D
-    this.goToLink(event.url);
-  }
+  // handleUrl = (url) => {
+  //   console.log(url)
+  //   if(url != null) {
+  //     setIntent(true)
+  //    const route = url.replace(/.*?:\/\//g, '');
+  //    const routes = route.split('/')
+  //    // console.log(routes)
+  //    const routeName = routes[2]
+  //    const id = routes[3]
+  //    if(routeName == 'liquidate') {
+  //      navigationservice.navigate('Loan Liquidate', {loan_id : id})
+  //    } else if (routeName == 'offerletter') {
+  //     navigationservice.navigate('Offer Letter', {loanid : id})
+  //    }
+  //   }
+  //  }
 
-  goToLink = (url) => {
-    // alert(url)
-    const route = url.replace(/.*?:\/\//g, '');
-    const routeName = route.split('/')[0]
-    const id = route.split('/')[1]
-    if (routeName === 'offerletter') {
-      navigationservice.navigate('Offer Letter', {loanid: id})
-    } else if (routeName === 'offer') {
-      navigationservice.navigate('Offer', {loanid: id})
-    } else {
-
-    }
-  }
   componentWillUnmount() {
     this._isMounted = false;
     Linking.removeEventListener('url', this.handleOpenURL);
