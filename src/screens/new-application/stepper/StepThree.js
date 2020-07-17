@@ -108,7 +108,7 @@ class StepThree extends Component {
     };
 
     handleDatePickerFocus = (loan) => {
-        console.log('open')
+        // console.log('open')
         loan.setShowDatePicker();
         Platform.OS === 'ios' && this._datePicker.current.handleFocus()
         // this.setState({showDatePicker: true}, () => )
@@ -127,7 +127,7 @@ class StepThree extends Component {
     };
 
     handleGenderPickerBlur = () => {
-        console.log('blur')
+        // console.log('blur')
         setTimeout(() => {
             this._selectGenderPicker.current.handleBlur()
         }, 100)

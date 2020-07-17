@@ -49,7 +49,7 @@ class StepFour extends Component {
         this._textInput = createRef()
         this.state = {
         }
-        console.log(this.validateEmail())
+        // console.log(this.validateEmail())
     }
     renderStateSelect = props => {
         const { style, value, selectState } = props;

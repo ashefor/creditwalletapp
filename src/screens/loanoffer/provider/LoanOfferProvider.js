@@ -85,17 +85,17 @@ class LoanOfferProvider extends Component {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
         }
-        console.log(account)
+        // console.log(account)
         this.setState({ isValidating: true, hasError: false })
          axios({
              method: 'POST',
              url: url,
              data: account
          }).then((data) => {
-             console.log(data)
+            //  console.log(data)
             this.setState({ isValidating: false })
             if (data.data.status === 'success') {
-                console.log(data);
+                // console.log(data);
                 this._handleGoNext();
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
@@ -117,7 +117,7 @@ class LoanOfferProvider extends Component {
             amount: this.state.amount,
             tenor: this.state.duration
         }
-        console.log(loan)
+        // console.log(loan)
         const options = {
             method: 'POST',
             data: loan,
@@ -129,10 +129,10 @@ class LoanOfferProvider extends Component {
              url: url,
              data: loan
          }).then((data) => {
-             console.log(data)
+            //  console.log(data)
             this.setState({ isAccepting: false })
             if (data.data.status === 'success') {
-                console.log(data);
+                // console.log(data);
                 // this.setState({ })
             }
         }).catch((error) => {
@@ -150,17 +150,17 @@ class LoanOfferProvider extends Component {
                 idcard: this.state.idCard,
                 passport: this.state.passport,
             }
-            console.log(loan)
+            // console.log(loan)
             this.setState({ isAccepting: true })
          axios({
              method: 'POST',
              url: url,
              data: loan
          }).then((data) => {
-             console.log(data)
+            //  console.log(data)
             this.setState({ isAccepting: false })
             if (data.data.status === 'success') {
-                console.log(data);
+                // console.log(data);
                 this.setState({ applicationSuccess: true })
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
@@ -179,7 +179,7 @@ class LoanOfferProvider extends Component {
             const loan_id = {
                 id: loanId
             }
-            console.log( loan_id)
+            // console.log( loan_id)
             this.setState({ isFetchingOffer: true })
             axios({
                 method: 'POST',
@@ -188,7 +188,7 @@ class LoanOfferProvider extends Component {
             }).then((data) => {
                 this.setState({ isFetchingOffer: false , hasFinishedFetching: true})
                 if (data.data.status === 'success') {
-                    console.log(data);
+                    // console.log(data);
                     this.setState({ offerLetter: data.data.loan})
                 } else {
                     this.setState({noOffer: true})

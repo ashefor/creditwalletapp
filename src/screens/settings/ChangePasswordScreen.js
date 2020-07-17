@@ -45,7 +45,7 @@ class ChangePasswordScreen extends Component {
                     this.setState({visible: true})
                     this.props.navigation.goBack();
                 });
-                console.log(data)
+                // console.log(data)
             }).catch(error => {
                 this.setState({ isLoading: false , errorMsg: error.message})
                 console.log(error)

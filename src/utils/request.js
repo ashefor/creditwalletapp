@@ -11,9 +11,8 @@ export const request = (url, options) => {
     }
     return new Promise((resolve, reject) => {
         fetch(url, requestOptions).then(res => res.text()).then(data => {
-            console.log(data);
             const parsedData = JSON.parse(data);
-            console.log(parsedData)
+            // console.log(parsedData)
             if (parsedData.status === "success") {
                 return resolve(parsedData)
             } else {
@@ -55,6 +54,6 @@ export const requestWithToken = async (url, options) => {
         })
     } else {
         navigationservice.navigate('Auth')
-        console.log('no token')
+        // console.log('no token')
     }
 }

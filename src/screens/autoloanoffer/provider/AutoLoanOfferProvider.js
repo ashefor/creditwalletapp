@@ -97,14 +97,14 @@ class AutoLoanOfferProvider extends Component {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
         }
-        console.log(account)
+        // console.log(account)
         this.setState({ isValidating: true, hasError: false })
         axios({
             method: 'POST',
             url: url,
             data: account
         }).then((data) => {
-            console.log(data.data)
+            // console.log(data.data)
             this.setState({ isValidating: false })
             if (data.data.status === 'success') {
                 this._handleGoNext();
@@ -128,7 +128,7 @@ class AutoLoanOfferProvider extends Component {
             amount: this.state.amount,
             tenor: this.state.duration
         }
-        console.log(loan)
+        // console.log(loan)
         const options = {
             method: 'POST',
             data: loan,
@@ -140,10 +140,10 @@ class AutoLoanOfferProvider extends Component {
             url: url,
             data: loan
         }).then((data) => {
-            console.log(data)
+            // console.log(data)
             this.setState({ isAccepting: false })
             if (data.data.status === 'success') {
-                console.log(data.data);
+                // console.log(data.data);
                 // this.setState({ })
             }
         }).catch((error) => {
@@ -171,10 +171,10 @@ class AutoLoanOfferProvider extends Component {
             url: url,
             data: loan
         }).then((data) => {
-            console.log(data)
+            // console.log(data)
             this.setState({ isAccepting: false })
             if (data.data.status === 'success') {
-                console.log(data.data);
+                // console.log(data.data);
                 this.setState({ applicationSuccess: true })
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
@@ -202,7 +202,7 @@ class AutoLoanOfferProvider extends Component {
         const loan_id = {
             id: loanId
         }
-        console.log(loan_id)
+        // console.log(loan_id)
         this.setState({ isFetchingOffer: true })
         axios({
             method: 'POST',
@@ -211,7 +211,7 @@ class AutoLoanOfferProvider extends Component {
         }).then((data) => {
             this.setState({ isFetchingOffer: false, hasFinishedFetching: true })
             if (data.data.status === 'success') {
-                console.log(data.data);
+                // console.log(data.data);
                 this.setState({ offerLetter: data.data }, () => {
                     this.setState({ duration: data.data.duration, loan_amount: data.data.loanamount, actualtenor: data.data.actualtenor })
                 })
@@ -236,7 +236,7 @@ class AutoLoanOfferProvider extends Component {
             url: url,
             data: data
         }).then((data) => {
-            console.log(data.data)
+            // console.log(data.data)
             this.setState({ loadingRepayment: false, hasFinishedFetching: true })
             if (data.data.status === 'success') {
                 this.setState({ actualtenor: data.data.actualtenor, monthlyrepayment: data.data.monthlyrepayment })

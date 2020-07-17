@@ -26,7 +26,7 @@ class AutoOfferStepTwo extends Component {
 
         alert(result.uri)
 
-        console.log(result);
+        // console.log(result);
     }
 
     renderBankSelect = props => {

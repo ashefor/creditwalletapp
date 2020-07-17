@@ -37,6 +37,24 @@ const fontConfig = {
       fontWeight: '200',
     },
   },
+  android: {
+    regular: {
+      fontFamily: 'Baloo',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'Baloo-med',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'Baloo',
+      fontWeight: '300',
+    },
+    thin: {
+      fontFamily: 'Baloo',
+      fontWeight: '200',
+    },
+  },
 };
 const theme = {
   ...DefaultTheme,

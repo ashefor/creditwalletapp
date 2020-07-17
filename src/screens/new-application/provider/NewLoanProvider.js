@@ -151,17 +151,17 @@ class NewLoanProvider extends Component {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
         }
-        console.log(account)
+        // console.log(account)
         this.setState({ isValidating: true, hasError: false })
          axios({
              method: 'POST',
              url: url,
              data: account
          }).then((data) => {
-             console.log(data)
+            //  console.log(data)
             this.setState({ isValidating: false })
             if (data.data.status === 'success') {
-                console.log(data);
+                // console.log(data);
                 this._handleAcceptLoan();
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
@@ -245,14 +245,14 @@ class NewLoanProvider extends Component {
                 dob: dob.toDateString(),
                 refferalcode: referralcode ? referralcode : 0
             }
-            console.log(loan)
+            // console.log(loan)
             this.setState({ isLoading: true })
             axios({
                 method: 'POST',
                 url: url,
                 data: loan
             }).then((data) => {
-                console.log(data.data);
+                // console.log(data.data);
                 this.setState({ isLoading: false })
                 if (data.data.status === 'success') {
                     this.setState({ applicationSuccess: true })

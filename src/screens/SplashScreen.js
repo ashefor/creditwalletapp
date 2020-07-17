@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Avatar } from 'react-native-paper'
+import { Avatar, ActivityIndicator, Colors } from 'react-native-paper'
 import { getUser, getIntent } from '../utils/storage';
 import * as Linking from 'expo-linking'
 import navigationservice from '../utils/navigationservice';
+import { resFont } from '../utils/utils';
 
 export default class Splashscreen extends Component {
     constructor(props) {
@@ -23,10 +24,8 @@ export default class Splashscreen extends Component {
 
     handleUrl = async (url) => {
         if (url) {
-            console.log(url)
             const route = url.replace(/.*?:\/\//g, '');
             const routes = route.split('/')
-            // console.log(routes)
             const routeName = routes[2]
             const id = routes[3]
             if (routeName == 'liquidate') {
@@ -38,14 +37,15 @@ export default class Splashscreen extends Component {
             }
         } else {
             await getUser().then(user => user ? this.props.navigation.navigate('Main') : this.props.navigation.navigate('Auth')).catch(error => this.props.navigation.navigate('Auth'))
-            console.log('else')
+            // console.log('else')
         }
     }
 
     render() {
         return (
             <View style={{ flex: 1, flexGrow: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
-                <Avatar.Image size={35} source={require('../assets/images/logo.png')} />
+                <Avatar.Image size={resFont(40)} source={require('../assets/images/logo.png')} />
+                <ActivityIndicator  size={resFont(30)} color={Colors.primary}/>
             </View>
         );
     }

@@ -56,7 +56,7 @@ class AutoOfferStepFour extends Component {
             }).then((data) => {
                 this.setState({ isAccepting: false, isUploading: false })
                 if (data.data.status === 'success') {
-                    console.log(data.data);
+                    // console.log(data.data);
                     this.setState({ uploadPercentage: 1, passportName: result.name }, () => {
                         setTimeout(() => {
                             this.setState({ uploadPercentage: 0 })
