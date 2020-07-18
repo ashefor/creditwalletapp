@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     },  
     headerText: {
         fontFamily: 'Baloo-bold',
-        fontWeight: 'bold',
         fontSize: resFont(15),
         color: '#f56b2a',
         textTransform: 'uppercase'

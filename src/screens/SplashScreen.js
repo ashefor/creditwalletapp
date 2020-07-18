@@ -4,7 +4,8 @@ import { Avatar, ActivityIndicator, Colors } from 'react-native-paper'
 import { getUser, getIntent } from '../utils/storage';
 import * as Linking from 'expo-linking'
 import navigationservice from '../utils/navigationservice';
-import { resFont } from '../utils/utils';
+import { resFont, resHeight } from '../utils/utils';
+import CustomText from '../components/CustomText';
 
 export default class Splashscreen extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ export default class Splashscreen extends Component {
         return (
             <View style={{ flex: 1, flexGrow: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
                 <Avatar.Image size={resFont(40)} source={require('../assets/images/logo.png')} />
-                <ActivityIndicator  size={resFont(30)} color={Colors.primary}/>
+                <CustomText style={{fontFamily: 'Baloo-semi-bold', fontSize: resFont(20), color: '#000', marginVertical: resHeight(2)}}>Please wait ...</CustomText>
             </View>
         );
     }
