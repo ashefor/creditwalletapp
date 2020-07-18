@@ -10,11 +10,6 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Constants } from 'react-native-unimodules';
 
 const axios = require('axios').default;
-const banksPlaceholder = {
-    label: 'Salary Bank Name',
-    value: null,
-    color: '#9EA0A4',
-};
 
 class AutoOfferStepThree extends Component {
     static contextType = AutoLoanOfferContext;

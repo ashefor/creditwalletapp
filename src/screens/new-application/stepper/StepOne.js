@@ -18,9 +18,17 @@ class StepOne extends Component {
         const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         return `₦${newvalue}`
     }
-    
-    hasErrors() {
-        return this.context.amount && this.context.amount < 20000
+
+    hasErrors(amount) {
+        if (amount) {
+            return this.context.unFormat(amount) < 20000
+        }
+    }
+
+    invalidAmount(amount) {
+        if (amount) {
+            return isNaN(this.context.unFormat(amount))
+        }
     }
     render() {
         return (
@@ -44,9 +52,13 @@ class StepOne extends Component {
                                     returnKeyType='done'
                                     onChangeText={amount => loan.setAmount(amount)}
                                 />
-                                <HelperText type='error' visible={this.hasErrors()} >
-                                            Amount should be greater than {this.formatAsCurrency(20000)}
-                                                    </HelperText>
+                                {this.hasErrors(loan.amount) && <HelperText type='error' >
+                                    Amount should be greater than {this.formatAsCurrency(20000)}
+                                </HelperText>}
+                                {this.invalidAmount(loan.amount) && <HelperText type='error' >
+                                    Invalid Amount. Please check
+                                                    </HelperText>}
+
                             </View>
                         </View>
                         <View style={{ marginVertical: resHeight(3) }}>
@@ -74,7 +86,7 @@ class StepOne extends Component {
                             </View>
                             <Button
                                 loading={loan.isApplying}
-                                disabled={loan.isApplying || !loan.amount|| this.hasErrors()}
+                                disabled={loan.isApplying || !loan.amount || this.hasErrors(loan.amount) || this.invalidAmount(loan.amount)}
                                 onPress={loan.loanApply}
                                 contentStyle={styles.button}
                                 style={{ marginVertical: resHeight(2) }}

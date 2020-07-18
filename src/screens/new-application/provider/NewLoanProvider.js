@@ -42,12 +42,35 @@ class NewLoanProvider extends Component {
             category: null,
             title: null,
             gender: null,
+            decimalSeparator: '.',
+            commaSeparator: ','
         }
         this.state = this.initialstate
     }
 
+    unFormat(val) {
+        if (!val) {
+          return '';
+        }
+        val = val.replace(/^0+/, '');
+        if (val.includes(',')) {
+          return val.replace(/,/g, '');
+        } else {
+          return val.replace(/\./g, '');
+        }
+    }
+
+    formatNum(valString) {
+        const {commaSeparator, decimalSeparator} = this.state
+        if (!valString) {
+            return '';
+          }
+          const val = valString.toString();
+          const parts = this.unFormat(val).split(this.DECIMAL_SEPARATOR);
+          return parts[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, commaSeparator) + (!parts[1] ? '' : decimalSeparator + parts[1]);
+    }
     setAmount = amount => {
-        this.setState({amount})
+        this.setState({amount: this.formatNum(amount)})
     }
 
     setDuration = duration => {
@@ -190,7 +213,7 @@ class NewLoanProvider extends Component {
     _handleLoanApply = () => {
         const url = `${loanApiURL}calculate-repayment`;
         const loan = {
-            amount: this.state.amount,
+            amount: this.unFormat(this.state.amount),
             tenor: this.state.duration
         }
         // console.log(loan)
@@ -322,6 +345,7 @@ class NewLoanProvider extends Component {
                 selectedState: selectedState,
                 setAmount: this.setAmount,
                 setDuration: this.setDuration,
+                unFormat: this.unFormat,
                 loanApply: this._handleLoanApply,
                 acceptLoan: this._handleAcceptLoan,
                 goBack: this._handleGoBack,

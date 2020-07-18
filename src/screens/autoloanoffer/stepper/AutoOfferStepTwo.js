@@ -18,15 +18,9 @@ class AutoOfferStepTwo extends Component {
     constructor(props) {
         super(props)
         this._textInput = createRef()
+        this._customInput = createRef()
         this.state = {
         }
-    }
-    pickDocument = async () => {
-        let result = await DocumentPicker.getDocumentAsync({});
-
-        alert(result.uri)
-
-        // console.log(result);
     }
 
     renderBankSelect = props => {
@@ -44,6 +38,7 @@ class AutoOfferStepTwo extends Component {
     };
 
     handleFocus = () => {
+        this._customInput.current.handleBlur()
         this._textInput.current.handleFocus();
     };
 
@@ -59,11 +54,11 @@ class AutoOfferStepTwo extends Component {
             <AutoLoanOfferContext.Consumer>
                 {loan => <Fragment>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
-                       
+
                         <View style={{ flex: 1, marginTop: resHeight(1) }}>
                             <KeyboardAvoidingView>
-                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
-                            To proceed please provide details of your preferred account to receive your funds
+                                <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(13), textAlign: 'center' }}>
+                                    To proceed please provide details of your preferred account to receive your funds
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
@@ -79,7 +74,7 @@ class AutoOfferStepTwo extends Component {
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
-
+                                        ref={this._customInput}
                                         mode="outlined"
                                         label='Salary Bank Account'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}

@@ -23,13 +23,15 @@ class NewLoanScreen extends Component {
             loanOffer: null,
             user: null,
             applicationSuccess: false,
+            decimalSeparator: '.',
+            commaSeparator: ','
         }
     }
 
     _handleLoanApply = () => {
         const url = `${loanApiURL}calculate-repayment`;
         const loan = {
-            amount: this.state.amount,
+            amount: this.unFormat(this.state.amount),
             tenor: this.state.duration
         }
         // console.log(loan)
@@ -111,8 +113,37 @@ class NewLoanScreen extends Component {
         return `₦${newvalue}`
     }
 
-    hasErrors() {
-        return this.state.amount && this.state.amount < 20000
+    unFormat(val) {
+        if (!val) {
+          return '';
+        }
+        val = val.replace(/^0+/, '');
+        if (val.includes(',')) {
+          return val.replace(/,/g, '');
+        } else {
+          return val.replace(/\./g, '');
+        }
+    }
+
+    formatNum(valString) {
+        const {commaSeparator, decimalSeparator} = this.state
+        if (!valString) {
+            return '';
+          }
+          const val = valString.toString();
+          const parts = this.unFormat(val).split(this.DECIMAL_SEPARATOR);
+          return parts[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, commaSeparator) + (!parts[1] ? '' : decimalSeparator + parts[1]);
+    }
+    hasErrors(amount) {
+        if(amount) {
+            return this.unFormat(amount) < 20000
+        }
+    }
+
+    invalidAmount(amount) {
+        if(amount) {
+            return isNaN(this.unFormat(amount))
+        }
     }
 
     render() {
@@ -148,7 +179,7 @@ class NewLoanScreen extends Component {
                                                 <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Amount</CustomText>
                                                 </View>
-                                                <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(amount)}</CustomText>
+                                                <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(this.unFormat(amount))}</CustomText>
                                             </View>
                                             <View style={styles.loaninforow}>
                                                 <View style={{ alignItems: 'flex-start', width: '70%' }}>
@@ -221,11 +252,14 @@ class NewLoanScreen extends Component {
                                                         style={{ backgroundColor: 'white', height: resHeight(7) }}
                                                         value={amount}
                                                         keyboardType='numeric'
-                                                        onChangeText={amount => this.setState({ amount })}
+                                                        onChangeText={amount => this.setState({ amount: this.formatNum(amount) })}
                                                     />
-                                                    <HelperText type='error' visible={this.hasErrors()} >
-                                                        Amount should be greater than {this.formatAsCurrency(20000)}
-                                                    </HelperText>
+                                                   {this.hasErrors(amount) &&  <HelperText type='error' >
+                                            Amount should be greater than {this.formatAsCurrency(20000)}
+                                                    </HelperText>}
+                                                    {this.invalidAmount(amount) &&  <HelperText type='error' >
+                                            Invalid Amount. Please check
+                                                    </HelperText>}
                                                 </View>
                                             </View>
                                             <View style={{ marginVertical: resHeight(3) }}>
@@ -252,7 +286,7 @@ class NewLoanScreen extends Component {
                                                 </View>
                                                 <Button
                                                     loading={isApplying}
-                                                    disabled={isApplying || !amount || this.hasErrors()}
+                                                    disabled={isApplying || !amount || this.hasErrors(amount) || this.invalidAmount(amount)}
                                                     onPress={this._handleLoanApply}
                                                     style={{ marginVertical: resHeight(2) }}
                                                     contentStyle={styles.button}

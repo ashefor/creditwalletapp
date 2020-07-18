@@ -35,7 +35,7 @@ class StepTwo extends Component {
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                 <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Amount</CustomText>
                             </View>
-                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.amount)}</CustomText>
+                            <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.unFormat(loan.amount))}</CustomText>
                         </View>
                         <View style={styles.loaninforow}>
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>

@@ -48,6 +48,7 @@ class StepFive extends Component {
     constructor(props) {
         super(props)
         this._textInput = createRef()
+        this._customInput = createRef()
         this.state = {
         }
     }
@@ -66,6 +67,7 @@ class StepFive extends Component {
     };
 
     handleFocus = () => {
+        this._customInput.current.handleBlur()
         this._textInput.current.handleFocus();
     };
 
@@ -90,6 +92,7 @@ class StepFive extends Component {
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
+                                    ref={this._customInput}
                                         mode="outlined"
                                         label='Place of Work'
                                         returnKeyType='done'
@@ -102,7 +105,7 @@ class StepFive extends Component {
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
-
+                                    ref={this._customInput}
                                         mode="outlined"
                                         label='IPPIS Number'
                                         returnKeyType='done'
@@ -127,6 +130,7 @@ class StepFive extends Component {
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
+                                    ref={this._customInput}
                                         mode="outlined"
                                         label='Salary Bank Account'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}

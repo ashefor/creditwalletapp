@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import LoginScreen from '../screens/auth/LoginScreen';
-import SignupScreen from '../screens/auth/SignupScreen';
 import OnboardScreen from '../screens/auth/OnboardScreen';
 import ForgotPassword from '../screens/auth/ForgotPassword';
+import SetPasswordScreen from '../screens/auth/SetPasswordScreen';
 
 const AuthStack = createStackNavigator({
     'Login': {
@@ -28,8 +28,8 @@ const AuthStack = createStackNavigator({
             headerShown: false
         }
     },
-    'Sign Up': {
-        screen: SignupScreen,
+    'Set Password': {
+        screen: SetPasswordScreen,
         navigationOptions: {
             headerTransparent: true,
             headerShown: false

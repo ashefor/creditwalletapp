@@ -62,6 +62,7 @@ class StepThree extends Component {
         super(props)
         this._textInput = createRef()
         this._selectGenderPicker = createRef()
+        this._customeInput = createRef()
         this._datePicker = createRef()
         this.state = {
             showDatePicker: false,
@@ -109,14 +110,17 @@ class StepThree extends Component {
 
     handleDatePickerFocus = (loan) => {
         // console.log('open')
+        Platform.OS === 'ios' && this._customeInput.current.handleBlur();
         loan.setShowDatePicker();
         Platform.OS === 'ios' && this._datePicker.current.handleFocus()
         // this.setState({showDatePicker: true}, () => )
     };
     handleFocus = () => {
+        Platform.OS === 'ios' && this._customeInput.current.handleBlur();
         Platform.OS === 'ios' && this._textInput.current.handleFocus();
     };
     handleGenderPickerFocus = () => {
+        Platform.OS === 'ios' && this._customeInput.current.handleBlur();
         Platform.OS === 'ios' && this._selectGenderPicker.current.handleFocus();
     };
 
@@ -207,6 +211,7 @@ class StepThree extends Component {
                                         returnKeyType='done'
                                         mode="outlined"
                                         label='First Name'
+                                        ref={this._customeInput}
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
                                         value={loan.firstname}
                                         keyboardType='default'
@@ -218,6 +223,7 @@ class StepThree extends Component {
                                         mode="outlined"
                                         label='Last Name'
                                         returnKeyType='done'
+                                        ref={this._customeInput}
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
                                         value={loan.lastname}
                                         keyboardType='default'
@@ -286,6 +292,7 @@ class StepThree extends Component {
                                         returnKeyType='done'
                                         mode="outlined"
                                         label='Referral Code'
+                                        ref={this._customeInput}
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
                                         value={loan.referralcode}
                                         keyboardType='default'

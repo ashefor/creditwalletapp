@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, TextInput as RNTextInput, Keyboard, ScrollView } from 'react-native'
-import { Appbar, TextInput, Button, withTheme , TouchableRipple} from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, TouchableRipple } from 'react-native-paper';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 import { apiURL, request } from '../../utils/request';
 import Loader from '../../components/Loader';
 import { setToken, setUser } from '../../utils/storage';
 import CustomText from '../../components/CustomText';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import navigationservice from '../../utils/navigationservice';
 
 
 
@@ -17,25 +18,7 @@ class LoginScreen extends Component {
         isLoading: false,
         errorMsg: null
     };
-
-    renderTitleSelect = props => {
-        const { style, value, selectTile } = props;
-        const valueChange = (title) => {
-            selectTile(title)
-            this.handleBlur();
-        }
-        return (
-            // <PickerComponent
-            //     handleFocus={this.handleFocus}
-            //     handleBlur={this.handleBlur}
-            //     placeholder={titlePlaceholder}
-            //     items={titles}
-            //     onValueChange={title => valueChange(title)}
-            //     value={value}
-            // />
-            <RNTextInput value={value} style={{fontFamily: 'Baloo', backgroundColor: 'transparent', paddingHorizontal: 14, paddingVertical: resHeight(2), height: resHeight(7)}} onChangeText={username => this.setState({username})}/>
-        );
-    };
+    
     handleLogin = () => {
         this.setState({
             errorMsg: null
@@ -58,80 +41,86 @@ class LoginScreen extends Component {
             this.setState({ isLoading: true })
             request(url, options).then(data => {
                 this.setState({ isLoading: false });
-                setToken(data.token);
-                setUser(data.customer);
-                this.props.navigation.navigate('Main')
+                if (data.status === 'success') {
+                    setToken(data.token);
+                    if (data.firstlogin === '1') {
+                        navigationservice.navigate('Set Password')
+                    } else {
+                        setUser(data.customer);
+                        this.props.navigation.navigate('Main')
+                    }
+                }
                 // console.log(data)
             }).catch(error => {
-                this.setState({ isLoading: false , errorMsg: error.message})
+                this.setState({ isLoading: false, errorMsg: error.message })
                 // console.log(error)
             })
         }
-       
+
     }
     render() {
-        const {username, password, isLoading, errorMsg} = this.state;
-        const {colors} = this.props.theme
+        const { username, password, isLoading, errorMsg } = this.state;
+        const { colors } = this.props.theme
         return (
-            <CustomSafeAreaView style={{backgroundColor: '#f5fcff' }}>
-            <View style={{ flex: 1}}>
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
-                    <Appbar.BackAction
-                        onPress={() => this.props.navigation.goBack()}
-                    />
-                    <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                        title="Login"
-                    />
-                    <Appbar.Action
+            <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
+                <View style={{ flex: 1 }}>
+                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                        <Appbar.BackAction
+                            onPress={() => this.props.navigation.goBack()}
                         />
-                </Appbar.Header>
-                {/* <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/> */}
-                <ScrollView  style={{flex: 1}} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
-                    <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
-                        <View style={{ marginTop: resHeight(1) }}>
-                        <CustomText style={{textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary}}>Hi, Welcome Back</CustomText>
-                        <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Kindly provide your username and password to access your account</CustomText>
-                        {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>}
-                            <TextInput
-                                style={{marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7)  }}
-                                label='Username'
-                                value={username}
-                                mode="outlined"
-                                autoCapitalize='none'
-                                returnKeyType='done'
-                                onChangeText={username => this.setState({ username })}
-                            />
-                            <TextInput
-                                secureTextEntry
-                                style={{marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
-                                label='Password'
-                                mode="outlined"
-                                value={password}
-                                returnKeyType='done'
-                                onChangeText={password => this.setState({ password })}
-                            />
-                            <Button
-                                style={{ marginTop: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
-                                contentStyle={styles.loginbtn}
-                                loading={isLoading}
-                                disabled={isLoading}
-                                mode="contained" onPress={this.handleLogin}>
-                                {isLoading? 'Logging in' : 'Login'}
-                </Button>
-                <Button
-                style={{marginTop: resHeight(3)}}
-                labelStyle={{textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary}}
-          onPress={() => this.props.navigation.navigate('Forgot Password')}
-        >
-         Forgot Password?
+                        <Appbar.Content
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            title="Login"
+                        />
+                        <Appbar.Action
+                        />
+                    </Appbar.Header>
+                    {/* <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/> */}
+                    <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
+                        <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
+                            <View style={{ marginTop: resHeight(1) }}>
+                                <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Hi, Welcome Back</CustomText>
+                                <CustomText style={{ textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo' }}>Kindly provide your username and password to access your account</CustomText>
+                                {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
+                                <TextInput
+                                    style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
+                                    label='Username'
+                                    value={username}
+                                    mode="outlined"
+                                    autoCapitalize='none'
+                                    returnKeyType='done'
+                                    onChangeText={username => this.setState({ username })}
+                                />
+                                <TextInput
+                                    secureTextEntry
+                                    style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
+                                    label='Password'
+                                    mode="outlined"
+                                    value={password}
+                                    returnKeyType='done'
+                                    onChangeText={password => this.setState({ password })}
+                                />
+                                <Button
+                                    style={{ marginTop: resHeight(2) }}
+                                    labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                    contentStyle={styles.loginbtn}
+                                    loading={isLoading}
+                                    disabled={isLoading}
+                                    mode="contained" onPress={this.handleLogin}>
+                                    {isLoading ? 'Logging in' : 'Login'}
+                                </Button>
+                                <Button
+                                    style={{ marginTop: resHeight(3) }}
+                                    labelStyle={{ textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary }}
+                                    onPress={() => this.props.navigation.navigate('Forgot Password')}
+                                >
+                                    Forgot Password?
         </Button>
-              
+
+                            </View>
                         </View>
-                    </View>
-                </ScrollView>
-            </View>
+                    </ScrollView>
+                </View>
             </CustomSafeAreaView>
 
 

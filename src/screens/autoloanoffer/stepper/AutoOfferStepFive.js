@@ -6,11 +6,6 @@ import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
 import { AutoLoanOfferContext } from '../provider/AutoLoanOfferProvider';
 
-const banksPlaceholder = {
-    label: 'Salary Bank Name',
-    value: null,
-    color: '#9EA0A4',
-};
 
 class AutoOfferStepFive extends Component {
     constructor(props) {

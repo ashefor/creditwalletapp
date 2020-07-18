@@ -11,11 +11,6 @@ import { Constants } from 'react-native-unimodules';
 import * as Permissions from 'expo-permissions';
 
 const axios = require('axios').default;
-const banksPlaceholder = {
-    label: 'Salary Bank Name',
-    value: null,
-    color: '#9EA0A4',
-};
 
 class AutoOfferStepFour extends Component {
     static contextType = AutoLoanOfferContext

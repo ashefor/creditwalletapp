@@ -47,6 +47,7 @@ class StepFour extends Component {
     constructor(props) {
         super(props)
         this._textInput = createRef()
+        this._customInput = createRef()
         this.state = {
         }
         // console.log(this.validateEmail())
@@ -70,6 +71,7 @@ class StepFour extends Component {
     };
 
     handleFocus = () => {
+        this._customInput.current.handleBlur();
         this._textInput.current.handleFocus();
     };
 
@@ -80,10 +82,10 @@ class StepFour extends Component {
     };
 
     validateEmail(email) {
-       if(email) {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return !re.test(String(email).toLowerCase());
-       }
+        if (email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return !re.test(String(email).toLowerCase());
+        }
     }
 
     render() {
@@ -94,12 +96,15 @@ class StepFour extends Component {
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <View style={{ flex: 1 }}>
                             <KeyboardAvoidingView>
-                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
-                            contact information
+                                <CustomText style={{
+                                    fontFamily: 'Baloo-bold', fontSize: resFont(20),
+                                    textTransform: 'uppercase'
+                                }}>
+                                    contact information
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
+                                        ref={this._customInput}
                                         mode="outlined"
                                         label='Email'
                                         returnKeyType='done'
@@ -109,12 +114,13 @@ class StepFour extends Component {
                                         keyboardType='email-address'
                                         onChangeText={email => loan.setEmail(email)}
                                     />
-                                  {this.validateEmail(loan.email) &&  <HelperText type='error' visible={true}>
-                                       Invalid
+                                    {this.validateEmail(loan.email) && <HelperText type='error' visible={true}>
+                                        Invalid
                                    </HelperText>}
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
+                                        ref={this._customInput}
                                         mode="outlined"
                                         label='Phone Number'
                                         returnKeyType='done'
@@ -127,7 +133,7 @@ class StepFour extends Component {
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
-
+                                        ref={this._customInput}
                                         mode="outlined"
                                         label='House Address'
                                         multiline={true}
@@ -138,7 +144,7 @@ class StepFour extends Component {
                                     />
                                 </View>
                                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
-                                <TextInput
+                                    <TextInput
                                         ref={this._textInput}
                                         render={this.renderStateSelect}
                                         mode="outlined"
@@ -148,7 +154,8 @@ class StepFour extends Component {
                                         keyboardType='default'
                                         selectState={loan.setSelectedState}
                                     />
-                                <TextInput
+                                    <TextInput
+                                        ref={this._customInput}
                                         mode="outlined"
                                         label='City'
                                         style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
@@ -159,8 +166,8 @@ class StepFour extends Component {
                                 </View>
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained"
-                                    disabled={!loan.email || !loan.address || !loan.telephone || !loan.city || !loan.selectedState}
-                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                        disabled={!loan.email || !loan.address || !loan.telephone || !loan.city || !loan.selectedState}
+                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.goNext}>
                                         Next
                         </Button>
