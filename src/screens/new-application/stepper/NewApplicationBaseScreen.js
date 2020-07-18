@@ -33,7 +33,7 @@ class NewApplicationBaseScreen extends Component {
                         position={Constants.statusBarHeight}
                         backgroundColor='red'
                         shadow={false}
-                        opacity={0.7}
+                        opacity={1}
                         animation={false}
                         hideOnPress={true}
                     >{loan.errorMsg}</Toast>

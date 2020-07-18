@@ -85,7 +85,7 @@ class AutoOfferStepFour extends Component {
                     <Toast
                         visible={hasError}
                         position={Constants.statusBarHeight}
-                        opacity={0.7}
+                        opacity={1}
                         backgroundColor='red'
                         shadow={false}
                         animation={false}

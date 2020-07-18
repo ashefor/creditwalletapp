@@ -49,7 +49,7 @@ class AutoOfferLetter extends Component {
                 <Toast
                         visible={loan.hasError}
                         position={Constants.statusBarHeight}
-                        opacity={0.7}
+                        opacity={1}
                         backgroundColor='red'
                         shadow={false}
                         animation={false}
