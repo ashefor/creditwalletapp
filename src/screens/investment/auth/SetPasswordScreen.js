@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native'
-import { Appbar, TextInput, Button, withTheme , TouchableRipple, Snackbar} from 'react-native-paper';
-import { resWidth, resHeight, resFont } from '../../utils/utils';
-import { apiURL, request, requestWithToken } from '../../utils/request';
-import Loader from '../../components/Loader';
-import { setToken, setUser } from '../../utils/storage';
-import CustomText from '../../components/CustomText';
-import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import { Appbar, TextInput, Button, withTheme, TouchableRipple, Snackbar } from 'react-native-paper';
+import { resWidth, resHeight, resFont } from '../../../utils/utils';
+import { apiURL, request, requestWithToken } from '../../../utils/request';
+import Loader from '../../../components/Loader';
+import { setToken, setUser } from '../../../utils/storage';
+import CustomText from '../../../components/CustomText';
+import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 
 
 
-class ChangePasswordScreen extends Component {
+class SetPasswordScreen extends Component {
     state = {
         oldPassword: '',
         newPassword: '',
@@ -20,6 +20,7 @@ class ChangePasswordScreen extends Component {
     };
 
     _onDismissSnackBar = () => this.setState({ visible: false });
+
     handleChangePassword = () => {
         this.setState({
             errorMsg: null
@@ -41,21 +42,19 @@ class ChangePasswordScreen extends Component {
             Keyboard.dismiss()
             this.setState({ isLoading: true })
             requestWithToken(url, options).then(data => {
-                this.setState({ isLoading: false }, () => {
-                    this.setState({visible: true})
-                    this.props.navigation.goBack();
-                });
+                this.setState({ isLoading: false });
+                this.setState({ visible: true }, () => this.props.navigation.navigate('Main'))
                 // console.log(data)
             }).catch(error => {
-                this.setState({ isLoading: false , errorMsg: error.message})
+                this.setState({ isLoading: false, errorMsg: error.message })
                 console.log(error)
             })
         }
-       
+
     }
     render() {
-        const {visible, oldPassword, newPassword, isLoading, errorMsg} = this.state;
-        const {colors} = this.props.theme
+        const { visible, oldPassword, newPassword, isLoading, errorMsg } = this.state;
+        const { colors } = this.props.theme
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
@@ -67,18 +66,18 @@ class ChangePasswordScreen extends Component {
                         title="Change Password"
                     />
                     <Appbar.Action
-                        />
+                    />
                 </Appbar.Header>
-                <Loader isLoading={isLoading}/>
+                <Loader isLoading={isLoading} />
                 <TouchableWithoutFeedback style={{ backgroundColor: 'red' }} onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         <View style={{ marginTop: resHeight(1) }}>
-                        <CustomText style={{textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary}}>Change your password</CustomText>
-                        <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Change your Account Password</CustomText>
-                        {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>}
-                        <TextInput
+                            <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Change your password</CustomText>
+                            <CustomText style={{ textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo' }}>Change your Account Password</CustomText>
+                            {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
+                            <TextInput
                                 secureTextEntry
-                                style={{marginTop: resHeight(1), backgroundColor: 'white' }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white' }}
                                 mode='outlined'
                                 label='Old Password'
                                 value={oldPassword}
@@ -87,7 +86,7 @@ class ChangePasswordScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
                                 mode='outlined'
                                 label='New Password'
                                 value={newPassword}
@@ -101,7 +100,7 @@ class ChangePasswordScreen extends Component {
                                 mode="contained" onPress={this.handleChangePassword}>
                                 Change password
                             </Button>
-              
+
                         </View>
                         <Snackbar
                             visible={visible}
@@ -112,9 +111,8 @@ class ChangePasswordScreen extends Component {
                                     // Do something
                                 },
                             }}
-                            style={{backgroundColor: '#297045', color: '#fff'}}
                         >
-                            Password Changed successfully
+                            Password set successfully
                             </Snackbar>
                     </View>
                 </TouchableWithoutFeedback>
@@ -125,7 +123,7 @@ class ChangePasswordScreen extends Component {
     }
 }
 
-export default withTheme(ChangePasswordScreen);
+export default withTheme(SetPasswordScreen);
 const styles = StyleSheet.create({
     bottom: {
         position: 'absolute',

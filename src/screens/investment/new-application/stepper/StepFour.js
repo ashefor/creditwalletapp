@@ -3,15 +3,15 @@ import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedbac
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors, HelperText } from 'react-native-paper';
 import { Slider } from 'react-native'
-import CustomText from '../../../components/CustomText';
-import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
-import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
-import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
-import PickerComponent from '../../../components/PickerComponent';
+import CustomText from '../../../../components/CustomText';
+import { resWidth, resHeight, resFont, getBankCode } from '../../../../utils/utils';
+import { publicURL, requestWithToken } from '../../../../utils/request';
+import { getUser } from '../../../../utils/storage';
+import Loader from '../../../../components/Loader';
+import { InvestmentContext } from '../provider/NewInvestmentProvider';
+import PickerComponent from '../../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { states } from '../../../utils/states';
+import { states } from '../../../../utils/states';
 
 const titles = [
     {
@@ -43,7 +43,7 @@ const statesPlaceholder = {
 };
 
 class StepFour extends Component {
-    static contextType = LoanContext
+    static contextType = InvestmentContext
     constructor(props) {
         super(props)
         this._textInput = createRef()
@@ -91,7 +91,7 @@ class StepFour extends Component {
     render() {
         const { colors } = this.props.theme
         return (
-            <LoanContext.Consumer>
+            <InvestmentContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <View style={{ flex: 1 }}>
@@ -178,7 +178,7 @@ class StepFour extends Component {
                     </View>
 
                 </TouchableWithoutFeedback>}
-            </LoanContext.Consumer>
+            </InvestmentContext.Consumer>
         )
     }
 }

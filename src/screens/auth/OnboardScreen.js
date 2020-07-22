@@ -8,6 +8,7 @@ import OnboardCarousel from '../../components/OnboardCarousel';
 import CustomText from '../../components/CustomText';
 import { Constants } from 'react-native-unimodules';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import { NavigationActions } from 'react-navigation';
 class OnboardScreen extends Component {
     constructor(props) {
         super(props)
@@ -34,18 +35,15 @@ class OnboardScreen extends Component {
                     mode="contained" onPress={() => this.props.navigation.navigate('Get Started')}>
                     Apply for a loan
                 </Button>
-                {/* <Button
-                labelStyle={{textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white'}}
-                    contentStyle={styles.signpbtn}
-                    mode="contained" onPress={() => this.props.navigation.navigate('Offer Letter', { loanid: '28780' })}>
-                    Offer Letter
-                </Button> */}
                 <View style={styles.loginInfo}>
                     <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Existing Customer?</CustomText>
                     <TouchableWithoutFeedback onPress={()=> this.props.navigation.navigate('Login')} style={styles.loginTxt}>
                         <CustomText style={{ color: colors.primary, fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Login</CustomText>
                     </TouchableWithoutFeedback>
                 </View>
+                <TouchableWithoutFeedback onPress={()=> {this.props.navigation.navigate('Customer Investments', {}, NavigationActions.navigate({routeName: 'Onboard'}))}} style={styles.loginTxt}>
+                        <CustomText style={{ color: colors.primary, fontSize: resFont(15), fontFamily: 'Baloo-med', textDecorationLine: 'underline' }}>Make an investment</CustomText>
+                    </TouchableWithoutFeedback>
                </View>
 
                 <SafeAreaView />

@@ -1,16 +1,17 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, HelperText } from 'react-native-paper';
 import { Slider } from 'react-native'
-import CustomText from '../../../components/CustomText';
-import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
-import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
-import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
-import PickerComponent from '../../../components/PickerComponent';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import CustomText from '../../../../components/CustomText';
+import { resWidth, resHeight, resFont, getBankCode } from '../../../../utils/utils';
+import { publicURL, requestWithToken } from '../../../../utils/request';
+import { getUser } from '../../../../utils/storage';
+import Loader from '../../../../components/Loader';
+import { InvestmentContext } from '../provider/NewInvestmentProvider';
+import * as DocumentPicker from 'expo-document-picker';
+import PickerComponent from '../../../../components/PickerComponent';
+import { salaryBanks } from '../../../../utils/salaryBanks';
 
 const titles = [
     {
@@ -22,8 +23,16 @@ const titles = [
         value: 'Mrs',
     },
     {
+        label: 'Miss',
+        value: 'Miss',
+    },
+    {
         label: 'Alhaji',
         value: 'Alhaji',
+    },
+    {
+        label: 'Alhaja',
+        value: 'Alhaja',
     },
     {
         label: 'Chief',
@@ -46,6 +55,12 @@ const genders = [
     },
 ];
 
+const banksPlaceholder = {
+    label: 'Salary Bank Name',
+    value: null,
+    color: '#9EA0A4',
+};
+
 const titlePlaceholder = {
     label: 'Title',
     value: null,
@@ -58,16 +73,43 @@ const genderPlaceholder = {
     color: '#9EA0A4',
 };
 class StepThree extends Component {
+    static contextType = InvestmentContext;
     constructor(props) {
         super(props)
         this._textInput = createRef()
         this._selectGenderPicker = createRef()
         this._customeInput = createRef()
-        this._datePicker = createRef()
+        this._customInput = createRef()
         this.state = {
-            showDatePicker: false,
+
         }
     }
+
+    renderBankSelect = props => {
+        const { style, value, selectBank } = props;
+        return (
+            <PickerComponent
+                handleFocus={this.handleFocus}
+                handleBlur={this.handleBlur}
+                placeholder={banksPlaceholder}
+                items={salaryBanks}
+                onValueChange={bankcode => selectBank(bankcode)}
+                value={value}
+            />
+        );
+    };
+
+    handleFocus = () => {
+        this._customInput.current.handleBlur()
+        this._textInput.current.handleFocus();
+    };
+
+    handleBlur = () => {
+        setTimeout(() => {
+            this._textInput.current.handleBlur()
+        }, 100)
+    };
+
     renderTitleSelect = props => {
         const { style, value, selectTile } = props;
         const valueChange = (title) => {
@@ -96,15 +138,6 @@ class StepThree extends Component {
                 onValueChange={gender => selectGender(gender)}
                 value={value}
             />
-        );
-    };
-
-    renderDatePicker = props => {
-        const { style, value, loan } = props;
-        return (
-            <TouchableRipple style={{flex: 1, justifyContent: 'center'}} onPress={() => this.handleDatePickerFocus(loan)}>
-            <Text style={{paddingHorizontal: 14}}>{value}</Text>
-          </TouchableRipple>
         );
     };
 
@@ -137,54 +170,26 @@ class StepThree extends Component {
         }, 100)
     };
 
-    handleDatePickerBlur = () => {
-        setTimeout(() => {
-            this._datePicker && this._datePicker.current.handleBlur()
-        }, 100)
-    };
 
-    _handleHideDatePicker = (loan) => {
-        this.setState({showDatePicker: false}, this.handleDatePickerBlur())
+    validateEmail(email) {
+        if (email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return !re.test(String(email).toLowerCase());
+        }
     }
 
     render() {
-        const { colors } = this.props.theme
-        const {showDatePicker} = this.state
-
-        const handleCloseModal = (loan) => {
-            loan.confirmDatePicker()
-            loan.closeDatePicker()
-            this.handleDatePickerBlur()
-        }
-
-        const closeDatePicker =(loan) => {
-            loan.closeDatePicker()
-            this.handleDatePickerBlur()
-        }
-
-        const closeAndroidDatePicker = loan => {
-        //    console.log(loan.dateOnChange)
-           loan.dateOnChange()
-            loan.closeDatePicker()
-            // this.setState({showDatePicker: false}, )
-        }
-        
-        const dater = (event, date, loan) => {
-            // console.log(event,date, loan)
-            loan.dateOnChange(event, date)
-            this.handleDatePickerBlur();
-        }
         return (
-            <LoanContext.Consumer>
+            <InvestmentContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <View style={{ flex: 1 }}>
                             <KeyboardAvoidingView>
-                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
-                            personal information
+                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(13),
+        textTransform: 'capitalize'}}>
+                            Kindly provide the details below to complete investment process
                      </CustomText>
-                            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
+                            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(.5) }}>
                                     <TextInput
                                         ref={this._textInput}
                                         render={this.renderTitleSelect}
@@ -206,7 +211,7 @@ class StepThree extends Component {
                                         selectGender={loan.setGender}
                                     />
                                 </View>
-                                <View style={{ marginVertical: resHeight(1) }}>
+                                <View style={{ marginVertical: resHeight(.5) }}>
                                     <TextInput
                                         returnKeyType='done'
                                         mode="outlined"
@@ -218,7 +223,7 @@ class StepThree extends Component {
                                         onChangeText={name => loan.setFirstName(name)}
                                     />
                                 </View>
-                                <View style={{marginVertical: resHeight(1) }}>
+                                <View style={{marginVertical: resHeight(.5) }}>
                                     <TextInput
                                         mode="outlined"
                                         label='Last Name'
@@ -230,81 +235,77 @@ class StepThree extends Component {
                                         onChangeText={name => loan.setLastName(name)}
                                     />
                                 </View>
-                                <View style={{ marginVertical: resHeight(1) }}>
+                                <View style={{ marginVertical: resHeight(.5) }}>
                                     <TextInput
-                                        ref={this._datePicker}
-                                        render={this.renderDatePicker}
+                                        ref={this._customInput}
                                         mode="outlined"
-                                        label='Date of birth'
-                                        loan={loan}
+                                        label='Email'
+                                        returnKeyType='done'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.dob && new Date(loan.dob).toLocaleDateString()}
+                                        value={loan.email}
+                                        autoCapitalize='none'
+                                        keyboardType='email-address'
+                                        onChangeText={email => loan.setEmail(email)}
                                     />
-
-                                   {Platform.OS === 'ios' &&  <Modal visible={loan.showDatePicker} transparent={true} onRequestClose={() => closeDatePicker(loan)} >
-                                   <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end', backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
-                                 <View style={{width: resWidth(95), marginBottom: 20}}>
-                                 <View style={{backgroundColor: 'white', borderRadius: 10}}>
-                                     <View style={{paddingVertical: 10}}>
-                                         <CustomText style={{textAlign: 'center'}}>
-                                             Pick a date
-                                         </CustomText>
-                                     </View>
-                                     <View style={{height: .5, backgroundColor: 'rgba(0,0,0, .2)'}}/>
-                                  <DateTimePicker 
-                                    maximumDate={new Date(2002, 11, 31)}
-                                    minimumDate={new Date(1960, 0, 1)}
-                                    mode={'date'}  
-                                    testID="dateTimePicker"
-                                     is24Hour={true} 
-                                     display='calendar'
-                                      value={loan.date}
-                                      onChange={loan.setDate}
-                                      />
-                                      <View style={{height: .5, backgroundColor: 'rgba(0,0,0, .2)'}}/>
-                                       <Button mode="contained" style={{backgroundColor: '#fff', borderRadius: 10, overflow: 'hidden'}} contentStyle={styles.datePickerBtn} labelStyle={{ textTransform: 'none', fontSize: 17, fontFamily: 'Baloo-med', color: '#f56b2a' }}
-                                        onPress={() => handleCloseModal(loan)}>
-                                        Confirm
-                        </Button>
-                                  </View>
-                                  <View style={{marginVertical: 10}}>
-                                  <Button mode="contained" style={{backgroundColor: '#fff', borderRadius: 10, overflow: 'hidden'}} contentStyle={styles.datePickerBtn} labelStyle={{ textTransform: 'none', fontSize: 17, fontFamily: 'Baloo-med', color: '#f56b2a' }}
-                                        onPress={() => closeDatePicker(loan)}>
-                                        Cancel
-                        </Button>
-                                  </View>
-                                 </View>
-                                   </View>
-                                    </Modal>}
-                                    {Platform.OS === 'android' && loan.showDatePicker && <DateTimePicker 
-                                    mode={'date'}  
-                                    maximumDate={new Date(2002, 11, 31)}
-                                    minimumDate={new Date(1960, 0, 1)}
-                                    testID="dateTimePicker"
-                                     is24Hour={true} 
-                                     display='calendar'
-                                      value={loan.dob ? loan.dob : loan.date}
-                                      onChange={(event, dat) => dater(event, dat, loan)}
-                                      />}
+                                    {this.validateEmail(loan.email) && <HelperText type='error' visible={true}>
+                                        Please valid email only
+                                   </HelperText>}
                                 </View>
-                                <View style={{ marginVertical: resHeight(1) }}>
+                                <View style={{ marginVertical: resHeight(.5) }}>
+                                    <TextInput
+                                        ref={this._customInput}
+                                        mode="outlined"
+                                        label='Phone Number'
+                                        returnKeyType='done'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.telephone}
+                                        autoCapitalize='none'
+                                        keyboardType='phone-pad'
+                                        onChangeText={phonenumber => loan.setPhone(phonenumber)}
+                                    />
+                                </View>
+                                <View style={{ marginVertical: resHeight(.5) }}>
+                                <TextInput
+                                        ref={this._textInput}
+                                        render={this.renderBankSelect}
+                                        mode="outlined"
+                                        label='Salary Bank Name'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.salary_bank_name}
+                                        keyboardType='default'
+                                        selectBank={loan.setBankCode}
+                                    />
+                                </View>
+                                <View style={{ marginVertical: resHeight(.5) }}>
+                                    <TextInput
+                                    ref={this._customInput}
+                                        mode="outlined"
+                                        label='Salary Bank Account'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.salary_bank_account}
+                                        keyboardType='number-pad'
+                                        returnKeyType='done'
+                                        onChangeText={account => loan.setBankAccount(account)}
+                                    />
+                                </View>
+                                <View style={{ marginVertical: resHeight(.5) }}>
                                     <TextInput
                                         returnKeyType='done'
                                         mode="outlined"
-                                        label='Referral Code'
+                                        label='Tax Id (Optional)'
                                         ref={this._customeInput}
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.referralcode}
+                                        value={loan.tax_id}
                                         keyboardType='default'
-                                        onChangeText={(code => loan.setReferral(code))}
+                                        onChangeText={(code => loan.setTaxId(code))}
                                     />
                                 </View>
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained" 
-                                    disabled={!loan.dob || !loan.gender || !loan.title || !loan.lastname || !loan.firstname}
+                                    disabled={!loan.gender || !loan.title || !loan.lastname || !loan.firstname}
                                     contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
-                                        onPress={loan.goNext}>
-                                        Next
+                                        onPress={loan.verifyAccount}>
+                                        Continue
                         </Button>
                                 </View>
                             </KeyboardAvoidingView>
@@ -313,7 +314,7 @@ class StepThree extends Component {
                     </View>
 
                 </TouchableWithoutFeedback>}
-            </LoanContext.Consumer>
+            </InvestmentContext.Consumer>
         )
     }
 }
@@ -341,18 +342,10 @@ const styles = StyleSheet.create({
         // color: '#f56b2a',
         textTransform: 'uppercase'
     },
-    bottomcontainer: {
-        // flex: 1,
-        // alignSelf: 'flex-end'
-        marginVertical: resHeight(5)
-    },
     button: {
         height: resHeight(6),
     },
-    datePickerBtn: {
-        height: resHeight(6),
-        backgroundColor: 'white',
-        color: 'black',
-        borderRadius: 10
+    bottomcontainer: {
+        marginVertical: resHeight(1)
     }
 })

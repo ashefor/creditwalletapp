@@ -6,7 +6,7 @@ import {
 } from '@expo/vector-icons';
 import Toast from 'react-native-root-toast';
 import { resWidth, resFont, resHeight } from '../../../utils/utils';
-import {  Appbar, ProgressBar, Surface } from 'react-native-paper';
+import {  Appbar, ProgressBar, Surface, Snackbar } from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
 import CustomText from '../../../components/CustomText';
 import { AutoLoanOfferContext } from '../provider/AutoLoanOfferProvider';
@@ -46,7 +46,7 @@ class AutoOfferLetter extends Component {
             <AutoLoanOfferContext.Consumer>
                 
                 {loan => <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
-                <Toast
+                {/* <Toast
                         visible={loan.hasError}
                         position={Constants.statusBarHeight}
                         opacity={1}
@@ -54,7 +54,7 @@ class AutoOfferLetter extends Component {
                         shadow={false}
                         animation={false}
                         hideOnPress={true}
-                    >{loan.errorMsg}</Toast>
+                    >{loan.errorMsg}</Toast> */}
                     <Loader isLoading={loan.isFetchingOffer || loan.isAccepting} />
                     <Loader isLoading={loan.loadingRepayment} backgroundColor="'rgba(247, 247, 247, .3)'">
                         <CustomText style={{textAlign: 'center', fontSize: resFont(15), color: 'white', marginVertical: resHeight(2)}}>Loading</CustomText>
@@ -69,7 +69,10 @@ class AutoOfferLetter extends Component {
                                 <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(1) }}>
-                                        <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={resFont(40)} color="#f56b2a" />
+                                        <Image
+                                                style={{ width: resWidth(90), resizeMode: 'contain', height:resHeight(40), alignSelf: 'center' }}
+                                                source={require('../../../assets/images/success.png')}
+                                            />
                                         </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Application submitted successfully. Kindly await a response from our team!</CustomText>
                                     </Surface>
@@ -111,6 +114,19 @@ class AutoOfferLetter extends Component {
                      </View>
                  </Fragment>
                     }
+                     <Snackbar
+                            visible={loan.hasError}
+                            onDismiss={loan._onDismissSnackBar}
+                            style={{backgroundColor: '#B5446E', color: '#fff'}}
+                            action={{
+                                label: 'Okay',
+                                onPress: () => {
+                                    loan._onDismissSnackBar
+                                },
+                              }}
+                        >
+                            {loan.errorMsg}
+                            </Snackbar>
                 </CustomSafeAreaView>}
             </AutoLoanOfferContext.Consumer>
         )

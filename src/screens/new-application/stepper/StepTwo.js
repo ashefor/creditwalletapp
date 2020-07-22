@@ -8,7 +8,7 @@ import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
-import { loanApiURL, requestWithToken } from '../../../utils/request';
+import { publicURL, requestWithToken } from '../../../utils/request';
 import { getUser } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';

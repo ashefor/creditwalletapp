@@ -1,99 +1,74 @@
 import React, { Component, Fragment, createRef } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors, HelperText } from 'react-native-paper';
 import { Slider } from 'react-native'
-import CustomText from '../../../components/CustomText';
-import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
-import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
-import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
-import PickerComponent from '../../../components/PickerComponent';
+import CustomText from '../../../../components/CustomText';
+import { resWidth, resHeight, resFont, getBankCode } from '../../../../utils/utils';
+import { publicURL, requestWithToken } from '../../../../utils/request';
+import { getUser } from '../../../../utils/storage';
+import Loader from '../../../../components/Loader';
+import { InvestmentContext } from '../provider/NewInvestmentProvider';
+import PickerComponent from '../../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const titles = [
+
+const durations = [
     {
-        label: 'Mr',
-        value: 'Mr',
+        label: '6 Months',
+        value: '6',
     },
     {
-        label: 'Mrs',
-        value: 'Mrs',
-    },
-    {
-        label: 'Alhaji',
-        value: 'Alhaji',
-    },
-    {
-        label: 'Chief',
-        value: 'Chief',
-    },
-    {
-        label: 'Dr',
-        value: 'Dr',
+        label: '12 Months',
+        value: '12',
     },
 ];
 
-const genders = [
-    {
-        label: 'Male',
-        value: 'male',
-    },
-    {
-        label: 'Female',
-        value: 'female',
-    },
-];
 
-const titlePlaceholder = {
-    label: 'Title',
+const durationPlaceholder = {
+    label: 'Duration',
     value: null,
     color: '#9EA0A4',
 };
-
-const genderPlaceholder = {
-    label: 'Gender',
-    value: null,
-    color: '#9EA0A4',
-};
-class StepThree extends Component {
+class StepOne extends Component {
+    static contextType = InvestmentContext;
     constructor(props) {
         super(props)
         this._textInput = createRef()
-        this._selectGenderPicker = createRef()
+        this._selectDurationPicker = createRef()
         this._customeInput = createRef()
         this._datePicker = createRef()
         this.state = {
             showDatePicker: false,
         }
     }
-    renderTitleSelect = props => {
-        const { style, value, selectTile } = props;
-        const valueChange = (title) => {
-            selectTile(title)
-            this.handleBlur();
+
+
+    formatAsCurrency = (value) => {
+        const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        return `₦${newvalue}`
+    }
+
+    hasErrors(amount) {
+        if (amount) {
+            return this.context.unFormat(amount) < 1000000
         }
+    }
+
+    invalidAmount(amount) {
+        if (amount) {
+            return isNaN(this.context.unFormat(amount))
+        }
+    }
+    renderDurationSelect = props => {
+        const { style, value, selectDuration } = props;
         return (
             <PickerComponent
-                handleFocus={this.handleFocus}
-                handleBlur={this.handleBlur}
-                placeholder={titlePlaceholder}
-                items={titles}
-                onValueChange={title => valueChange(title)}
-                value={value}
-            />
-        );
-    };
-    renderGenderSelect = props => {
-        const { style, value, selectGender } = props;
-        return (
-            <PickerComponent
-                handleFocus={this.handleGenderPickerFocus}
-                handleBlur={this.handleGenderPickerBlur}
-                placeholder={genderPlaceholder}
-                items={genders}
-                onValueChange={gender => selectGender(gender)}
+                handleFocus={this.handleDurationPickerFocus}
+                handleBlur={this.handleDurationPickerBlur}
+                placeholder={durationPlaceholder}
+                items={durations}
+                onValueChange={duration => selectDuration(duration)}
                 value={value}
             />
         );
@@ -119,9 +94,9 @@ class StepThree extends Component {
         this._customeInput.current.handleBlur();
         this._textInput.current.handleFocus();
     };
-    handleGenderPickerFocus = () => {
+    handleDurationPickerFocus = () => {
         this._customeInput.current.handleBlur();
-        this._selectGenderPicker.current.handleFocus();
+        this._selectDurationPicker.current.handleFocus();
     };
 
     handleBlur = () => {
@@ -130,10 +105,10 @@ class StepThree extends Component {
         }, 100)
     };
 
-    handleGenderPickerBlur = () => {
+    handleDurationPickerBlur = () => {
         // console.log('blur')
         setTimeout(() => {
-            this._selectGenderPicker.current.handleBlur()
+            this._selectDurationPicker.current.handleBlur()
         }, 100)
     };
 
@@ -161,84 +136,74 @@ class StepThree extends Component {
             loan.closeDatePicker()
             this.handleDatePickerBlur()
         }
-
-        const closeAndroidDatePicker = loan => {
-        //    console.log(loan.dateOnChange)
-           loan.dateOnChange()
-            loan.closeDatePicker()
-            // this.setState({showDatePicker: false}, )
-        }
         
-        const dater = (event, date, loan) => {
+        const selectDate = (event, date, loan) => {
             // console.log(event,date, loan)
             loan.dateOnChange(event, date)
             this.handleDatePickerBlur();
         }
         return (
-            <LoanContext.Consumer>
+            <InvestmentContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <View style={{ flex: 1 }}>
                             <KeyboardAvoidingView>
-                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
-                            personal information
+                            <CustomText style={{
+                                fontFamily: 'Baloo-bold', fontSize: resFont(20),
+                                textTransform: 'capitalize'
+                            }}>
+                                Create Portfolio
                      </CustomText>
-                            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
-                                    <TextInput
-                                        ref={this._textInput}
-                                        render={this.renderTitleSelect}
+                                <View style={{ marginVertical: resHeight(.5) }}>
+                                <TextInput
+                                    mode="outlined"
+                                    label='Amount'
+                                    style={{ backgroundColor: 'white', height: resHeight(7) }}
+                                    value={loan.amount}
+                                    keyboardType='number-pad'
+                                    returnKeyType='done'
+                                    onChangeText={amount => loan.setAmount(amount)}
+                                />
+                                {this.hasErrors(loan.amount) && <HelperText type='error' >
+                                    Amount should be greater than {this.formatAsCurrency(1000000)}
+                                </HelperText>}
+                                {this.invalidAmount(loan.amount) && <HelperText type='error' >
+                                    Invalid Amount. Please check
+                                                    </HelperText>}
+                                </View>
+                                <View style={{ marginVertical: resHeight(.5) }}>
+                                  <TextInput
+                                        ref={this._selectDurationPicker}
+                                        render={this.renderDurationSelect}
                                         mode="outlined"
-                                        label='Title'
-                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
-                                        value={loan.title}
+                                        label='Duration'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13)}}
+                                        value={loan.duration}
                                         keyboardType='default'
-                                        selectTile={loan.setTitle}
-                                    />
-                                    <TextInput
-                                        ref={this._selectGenderPicker}
-                                        render={this.renderGenderSelect}
-                                        mode="outlined"
-                                        label='Gender'
-                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13)}}
-                                        value={loan.gender}
-                                        keyboardType='default'
-                                        selectGender={loan.setGender}
+                                        selectDuration={loan.setDuration}
                                     />
                                 </View>
-                                <View style={{ marginVertical: resHeight(1) }}>
+                                <View style={{ marginVertical: resHeight(.5) }}>
                                     <TextInput
                                         returnKeyType='done'
                                         mode="outlined"
-                                        label='First Name'
+                                        label='Referral Code'
                                         ref={this._customeInput}
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.firstname}
+                                        value={loan.referralcode}
                                         keyboardType='default'
-                                        onChangeText={name => loan.setFirstName(name)}
+                                        onChangeText={(code => loan.setReferral(code))}
                                     />
                                 </View>
-                                <View style={{marginVertical: resHeight(1) }}>
-                                    <TextInput
-                                        mode="outlined"
-                                        label='Last Name'
-                                        returnKeyType='done'
-                                        ref={this._customeInput}
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.lastname}
-                                        keyboardType='default'
-                                        onChangeText={name => loan.setLastName(name)}
-                                    />
-                                </View>
-                                <View style={{ marginVertical: resHeight(1) }}>
+                                <View style={{ marginVertical: resHeight(.5) }}>
                                     <TextInput
                                         ref={this._datePicker}
                                         render={this.renderDatePicker}
                                         mode="outlined"
-                                        label='Date of birth'
+                                        label='Start Date'
                                         loan={loan}
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.dob && new Date(loan.dob).toLocaleDateString()}
+                                        value={loan.start_date && new Date(loan.start_date).toISOString().slice(0, 10)}
                                     />
 
                                    {Platform.OS === 'ios' &&  <Modal visible={loan.showDatePicker} transparent={true} onRequestClose={() => closeDatePicker(loan)} >
@@ -252,8 +217,6 @@ class StepThree extends Component {
                                      </View>
                                      <View style={{height: .5, backgroundColor: 'rgba(0,0,0, .2)'}}/>
                                   <DateTimePicker 
-                                    maximumDate={new Date(2002, 11, 31)}
-                                    minimumDate={new Date(1960, 0, 1)}
                                     mode={'date'}  
                                     testID="dateTimePicker"
                                      is24Hour={true} 
@@ -278,33 +241,19 @@ class StepThree extends Component {
                                     </Modal>}
                                     {Platform.OS === 'android' && loan.showDatePicker && <DateTimePicker 
                                     mode={'date'}  
-                                    maximumDate={new Date(2002, 11, 31)}
-                                    minimumDate={new Date(1960, 0, 1)}
                                     testID="dateTimePicker"
                                      is24Hour={true} 
                                      display='calendar'
-                                      value={loan.dob ? loan.dob : loan.date}
-                                      onChange={(event, dat) => dater(event, dat, loan)}
+                                      value={loan.start_date ? loan.start_date : loan.date}
+                                      onChange={(event, date) => selectDate(event, date, loan)}
                                       />}
-                                </View>
-                                <View style={{ marginVertical: resHeight(1) }}>
-                                    <TextInput
-                                        returnKeyType='done'
-                                        mode="outlined"
-                                        label='Referral Code'
-                                        ref={this._customeInput}
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.referralcode}
-                                        keyboardType='default'
-                                        onChangeText={(code => loan.setReferral(code))}
-                                    />
                                 </View>
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained" 
-                                    disabled={!loan.dob || !loan.gender || !loan.title || !loan.lastname || !loan.firstname}
+                                    disabled={!loan.start_date || !loan.duration || !loan.amount || this.hasErrors(loan.amount) || this.invalidAmount(loan.amount) }
                                     contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
-                                        onPress={loan.goNext}>
-                                        Next
+                                        onPress={loan.proceed}>
+                                        Create Portfolio
                         </Button>
                                 </View>
                             </KeyboardAvoidingView>
@@ -313,12 +262,12 @@ class StepThree extends Component {
                     </View>
 
                 </TouchableWithoutFeedback>}
-            </LoanContext.Consumer>
+            </InvestmentContext.Consumer>
         )
     }
 }
 
-export default withTheme(StepThree)
+export default withTheme(StepOne)
 
 const styles = StyleSheet.create({
     loaninforow: {

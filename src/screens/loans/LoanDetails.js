@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
 import { Appbar, Divider, Button, withTheme, Chip, Portal, Modal, Colors } from 'react-native-paper'
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { resFont, resWidth, resHeight } from '../../utils/utils';
@@ -10,6 +10,7 @@ import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
 import LiquidateLoan from '../liquidate/LiquidateLoan';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import { StackActions } from 'react-navigation';
 
 class LoanDetails extends Component {
     _isMounted = false;
@@ -84,6 +85,14 @@ class LoanDetails extends Component {
         const newvalue = parseFloat(value)
         return `₦${newvalue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
     }
+
+    goToLiquidateLoan = () => {
+        const pushAction = StackActions.push({
+            routeName: 'Liquidate Loan',
+            params: { loan_id: this.state.loan_id },
+          });
+          this.props.navigation.dispatch(pushAction);
+    }
     render() {
         const { colors } = this.props.theme;
         const { isLoading, loan, loanType, visible, singleLoan, loan_id, showLiquidation, hasError } = this.state;
@@ -111,14 +120,16 @@ class LoanDetails extends Component {
                     {loan && (
                         <Fragment>
                             <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
-                                <View style={{ width: '100%', backgroundColor: '#f5fcff', marginVertical: 10 }}>
-                                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
+                                <View style={{ width: '100%', marginVertical: 10, borderRadius: 10, overflow: 'hidden' }}>
+                                   <ImageBackground source={require('../../assets/images/background.jpeg')} style={{width: '100%'}}>
+                                 <View style={{padding: 10}}>
+                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
                                         <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Loan Id</CustomText>
                                         <View>
                                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{loan.loan.loan_application_id}</CustomText>
                                         </View>
                                     </View>
-                                    <Divider />
+                                    {/* <Divider /> */}
                                     {loanType === 'closed' && <Fragment>
                                         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
                                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Status</CustomText>
@@ -127,7 +138,7 @@ class LoanDetails extends Component {
                                                 <Chip textStyle={{ color: 'green', fontSize: resFont(8) }} style={{ backgroundColor: 'rgba(50,205,50, .2)' }} disabled>Fully Paid</Chip>
                                             </View>
                                         </View>
-                                        <Divider />
+                                        {/* <Divider /> */}
                                     </Fragment>}
                                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
                                         <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Loan Amount</CustomText>
@@ -135,7 +146,7 @@ class LoanDetails extends Component {
                                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{this.formatAsCurrency(loan.loan.loan_principal_amount)}</CustomText>
                                         </View>
                                     </View>
-                                    <Divider />
+                                    {/* <Divider /> */}
 
                                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
                                         <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Balance</CustomText>
@@ -143,7 +154,7 @@ class LoanDetails extends Component {
                                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{this.formatAsCurrency(loan.loan.balance_amount)}</CustomText>
                                         </View>
                                     </View>
-                                    <Divider />
+                                    {/* <Divider /> */}
                                     {loanType === 'closed' && (
                                         <Fragment>
                                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
@@ -152,7 +163,7 @@ class LoanDetails extends Component {
                                                     <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{this.formatAsCurrency(loan.loan.total_paid)}</CustomText>
                                                 </View>
                                             </View>
-                                            <Divider />
+                                            {/* <Divider /> */}
                                         </Fragment>
                                     )}
 
@@ -162,14 +173,16 @@ class LoanDetails extends Component {
                                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{loan.loan.loan_duration} Months</CustomText>
                                         </View>
                                     </View>
-                                    <Divider />
+                                    {/* <Divider /> */}
                                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 5 }}>
                                         <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Maturity Date</CustomText>
                                         <View>
                                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{loan.loan.loan_override_maturity_date}</CustomText>
                                         </View>
                                     </View>
-                                    <Divider />
+                                    {/* <Divider /> */}
+                                 </View>
+                                   </ImageBackground>
                                 </View>
                                 <View style={{ marginTop: resHeight(2) }}>
                                     <CustomText style={{ fontSize: resFont(17), textAlign: 'center', fontFamily: 'Baloo-med' }}>Repayments</CustomText>
@@ -195,7 +208,7 @@ class LoanDetails extends Component {
                                 <Button
                                     style={{ marginVertical: resHeight(2), height: resHeight(6) }}
                                     labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
-                                    mode="contained" onPress={() => this.props.navigation.navigate('Liquidate Loan', { loan_id: loan_id, returnUrl: 'Loans' })}>
+                                    mode="contained" onPress={this.goToLiquidateLoan}>
                                     Liquidate/Pay off Loan
                         </Button>
                             </View>}

@@ -1,6 +1,6 @@
 import React, { Component, createRef, Fragment } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Platform, Linking, RefreshControl, Modal } from 'react-native'
-import { Appbar, Button, Title, Subheading, FAB, Portal, TextInput, Dialog, Paragraph, Surface, withTheme, Snackbar, IconButton, Colors } from 'react-native-paper';
+import { Appbar, Button, Title, HelperText, FAB, Portal, TextInput, Dialog, Paragraph, Surface, withTheme, Snackbar, IconButton, Colors } from 'react-native-paper';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons, AntDesign, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
@@ -12,6 +12,7 @@ import LiquidateLoan from '../liquidate/LiquidateLoan';
 import { Constants } from 'react-native-unimodules';
 import NewLoanScreen from './NewLoanScreen';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import { StackActions } from 'react-navigation';
 
 const { width } = Dimensions.get('window')
 class HomeScreen extends Component {
@@ -179,7 +180,12 @@ class HomeScreen extends Component {
         } else if (this.state.dashboard.open_loans_count > 1) {
             this.setState({ isErrorLoans: true })
         } else {
-            this.props.navigation.navigate('Liquidate Loan', { loan_id: this.state.dashboard.open_loans[0].loan_id, returnUrl: 'Home' })
+            const pushAction = StackActions.push({
+                routeName: 'Liquidate Loan',
+                params: { loan_id: this.state.dashboard.open_loans[0].loan_id },
+              });
+              this.props.navigation.dispatch(pushAction);
+            // this.props.navigation.navigate('Liquidate Loan', { loan_id: this.state.dashboard.open_loans[0].loan_id, returnUrl: 'Home' })
         }
     }
 
@@ -202,6 +208,12 @@ class HomeScreen extends Component {
 
     _hideNewLoanModal = () => {
         this.setState({ showNewLoanModal: false })
+    }
+    validateEmail(email) {
+        if (email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return !re.test(String(email).toLowerCase());
+        }
     }
     render() {
         const { username, isOpenLoans, isErrorLoans, isLoading, dashboard, visible, email, showNewLoanModal, hasError, isSending, letterType, dialog, errorMsg, snackBarVisible } = this.state;
@@ -278,8 +290,12 @@ class HomeScreen extends Component {
                                                     ref={this.textInputRef}
                                                     onChangeText={email => this.setState({ email })}
                                                 />
+                                                {this.validateEmail(email) && <HelperText type='error' visible={true}>
+                                        Only valid emails are allowed
+                                   </HelperText>}
                                                 <Button
-                                                    disabled={isSending}
+                                                    disabled={isSending || this.validateEmail(email)}
+                                                    loading={isSending}
                                                     style={{ marginTop: resHeight(2) }}
                                                     labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
                                                     contentStyle={styles.loginbtn}
@@ -388,7 +404,11 @@ class HomeScreen extends Component {
                         <Snackbar
                             visible={snackBarVisible}
                             onDismiss={this._onDismissSnackBar}
-                            style={{backgroundColor: '#f56b2a', color: '#fff'}}
+                            action={{
+                                label: 'Okay',
+                                onPress: () => this._onDismissSnackBar,
+                            }}
+                            style={{backgroundColor: '#297045', color: '#fff'}}
                         >
                             Email Successfully Sent
                             </Snackbar>
@@ -439,8 +459,7 @@ const styles = StyleSheet.create({
     },
     header: {
         height: resHeight(5),
-        marginTop: Constants.statusBarHeight,
-        // backgroundColor: 'blue',
+        marginTop: resHeight(3),
         justifyContent: 'space-between',
         display: 'flex',
         flexDirection: 'row',

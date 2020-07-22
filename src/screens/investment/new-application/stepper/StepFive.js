@@ -3,16 +3,16 @@ import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedbac
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors } from 'react-native-paper';
 import { Slider } from 'react-native'
-import CustomText from '../../../components/CustomText';
-import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
-import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
-import Loader from '../../../components/Loader';
-import { LoanContext } from '../provider/NewLoanProvider';
-import PickerComponent from '../../../components/PickerComponent';
+import CustomText from '../../../../components/CustomText';
+import { resWidth, resHeight, resFont, getBankCode } from '../../../../utils/utils';
+import { publicURL, requestWithToken } from '../../../../utils/request';
+import { getUser } from '../../../../utils/storage';
+import Loader from '../../../../components/Loader';
+import { InvestmentContext } from '../provider/NewInvestmentProvider';
+import PickerComponent from '../../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { states } from '../../../utils/states';
-import { salaryBanks } from '../../../utils/salaryBanks';
+import { states } from '../../../../utils/states';
+import { salaryBanks } from '../../../../utils/salaryBanks';
 import { Constants } from 'react-native-unimodules';
 
 const titles = [
@@ -81,7 +81,7 @@ class StepFive extends Component {
     render() {
         const { colors } = this.props.theme
         return (
-            <LoanContext.Consumer>
+            <InvestmentContext.Consumer>
                 {loan => <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <View style={{ flex: 1 }}>
@@ -155,7 +155,7 @@ class StepFive extends Component {
                     </View>
 
                 </TouchableWithoutFeedback>}
-            </LoanContext.Consumer>
+            </InvestmentContext.Consumer>
         )
     }
 }

@@ -15,7 +15,7 @@ const images = [
     },
     {
         imgUrl: require('../assets/images/disburse.png'),
-        text: 'Money Disbursed in 30 minutes'
+        text: 'Money Disbursed under 2 hours'
     }
 ]
 class OnboardCarousel extends Component {

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View, I18nManager } from 'react-native';
+import { Platform, StyleSheet, Text, View, I18nManager, BackHandler, Alert } from 'react-native';
 import * as Linking from 'expo-linking'
 import { AppLoading } from 'expo';
 
@@ -15,6 +15,7 @@ import { LoanOfferProvider } from './src/screens/loanoffer/provider/LoanOfferPro
 import MainApp from './src/utils/Navigator';
 import { AutoLoanOfferProvider } from './src/screens/autoloanoffer/provider/AutoLoanOfferProvider';
 import { getUser , setIntent} from './src/utils/storage';
+import CombinedContextProvider from './src/components/CombinedProvider';
 
 I18nManager.forceRTL(false);
 
@@ -99,30 +100,24 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     this._loadFontsAsync();
-  //   Linking.addEventListener('url', (data) => {
-  //     this.handleUrl(data.url)
-  //   })
-  //  //  navigationservice.navigate('Loans')
-    
-  //   await Linking.getInitialURL().then(data => this.handleUrl(data));
+    BackHandler.addEventListener('hardwareBackPress', this.backAction)
+
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+    };
   }
 
-  // handleUrl = (url) => {
-  //   console.log(url)
-  //   if(url != null) {
-  //     setIntent(true)
-  //    const route = url.replace(/.*?:\/\//g, '');
-  //    const routes = route.split('/')
-  //    // console.log(routes)
-  //    const routeName = routes[2]
-  //    const id = routes[3]
-  //    if(routeName == 'liquidate') {
-  //      navigationservice.navigate('Loan Liquidate', {loan_id : id})
-  //    } else if (routeName == 'offerletter') {
-  //     navigationservice.navigate('Offer Letter', {loanid : id})
-  //    }
-  //   }
-  //  }
+  backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to exit the app?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
 
   componentWillUnmount() {
     this._isMounted = false;
@@ -133,13 +128,9 @@ render() {
    return (
     <View style={styles.container}>
     <PaperProvider theme={theme}>
-     <AutoLoanOfferProvider>
-     <LoanOfferProvider>
-        <NewLoanProvider>
-         <AppNavigation ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/>
-        </NewLoanProvider>
-      </LoanOfferProvider>
-     </AutoLoanOfferProvider>
+    <CombinedContextProvider>
+    <AppNavigation ref={navRef => navigationservice.setTopLevelNavigator(navRef)}/>
+    </CombinedContextProvider>
     </PaperProvider>
   </View>
    )

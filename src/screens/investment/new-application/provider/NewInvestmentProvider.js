@@ -1,19 +1,18 @@
 
 
 import React, { Component } from 'react';
-import { requestWithToken, publicURL, request, axiosPost, apiURL } from '../../../utils/request';
-import navigationservice from '../../../utils/navigationservice';
-import { states } from '../../../utils/states';
+import { requestWithToken, publicURL, request, axiosPost, apiURL } from '../../../../utils/request';
+import navigationservice from '../../../../utils/navigationservice';
+import { states } from '../../../../utils/states';
 const axios = require('axios').default;
-const LoanContext = React.createContext();
+const InvestmentContext = React.createContext();
 
-class NewLoanProvider extends Component {
+class NewInvestmentProvider extends Component {
     constructor(props) {
         super(props);
         this.initialstate = {
             currentPage:1,
             amount: '',
-            duration: 2,
             isApplying: false,
             isLoading: false,
             applicationSuccess: false,
@@ -29,6 +28,7 @@ class NewLoanProvider extends Component {
             errorMsg: null,
             telephone: null,
             referralcode: null,
+            tax_id: null,
             email: null,
             city: null,
             address: null,
@@ -37,13 +37,17 @@ class NewLoanProvider extends Component {
             selectedState: null,
             salary_bank_name: null,
             salary_bank_account: null,
-            date: new Date(1937, 0, 1),
-            dob: null,
+            date: new Date(),
+            start_date: null,
             category: null,
             title: null,
+            duration: null,
             gender: null,
+            interest: null,
             decimalSeparator: '.',
-            commaSeparator: ','
+            investmentDetails: null,
+            commaSeparator: ',',
+            investorDataIncomplete: {},
         }
         this.state = this.initialstate
     }
@@ -80,6 +84,9 @@ class NewLoanProvider extends Component {
         this.setState({firstname})
     }
 
+    setGender = gender => {
+        this.setState({gender})
+    }
     setLastName = lastname => {
         this.setState({lastname})
     }
@@ -91,8 +98,8 @@ class NewLoanProvider extends Component {
     setTitle = title => {
         this.setState({title})
     }
-    setGender = gender => {
-        this.setState({gender})
+    setDuration = duration => {
+        this.setState({duration})
     }
 
     setEmail = email => {
@@ -115,6 +122,9 @@ class NewLoanProvider extends Component {
         this.setState({referralcode: code})
     }
 
+    setTaxId = taxid => {
+        this.setState({tax_id: taxid})
+    }
     setSelectedState = selectedState => {
         this.setState({selectedState})
     }
@@ -129,6 +139,9 @@ class NewLoanProvider extends Component {
         this.setState({salary_bank_name: bankcode})
     }
 
+    _onDismissSnackBar = () => {
+        this.setState({ hasError: false })
+    };
     setBankAccount = account=> {
         this.setState({salary_bank_account: account})
     }
@@ -142,7 +155,7 @@ class NewLoanProvider extends Component {
         this.setState({ippisnumber: number})
     }
     confirmDatePicker = () => {
-        this.setState({dob: this.state.date})
+        this.setState({start_date: this.state.date})
     }
     _handleGoBack = () => {
         this.setState(prevState => {
@@ -158,7 +171,7 @@ class NewLoanProvider extends Component {
 
     _handleGoNext = () => {
         this.setState(prevState => {
-            if(prevState.currentPage === 5) {
+            if(prevState.currentPage === 3) {
                 return;
             } else {
                 return {
@@ -172,25 +185,27 @@ class NewLoanProvider extends Component {
         const url = `${publicURL}verify/account`;
         const account = {
             bankcode: this.state.salary_bank_name,
-            accountnumber: this.state.salary_bank_account
+            accountnumber: this.state.salary_bank_account,
+            tax_id: this.state.tax_id ? this.state.tax_id : ''
         }
-        // console.log(account)
-        this.setState({ isValidating: true, hasError: false })
+        console.log(account)
+        this.setState({ isValidating: true, isLoading: true })
          axios({
              method: 'POST',
              url: url,
              data: account
          }).then((data) => {
-            //  console.log(data)
-            this.setState({ isValidating: false })
+             this.setState({isLoading: false})
+             console.log(data.data)
+            // this.setState({ isLoading: false })
             if (data.data.status === 'success') {
                 // console.log(data);
-                this._handleAcceptLoan();
+                this._handleCompleteApplication();
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
             }
         }).catch((error) => {
-            this.setState({ isValidating: false })
+            this.setState({ isLoading: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
             console.log(error)
         })
@@ -207,7 +222,7 @@ class NewLoanProvider extends Component {
     }
     dateOnChange = (event, selectedDate) => {
         const currentDate = selectedDate || null;
-        this.setState({dob: currentDate}, this.setState({showDatePicker: false}))
+        this.setState({start_date: currentDate}, this.setState({showDatePicker: false}))
       };
     
     _handleLoanApply = () => {
@@ -243,50 +258,40 @@ class NewLoanProvider extends Component {
         })
     }
 
-    _onDismissSnackBar = () => {
-        this.setState({ hasError: false })
-    };
 
-    _handleAcceptLoan = async () => {
-        const url = `${publicURL}apply/new`;
-        const {amount, duration, loanOffer, firstname, lastname, title, gender, dob, email, telephone, address, city, selectedState, place_of_work, ippisnumber, salary_bank_name, salary_bank_account, referralcode} = this.state;
+    _handleCompleteApplication = async () => {
+        const url = `${publicURL}/investment/account/start/initiate`;
+        const {amount, duration, gender, firstname, lastname, title, start_date, email, telephone, salary_bank_name, salary_bank_account, referralcode, interest, tax_id} = this.state;
             // console.log(userObj);
-            const loan = {
+            const investor = {
                 firstname: firstname,
                 lastname: lastname,
-                gender: gender,
+                duration: duration,
                 title: title,
+                gender: gender,
                 email: email,
                 telephone: telephone,
-                house_address: address,
-                city: city,
-                state: selectedState,
-                place_of_work: place_of_work,
-                ippisnumber: ippisnumber,
-                salary_bank_account: salary_bank_account,
-                salary_bank_name: salary_bank_name,
-                loan_amount: amount,
-                monthly_repayment: loanOffer.monthlyrepayment,
-                tenor: duration,
-                dob: dob.toDateString(),
-                refferalcode: referralcode ? referralcode : 0
+                accountnumber: salary_bank_account,
+                bankcode: salary_bank_name,
+                amount: this.unFormat(amount),
+                startdate: start_date.toDateString(),
+                interestrate: interest,
+                code: referralcode ? referralcode : '',
+                tax_id: tax_id ? tax_id : ''
             }
-            // console.log(loan)
+            // console.log(investor)
             this.setState({ isLoading: true })
             axios({
                 method: 'POST',
                 url: url,
-                data: loan
+                data: investor
             }).then((data) => {
-                // console.log(data.data);
-                this.setState({ isLoading: false })
+                console.log(data.data)
                 if (data.data.status === 'success') {
-                    this.setState({ applicationSuccess: true })
-                    if (data.data.returnstatus) {
-                        this.setState({ automate: true, processing: true }, () => navigationservice.navigate('Offer', {loanid: data.data.id}))
-                    } else {
-                        this.setState({ falseautomate: true })
-                    }
+                    const investorDataIncomplete = data.data;
+                    investorDataIncomplete .id = data.initiate_id
+                   this.setState({investorDataIncomplete})
+                   this.processReservedAcct(data.data)
                 } else {
                     this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
                 }
@@ -296,34 +301,156 @@ class NewLoanProvider extends Component {
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
                 // console.log(`this is the error -> ${error}`)
             })
-            // request(url, options).then((data) => {
-            //     console.log(data);
-            //     this.setState({ isLoading: false })
-            //     if (data.status === 'success') {
-            //         this.setState({ applicationSuccess: true })
-            //     }
-            // }).catch((error) => {
-            //     this.setState({ isLoading: false })
-            //     this.setState({ applicationSuccess: false })
-            //     console.log(`this is the error -> ${error}`)
-            // })
+    }
+
+    processReservedAcct = (data) => {
+        const url = `${publicURL}/investment/account/payment/create`;
+        if(!data.account_reserved) {
+            const param = {
+                email: data.email,
+                firstname: data.firstname,
+                lastname: data.lastname
+            }
+            axios({
+                method: 'POST',
+                url: url,
+                data: param
+            }).then((data) => {
+                console.log(data.data)
+                this.setState({isLoading: false})
+                if (data.data.status === 'success') {
+                    console.log(this.state.investorDataIncomplete);
+                    const completerUrl = `${publicURL}/investment/account/payment/create`;
+                    axios({
+                        method: 'POST',
+                        url: completerUrl,
+                        data: this.state.investorDataIncomplete
+                    }).then((data) => {
+                        console.log(data.data)
+                        if (data.data.status === 'success') {
+                            this.setState({isLoading: false}, () => this.setState({applicationSuccess: true}))
+                        } else {
+                            this.setState({ hasError: true, errorMsg: data.data.responseMessage ? data.data.responseMessage : 'An error has occured. Try again later' })
+                        }
+                    }).catch((error) => {
+                        this.setState({ isLoading: false })
+                        this.setState({ applicationSuccess: false })
+                        this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+                        // console.log(`this is the error -> ${error}`)
+                    })
+                } else {
+                    this.setState({ hasError: true, errorMsg: data.data.responseMessage ? data.data.responseMessage : 'An error has occured. Try again later' })
+                }
+            }).catch((error) => {
+                this.setState({ isLoading: false })
+                this.setState({ applicationSuccess: false })
+                this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+                // console.log(`this is the error -> ${error}`)
+            })
+        } else {
+            const completerUrl = `${publicURL}/investment/account/payment/create`;
+            axios({
+                method: 'POST',
+                url: completerUrl,
+                data: this.state.investorDataIncomplete
+            }).then((data) => {
+                this.setState({isLoading: false})
+                if (data.data.status === 'success') {
+                    this.setState({isLoading: false}, () => this.setState({applicationSuccess: true}))
+                    
+                } else {
+                    this.setState({ hasError: true, errorMsg: data.data.responseMessage ? data.data.responseMessage : 'An error has occured. Try again later' })
+                }
+            }).catch((error) => {
+                this.setState({ isLoading: false })
+                this.setState({ applicationSuccess: false })
+                this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+                // console.log(`this is the error -> ${error}`)
+            })
+        }
+    }
+
+    proceedToViewDetails = () => {
+        if(this.state.referralcode) {
+            const url = `${publicURL}referralcode/one`;
+            const codeData = {
+                referralcode: this.state.referralcode
+            }
+            this.setState({ isLoading: true })
+            axios({
+                method: 'POST',
+                url: url,
+                data: codeData
+            }).then((data) => {
+                // console.log(data.data);
+                // this.setState({ isLoading: false })
+                console.log(data.data);
+                if (data.data.status === 'success') {
+                    this.setState({ interest: data.data.referralcode.interest }, () => this.processInterest())
+                } else {
+                    this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
+                }
+            }).catch((error) => {
+                this.setState({ isLoading: false })
+                this.setState({ applicationSuccess: false })
+                this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+                // console.log(`this is the error -> ${error}`)
+            })
+
+        } else {
+            this.setState({interest: 2}, () => this.processInterest())
+        }
     }
 
 
+    processInterest = () => {
+        const url = `${publicURL}investment/history/new`;
+        const investmentData ={ 
+            amount: this.unFormat(this.state.amount),
+            duration: this.state.duration,
+            interest: this.state.interest,
+            startdate: this.state.start_date.toISOString().slice(0, 10)
+        }
+        console.log(investmentData);
+        this.setState({ isLoading: true })
+        axios({
+            method: 'POST',
+            url: url,
+            data: investmentData
+        }).then((data) => {
+            // console.log(data.data);
+            this.setState({ isLoading: false })
+            console.log(data.data);
+            if (data.data.status === 'success') {
+                this.setState({ investmentDetails: data.data})
+                this._handleGoNext()
+            } else {
+                this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
+            }
+        }).catch((error) => {
+            this.setState({ isLoading: false })
+            // this.setState({ applicationSuccess: false })
+            this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+            // console.log(`this is the error -> ${error}`)
+        })
+    }
+
     render() {
-        const {currentPage, amount, duration, isApplying, loanOffer, isLoading, applicationSuccess, firstname, lastname, category, title, gender, date, dob, email, telephone, address, city, selectedState, place_of_work, ippisnumber, salary_bank_name, salary_bank_account, referralcode, showDatePicker, isValidating, hasError, errorMsg, automate, falseautomate, processing} = this.state;
+        const {currentPage, gender, amount, duration, isApplying, loanOffer, isLoading, applicationSuccess, firstname, lastname, category, title, date, start_date, email, telephone, address, city, selectedState, place_of_work, ippisnumber, salary_bank_name, salary_bank_account, referralcode, showDatePicker, isValidating, hasError, errorMsg, automate, falseautomate, processing, investmentDetails, interest, tax_id} = this.state;
         return (
-            <LoanContext.Provider
+            <InvestmentContext.Provider
             value={{
                 amount: amount,
                 duration: duration,
                 loanOffer: loanOffer,
                 category: category,
+                interest: interest,
                 title: title,
                 gender: gender,
                 showDatePicker: showDatePicker,
-                dob: dob,
+                start_date: start_date,
                 date: date,
+                tax_id: tax_id,
                 errorMsg: errorMsg,
                 firstname: firstname,
                 lastname: lastname,
@@ -346,18 +473,19 @@ class NewLoanProvider extends Component {
                 salary_bank_name: salary_bank_name,
                 salary_bank_account: salary_bank_account,
                 selectedState: selectedState,
+                investmentDetails: investmentDetails,
                 setAmount: this.setAmount,
                 setDuration: this.setDuration,
                 unFormat: this.unFormat,
                 loanApply: this._handleLoanApply,
-                acceptLoan: this._handleAcceptLoan,
+                continue: this._handleCompleteApplication,
                 goBack: this._handleGoBack,
                 goNext: this._handleGoNext,
                 setFirstName: this.setFirstName,
-                setLastName: this.setLastName,
-                setCategory: this.setCategory,
-                setTitle: this.setTitle,
                 setGender: this.setGender,
+                setLastName: this.setLastName,
+                setTitle: this.setTitle,
+                setDuration: this.setDuration,
                 setDate: this.setDate,
                 cancel: this._handleCancelApplication,
                 confirmDatePicker: this.confirmDatePicker,
@@ -365,23 +493,23 @@ class NewLoanProvider extends Component {
                 setPhone: this.setPhone,
                 setAddress: this.setAddress,
                 setCity: this.setCity,
-                setSelectedState: this.setSelectedState,
                 setBankCode: this.setBankCode,
-                setPlaceOfWork: this.setPlaceOfWork,
                 setBankAccount: this.setBankAccount,
                 setIppisNumber: this.setIppisNumber,
                 setReferral: this.setReferral,
+                setTaxId: this.setTaxId,
                 dateOnChange: this.dateOnChange,
                 closeDatePicker: this.closeDatePicker,
                 setShowDatePicker: this.setShowDatePicker,
                 verifyAccount: this.validateAccountDetails,
+                proceed: this.proceedToViewDetails,
                 _onDismissSnackBar: this._onDismissSnackBar
             }}
             >
                {this.props.children}
-            </LoanContext.Provider>
+            </InvestmentContext.Provider>
         )
     }
 }
 
-export {LoanContext, NewLoanProvider}
+export {InvestmentContext, NewInvestmentProvider}

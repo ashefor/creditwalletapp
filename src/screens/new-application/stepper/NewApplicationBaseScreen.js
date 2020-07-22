@@ -5,7 +5,7 @@ import {
     Feather
 } from '@expo/vector-icons';
 import { resWidth, resFont, resHeight } from '../../../utils/utils';
-import { Divider, List, Appbar, ProgressBar, Colors, Surface } from 'react-native-paper';
+import { Divider, List, Appbar, ProgressBar, Colors, Surface , Snackbar} from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
 import { signOut } from '../../../utils/storage';
 import { color } from 'react-native-reanimated';
@@ -28,7 +28,7 @@ class NewApplicationBaseScreen extends Component {
         return (
             <LoanContext.Consumer>
                 {loan => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                <Toast
+                {/* <Toast
                         visible={loan.hasError}
                         position={Constants.statusBarHeight}
                         backgroundColor='red'
@@ -36,7 +36,7 @@ class NewApplicationBaseScreen extends Component {
                         opacity={1}
                         animation={false}
                         hideOnPress={true}
-                    >{loan.errorMsg}</Toast>
+                    >{loan.errorMsg}</Toast> */}
                     <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
@@ -47,11 +47,11 @@ class NewApplicationBaseScreen extends Component {
                                 {loan.falseautomate && <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(1) }}>
-                                            {/* <Image
-                                                style={{ width: 50, height: 50, alignSelf: 'center' }}
-                                                source={require('../../../assets/images/success.gif')}
-                                            /> */}
-                                            <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={resFont(40)} color="#f56b2a" />
+                                            <Image
+                                                style={{ width: resWidth(90), resizeMode: 'contain', height:resHeight(40), alignSelf: 'center' }}
+                                                source={require('../../../assets/images/success.png')}
+                                            />
+                                            {/* <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={resFont(40)} color="#f56b2a" /> */}
                                         </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Application submitted successfully. Kindly await a response from our team!</CustomText>
                                     </Surface>
@@ -94,6 +94,19 @@ class NewApplicationBaseScreen extends Component {
                                 </View>
                             </Fragment>}
                     </Fragment>
+                    <Snackbar
+                            visible={loan.hasError}
+                            onDismiss={loan._onDismissSnackBar}
+                            style={{backgroundColor: '#B5446E', color: '#fff'}}
+                            action={{
+                                label: 'Okay',
+                                onPress: () => {
+                                    loan._onDismissSnackBar
+                                },
+                              }}
+                        >
+                            {loan.errorMsg}
+                            </Snackbar>
                 </CustomSafeAreaView>}
             </LoanContext.Consumer>
         )

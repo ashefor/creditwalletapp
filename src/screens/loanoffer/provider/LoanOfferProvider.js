@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { requestWithToken, loanApiURL, request, axiosPost, apiURL } from '../../../utils/request';
+import { requestWithToken, publicURL, request, axiosPost, apiURL } from '../../../utils/request';
 import navigationservice from '../../../utils/navigationservice';
 import { states } from '../../../utils/states';
 const axios = require('axios').default;
@@ -80,7 +80,7 @@ class LoanOfferProvider extends Component {
     }
     
     validateAccountDetails = () => {
-        const url = `${loanApiURL}verify/account`;
+        const url = `${publicURL}verify/account`;
         const account = {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
@@ -112,7 +112,7 @@ class LoanOfferProvider extends Component {
         this.setState(this.initialstate, () => navigationservice.navigate('Home'))
     }
     _handleLoanApply = () => {
-        const url = `${loanApiURL}loan/finalize/new`;
+        const url = `${publicURL}loan/finalize/new`;
         const loan = {
             amount: this.state.amount,
             tenor: this.state.duration
@@ -143,7 +143,7 @@ class LoanOfferProvider extends Component {
 
 
     _handleComplete = async () => {
-        const url = `${loanApiURL}loan/finalize/new`;
+        const url = `${publicURL}loan/finalize/new`;
             // console.log(userObj);
             const loan = {
                 id: this.state.offerLetter.id,
@@ -174,7 +174,7 @@ class LoanOfferProvider extends Component {
 
 
     _handleFetchLoanOffer = async (loanId) => {
-        const url = `${loanApiURL}loan/offer/view`;
+        const url = `${publicURL}loan/offer/view`;
             // console.log(userObj);
             const loan_id = {
                 id: loanId
@@ -198,6 +198,9 @@ class LoanOfferProvider extends Component {
             })
     }
 
+    _onDismissSnackBar = () => {
+        this.setState({ hasError: false })
+    };
 
     render() {
         const {currentPage, hasError, errorMsg, isValidating, isAccepting,  hasFinishedFetching, applicationSuccess, email, code, salary_bank_name, salary_bank_account, isFetchingOffer, offerLetter, noOffer, idCard, passport} = this.state;
@@ -231,7 +234,8 @@ class LoanOfferProvider extends Component {
                 setIdCard: this.setIdCard,
                 setPassport: this.setPassport,
                 complete: this._handleComplete,
-                verifyAccount: this.validateAccountDetails
+                verifyAccount: this.validateAccountDetails,
+                _onDismissSnackBar: this._onDismissSnackBar
             }}
             >
                {this.props.children}

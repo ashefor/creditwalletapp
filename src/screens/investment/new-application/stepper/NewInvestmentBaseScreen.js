@@ -1,65 +1,41 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, Platform, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Platform, Image, StyleSheet, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-navigation';
 import {
     Feather
 } from '@expo/vector-icons';
-import Toast from 'react-native-root-toast';
-import { resWidth, resFont, resHeight } from '../../../utils/utils';
+import { resWidth, resFont, resHeight } from '../../../../utils/utils';
 import { Divider, List, Appbar, ProgressBar, Colors, Surface, Snackbar } from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
-import { signOut } from '../../../utils/storage';
-import { color } from 'react-native-reanimated';
-import CustomText from '../../../components/CustomText';
-import { LoanOfferContext } from '../provider/LoanOfferProvider';
-import Loader from '../../../components/Loader';
-import OfferStepOne from './OfferStepOne';
-import OfferStepTwo from './OfferStepTwo';
-import OfferStepThree from './OfferStepThree';
-import OfferStepFour from './OfferStepFour';
-import OfferStepFive from './OfferStepFive';
-import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
+import Toast from 'react-native-root-toast';
+import CustomText from '../../../../components/CustomText';
+import { InvestmentContext } from '../provider/NewInvestmentProvider';
+import Loader from '../../../../components/Loader';
+import CustomSafeAreaView from '../../../../components/CustomSafeAreaView';
+import StepOne from './StepOne';
+import StepTwo from './StepTwo';
+import StepThree from './StepThree';
+import StepFour from './StepFour';
+import StepFive from './StepFive';
 
-class OfferLetter extends Component {
-    _isMounted = false;
-    static contextType = LoanOfferContext;
-    constructor(props) {
-        super(props);
-        this.state = {
-            loan_id: this.props.navigation.getParam('loanid'),
-            visible: false,
-        }
-    }
-    componentDidMount() {
-        this._isMounted = true;
-        // console.log(this.state.loan_id)
-        // console.log(this.context)
-        if (this._isMounted) {
-            this.context.fetchLoanOffer(this.state.loan_id)
-        }
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
+class NewInvestmentBaseScreen extends Component {
     _handleCancel = () => {
         this.props.navigation.navigate('Auth')
     }
     render() {
         return (
-            <LoanOfferContext.Consumer>
+            <InvestmentContext.Consumer>
                 {loan => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 {/* <Toast
                         visible={loan.hasError}
                         position={Constants.statusBarHeight}
-                        opacity={1}
                         backgroundColor='red'
                         shadow={false}
+                        opacity={1}
                         animation={false}
                         hideOnPress={true}
                     >{loan.errorMsg}</Toast> */}
-                    <Loader isLoading={loan.isFetchingOffer || loan.isAccepting} />
-                    {loan.hasFinishedFetching && loan.offerLetter && <Fragment>
+                    <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
                                 <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
@@ -69,12 +45,13 @@ class OfferLetter extends Component {
                                 <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(1) }}>
-                                        <Image
-                                                style={{ width: resWidth(90), resizeMode: 'contain', height:resHeight(40), alignSelf: 'center' }}
-                                                source={require('../../../assets/images/success.png')}
+                                            <Image
+                                                style={{ width: resWidth(90), resizeMode: 'contain', height: resHeight(40), alignSelf: 'center' }}
+                                                source={require('../../../../assets/images/success.png')}
                                             />
+                                            {/* <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={resFont(40)} color="#f56b2a" /> */}
                                         </View>
-                                        <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Application submitted successfully. Kindly await a response from our team!</CustomText>
+                                        <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Application submitted successfully. Please check your mail for more information</CustomText>
                                     </Surface>
                                 </View>
                             </Fragment> :
@@ -85,36 +62,23 @@ class OfferLetter extends Component {
                                     />}
                                     <Appbar.Action icon="close" onPress={loan.cancel} />
                                 </Appbar.Header>
+                                <Loader isLoading={loan.isLoading} />
                                 <View style={styles.container}>
                                     <CustomText style={styles.headerText}>
-                                        Step {loan.currentPage}/5
+                                        Step {loan.currentPage}/3
                      </CustomText>
-                                    <ProgressBar progress={0.2 * loan.currentPage} color={'#f56b2a'} />
+                                    <ProgressBar progress={1/3 * loan.currentPage} color={'#f56b2a'} />
                                     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} keyboardDismissMode='interactive' keyboardShouldPersistTaps='always'>
-                                        {loan.currentPage === 1 && <OfferStepOne />}
-                                        {loan.currentPage === 2 && <OfferStepTwo />}
-                                        {loan.currentPage === 3 && <OfferStepThree />}
-                                        {loan.currentPage === 4 && <OfferStepFour />}
-                                        {loan.currentPage === 5 && <OfferStepFive />}
+                                        {loan.currentPage === 1 && <StepOne/>}
+                                        {loan.currentPage === 2 && <StepTwo />}
+                                        {loan.currentPage === 3 && <StepThree />}
+                                        {/* {loan.currentPage === 4 && <StepFour />}
+                                        {loan.currentPage === 5 && <StepFive />} */}
                                     </ScrollView>
                                 </View>
                             </Fragment>}
-                    </Fragment>}
-                    {loan.hasFinishedFetching && !loan.offerLetter && 
-                     <Fragment>
-                     <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
-                         
-                         <Appbar.Action icon="close" onPress={loan.cancel}/>
-                     </Appbar.Header>
-                     <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
-                         <Surface style={styles.noLoan}>
-                         <Feather name="info" size={50} color="skyblue" />
-                             <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan has expired or has already been processed.</CustomText>
-                         </Surface>
-                     </View>
-                 </Fragment>
-                    }
-                     <Snackbar
+                    </Fragment>
+                    <Snackbar
                             visible={loan.hasError}
                             onDismiss={loan._onDismissSnackBar}
                             style={{backgroundColor: '#B5446E', color: '#fff'}}
@@ -128,12 +92,12 @@ class OfferLetter extends Component {
                             {loan.errorMsg}
                             </Snackbar>
                 </CustomSafeAreaView>}
-            </LoanOfferContext.Consumer>
+            </InvestmentContext.Consumer>
         )
     }
 }
 
-export default OfferLetter
+export default NewInvestmentBaseScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -161,17 +125,6 @@ const styles = StyleSheet.create({
         elevation: 4,
         backgroundColor: 'white'
     },
-    noLoan: {
-        padding: 10,
-        height: resHeight(20),
-        width: '85%',
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 0,
-        elevation: 4,
-        backgroundColor: 'white'
-    },  
     headerText: {
         fontFamily: 'Baloo-bold',
         fontSize: resFont(15),

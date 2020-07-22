@@ -2,7 +2,7 @@ import { getToken } from "./storage"
 import navigationservice from "./navigationservice"
 
 export const apiURL = 'https://creditwallet.ng/api/public/customer/'
-export const loanApiURL = 'https://creditwallet.ng/api/public/'
+export const publicURL = 'https://creditwallet.ng/api/public/'
 const axios = require('axios').default;
 
 export const request = (url, options) => {

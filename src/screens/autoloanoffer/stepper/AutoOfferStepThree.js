@@ -4,7 +4,7 @@ import { Appbar, TextInput, Button, withTheme, ProgressBar } from 'react-native-
 import CustomText from '../../../components/CustomText';
 import Toast from 'react-native-root-toast';
 import { resWidth, resHeight, resFont, getBankCode, width } from '../../../utils/utils';
-import { loanApiURL } from '../../../utils/request';
+import { publicURL } from '../../../utils/request';
 import { AutoLoanOfferContext } from '../provider/AutoLoanOfferProvider';
 import * as DocumentPicker from 'expo-document-picker';
 import { Constants } from 'react-native-unimodules';
@@ -26,7 +26,7 @@ class AutoOfferStepThree extends Component {
     }
     pickDocument = async () => {
         let result = await DocumentPicker.getDocumentAsync({});
-        const url = `${loanApiURL}passport/upload`
+        const url = `${publicURL}passport/upload`
         const formData = new FormData();
         formData.append('file[]', result, result.name)
         // console.log(result)

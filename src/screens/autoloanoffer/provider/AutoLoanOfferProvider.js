@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { requestWithToken, loanApiURL, request, axiosPost, apiURL } from '../../../utils/request';
+import { requestWithToken, publicURL, request, axiosPost, apiURL } from '../../../utils/request';
 import navigationservice from '../../../utils/navigationservice';
 import { states } from '../../../utils/states';
 const axios = require('axios').default;
@@ -92,7 +92,7 @@ class AutoLoanOfferProvider extends Component {
     }
 
     validateAccountDetails = () => {
-        const url = `${loanApiURL}verify/account`;
+        const url = `${publicURL}verify/account`;
         const account = {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
@@ -123,7 +123,7 @@ class AutoLoanOfferProvider extends Component {
         this.setState(this.initialstate, () => navigationservice.navigate('Auth'))
     }
     _handleLoanApply = () => {
-        const url = `${loanApiURL}loan/finalize/new`;
+        const url = `${publicURL}loan/finalize/new`;
         const loan = {
             amount: this.state.amount,
             tenor: this.state.duration
@@ -154,7 +154,7 @@ class AutoLoanOfferProvider extends Component {
 
 
     _handleComplete = async () => {
-        const url = `${loanApiURL}loan/transaction/complete`;
+        const url = `${publicURL}loan/transaction/complete`;
         // console.log(userObj);
         const loan = {
             id: this.state.offerLetter.loan.id,
@@ -197,7 +197,7 @@ class AutoLoanOfferProvider extends Component {
     }
 
     _handleFetchLoanOffer = async (loanId) => {
-        const url = `${loanApiURL}loan/offer/auto`;
+        const url = `${publicURL}loan/offer/auto`;
         // console.log(userObj);
         const loan_id = {
             id: loanId
@@ -225,7 +225,7 @@ class AutoLoanOfferProvider extends Component {
     }
 
     calcRepayment =() => {
-        const url = `${loanApiURL}calculate-repayment`;
+        const url = `${publicURL}calculate-repayment`;
         const data = {
             tenor: this.state.duration,
             amount: this.state.loan_amount
@@ -250,6 +250,9 @@ class AutoLoanOfferProvider extends Component {
         })
     }
 
+    _onDismissSnackBar = () => {
+        this.setState({ hasError: false })
+    };
 
     render() {
         const { currentPage, hasError, errorMsg, isValidating, isAccepting, hasFinishedFetching, applicationSuccess, email, code, salary_bank_name, salary_bank_account, isFetchingOffer, offerLetter, noOffer, idCard, passport, duration, insurance, loan_amount, disbursementfees, monthlyrepayment, loadingRepayment } = this.state;
@@ -293,7 +296,8 @@ class AutoLoanOfferProvider extends Component {
                     complete: this._handleComplete,
                     verifyAccount: this.validateAccountDetails,
                     calcRepayment: this.calcRepayment,
-                    setLoanRepayment: this.setLoanRepayment
+                    setLoanRepayment: this.setLoanRepayment,
+                    _onDismissSnackBar: this._onDismissSnackBar
                 }}
             >
                 {this.props.children}

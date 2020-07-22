@@ -92,7 +92,7 @@ class LiquidateLoan extends Component {
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
                 <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
-                        <Appbar.BackAction onPress={() => this.props.navigation.navigate(returnUrl? returnUrl : 'Home')} />
+                        <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
                             subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}

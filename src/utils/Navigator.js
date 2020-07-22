@@ -4,44 +4,17 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { Platform, StatusBar } from 'react-native';
 import * as Linking from 'expo-linking'
-import AuthStack from '../stacks/AuthStack';
-import { Constants } from 'react-native-unimodules';
-import TabNavigator from '../stacks/TabStack';
-import LiquidateLoan from '../screens/liquidate/LiquidateLoan';
-import Splashscreen from '../screens/SplashScreen';
-import GetStartedScreen from '../screens/new-application/GetStarted';
-import NewApplicationBaseScreen from '../screens/new-application/stepper/NewApplicationBaseScreen';
-import OfferLetter from '../screens/loanoffer/stepper/OfferLetter';
-import AutoOfferLetter from '../screens/autoloanoffer/stepper/AutoOfferLetter';
+import InvestmentStack from '../screens/investment/stacks/InvestmentStack';
+import LoanBaseStack from '../stacks/LoanBaseStack';
 
 const AppNavigation = createSwitchNavigator({
-    Loading: {
-        screen: Splashscreen
-    },
-    'Get Started': {
-        screen: GetStartedScreen
-    },
-    'Offer Letter': {
-        screen: OfferLetter,
-        path: 'offerletter/:loanid'
-    },
-    'Offer': {
-        screen: AutoOfferLetter,
-        path: 'offer/:loanid'
-    },
-    Auth: {
-        screen: AuthStack
-    },
-    Main: {
-        screen: TabNavigator
-    },
-    'New Application': {
-        screen: NewApplicationBaseScreen
-    },
-    'Liquidate Loan': {
-        screen: LiquidateLoan,
-        path: 'liquidate/:loan_id'
+   'Customer Loans': {
+    screen: LoanBaseStack
+   },
+    'Customer Investments' : {
+        screen: InvestmentStack
     }
+
 })
 
 const App = createAppContainer(AppNavigation)
