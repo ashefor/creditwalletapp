@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView, StatusBar } from 'react-native'
 import { Appbar, TextInput, Button, withTheme, TouchableRipple, Snackbar } from 'react-native-paper';
 import OnboardCarousel from '../../../components/OnboardCarousel';
 import { SafeAreaView } from 'react-navigation';
@@ -9,6 +9,7 @@ import Loader from '../../../components/Loader';
 import { setCustomerToken, setCustomer } from '../../../utils/storage';
 import CustomText from '../../../components/CustomText';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
+import { Constants } from 'react-native-unimodules';
 
 
 
@@ -62,7 +63,7 @@ class ForgotPasswordScreen extends Component {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
             <View style={{flex: 1}}>
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />

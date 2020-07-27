@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, Dimensions, StyleSheet, ScrollView, RefreshControl } from 'react-native'
+import { View, Text, Dimensions, StyleSheet, ScrollView, RefreshControl, StatusBar } from 'react-native'
 import { Appbar, FAB, Button, Colors } from 'react-native-paper';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { SafeAreaView } from 'react-navigation';
@@ -10,6 +10,7 @@ import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
 import CustomText from '../../components/CustomText';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import { Constants } from 'react-native-unimodules';
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -133,7 +134,7 @@ class LoanScreen extends Component {
                     </View>
                 </Fragment>}
                 {!hasError && <Fragment>
-                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.Action />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}

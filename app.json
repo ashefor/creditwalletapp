@@ -28,7 +28,7 @@
       "intentFilters": [
         {
           "action": "VIEW",
-          "data":  [
+          "data": [
             {
               "scheme": "http",
               "host": "test.compound.ng"
@@ -52,6 +52,7 @@
     ],
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "description": ""
   }
 }

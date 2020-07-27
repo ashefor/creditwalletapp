@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, Platform, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Image, Platform, StyleSheet, ScrollView, StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-navigation';
 import {
     Feather
@@ -51,7 +51,7 @@ class OfferLetter extends Component {
                 {loan => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                 {/* <Toast
                         visible={loan.hasError}
-                        position={Constants.statusBarHeight}
+                        position={StatusBar.currentHeight}
                         opacity={1}
                         backgroundColor='red'
                         shadow={false}
@@ -62,7 +62,7 @@ class OfferLetter extends Component {
                     {loan.hasFinishedFetching && loan.offerLetter && <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
-                                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     <Appbar.BackAction onPress={loan.cancel}/>
                                     <Appbar.Action />
                                 </Appbar.Header>
@@ -80,7 +80,7 @@ class OfferLetter extends Component {
                             </Fragment> :
 
                             <Fragment>
-                                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     {loan.currentPage > 1 && <Appbar.BackAction onPress={loan.goBack}
                                     />}
                                     <Appbar.Action icon="close" onPress={loan.cancel} />
@@ -102,7 +102,7 @@ class OfferLetter extends Component {
                     </Fragment>}
                     {loan.hasFinishedFetching && !loan.offerLetter && 
                      <Fragment>
-                     <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                     <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                          
                          <Appbar.Action icon="close" onPress={loan.cancel}/>
                      </Appbar.Header>

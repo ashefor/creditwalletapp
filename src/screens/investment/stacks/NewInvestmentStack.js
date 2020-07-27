@@ -7,13 +7,13 @@ import GetStartedScreen from '../new-application/GetStarted';
 import NewInvestmentBaseScreen from '../new-application/stepper/NewInvestmentBaseScreen';
 
 const NewInvestmentStack = createStackNavigator({
-    'Get Started': {
-        screen: GetStartedScreen,
-        navigationOptions: {
-            headerTransparent: true,
-            headerShown: false
-        }
-    },
+    // 'Get Started': {
+    //     screen: GetStartedScreen,
+    //     navigationOptions: {
+    //         headerTransparent: true,
+    //         headerShown: false
+    //     }
+    // },
     'Investment Apply':  {
         screen: NewInvestmentBaseScreen,
         navigationOptions: {

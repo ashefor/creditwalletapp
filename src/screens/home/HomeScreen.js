@@ -1,5 +1,5 @@
 import React, { Component, createRef, Fragment } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Platform, Linking, RefreshControl, Modal } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Platform, Linking, RefreshControl, Modal, StatusBar } from 'react-native'
 import { Appbar, Button, Title, HelperText, FAB, Portal, TextInput, Dialog, Paragraph, Surface, withTheme, Snackbar, IconButton, Colors } from 'react-native-paper';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons, AntDesign, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
@@ -42,14 +42,15 @@ class HomeScreen extends Component {
         }
     }
     componentDidMount = () => {
-        this._isMounted = true;
-        this.getLoggedInUser();
+        // console.log(this._isMounted)
+        this.getLoggedInUser(); 
         this.loadDashboard(true)
+        // console.log(this.state.isLoading)
     }
 
     componentWillUnmount = () => {
-        this.setState({ isLoading: false })
-        this._isMounted = false;
+        // this.setState({ isLoading: false })
+        console.log(this.state.isLoading)
     }
     getLoggedInUser = async () => {
         const user = await getCustomer();
@@ -68,7 +69,7 @@ class HomeScreen extends Component {
         })
     }
     loadDashboard = (val) => {
-        if (this._isMounted) {
+       
             this.setState({ isLoading: val })
             const url = `${apiURL}account/dashboard`;
             const options = {
@@ -76,7 +77,7 @@ class HomeScreen extends Component {
             }
             return new Promise((resolve, reject) => {
                 requestWithToken(url, options).then(data => {
-                    // console.log(data)
+                    console.log(data)
 
                     this.setState({ isLoading: false })
                     if (data.status === 'success') {
@@ -93,7 +94,6 @@ class HomeScreen extends Component {
                     // reject()
                 })
             })
-        }
     }
 
     makeCall = () => {
@@ -274,7 +274,7 @@ class HomeScreen extends Component {
                                 contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
                                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
                                     <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                                        <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                                        <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                                             <Appbar.Action icon="close" onPress={this._hideModal} />
                                         </Appbar.Header>
                                         <View style={{ alignSelf: 'center', width: resWidth(90) }}>
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
     },
     header: {
         height: resHeight(5),
-        marginTop: resHeight(3),
+        marginTop: Constants.statusBarHeight ,
         justifyContent: 'space-between',
         display: 'flex',
         flexDirection: 'row',

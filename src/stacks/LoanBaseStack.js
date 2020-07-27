@@ -11,8 +11,16 @@ import AutoOfferLetter from '../screens/autoloanoffer/stepper/AutoOfferLetter';
 import InvOnboardScreen from '../screens/investment/auth/InvOnboardScreen';
 
 const LoanBaseStack = createStackNavigator({
-    'Get Started': {
-        screen: GetStartedScreen
+    // 'Get Started': {
+    //     screen: GetStartedScreen
+    // },
+    Auth: {
+        screen: AuthStack,
+        // navigationOptions: {
+        //     headerTransparent: true,
+        //     headerShown: false,
+        //     headerTitle: 'Header'
+        // }
     },
     'Offer Letter': {
         screen: OfferLetter,
@@ -21,14 +29,6 @@ const LoanBaseStack = createStackNavigator({
     'Offer': {
         screen: AutoOfferLetter,
         path: 'offer/:loanid'
-    },
-    Auth: {
-        screen: AuthStack,
-        // navigationOptions: {
-        //     headerTransparent: true,
-        //     headerShown: false,
-        //     headerTitle: 'Header'
-        // }
     },
     Main: {
         screen: TabNavigator
@@ -41,7 +41,6 @@ const LoanBaseStack = createStackNavigator({
         path: 'liquidate/:loan_id'
     },
 }, {
-    // initialRouteName: 'Loans',
     mode: 'card',
     defaultNavigationOptions: {
         headerTransparent: true,

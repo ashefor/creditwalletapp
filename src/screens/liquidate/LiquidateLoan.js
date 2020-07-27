@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { SafeAreaView, View, StyleSheet, RefreshControl } from 'react-native';
+import { SafeAreaView, View, StyleSheet, RefreshControl, StatusBar } from 'react-native';
 
 import { Appbar, List, Text, Button, Divider, TouchableRipple, Surface, Title, Paragraph, ToggleButton, withTheme, Colors } from 'react-native-paper';
 import CustomText from '../../components/CustomText';
@@ -9,6 +9,7 @@ import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handl
 import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import { Constants } from 'react-native-unimodules';
 
 
 class LiquidateLoan extends Component {
@@ -91,7 +92,7 @@ class LiquidateLoan extends Component {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}

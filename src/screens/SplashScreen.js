@@ -36,7 +36,7 @@ export default class Splashscreen extends Component {
             } else {
                 const userType = await getUserType()
                 if(userType){
-                    await getCustomer().then(user => user ? this.props.navigation.navigate('Main') : this.props.navigation.navigate('Initial Screen')).catch(error => this.props.navigation.navigate('Initial Screen'))
+                    await getCustomer().then(user => user ? this.props.navigation.navigate(userType, {}, NavigationActions.navigate({routeName: 'Main'})) : this.props.navigation.navigate('Initial Screen')).catch(error => this.props.navigation.navigate('Initial Screen'))
                 } else {
                     this.props.navigation.navigate('Initial Screen')
                 }
@@ -44,7 +44,7 @@ export default class Splashscreen extends Component {
         } else {
             const userType = await getUserType()
             if(userType){
-                await getCustomer().then(user => user ? this.props.navigation.navigate('Main') : this.props.navigation.navigate('Initial Screen')).catch(error => this.props.navigation.navigate('Initial Screen'))
+                await getCustomer().then(user => user ? this.props.navigation.navigate(userType, {}, NavigationActions.navigate({routeName: 'Main'})) : this.props.navigation.navigate('Initial Screen')).catch(error => this.props.navigation.navigate('Initial Screen'))
             } else {
                 this.props.navigation.navigate('Initial Screen')
             }

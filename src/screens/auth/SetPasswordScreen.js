@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, StatusBar } from 'react-native'
 import { Appbar, TextInput, Button, withTheme, TouchableRipple, Snackbar } from 'react-native-paper';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 import { apiURL, request, requestWithToken } from '../../utils/request';
@@ -7,6 +7,7 @@ import Loader from '../../components/Loader';
 import { setCustomerToken, setCustomer } from '../../utils/storage';
 import CustomText from '../../components/CustomText';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import { Constants } from 'react-native-unimodules';
 
 
 
@@ -57,7 +58,7 @@ class SetPasswordScreen extends Component {
         const { colors } = this.props.theme
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />

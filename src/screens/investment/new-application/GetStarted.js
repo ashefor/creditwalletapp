@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Platform, StyleSheet } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Platform, StyleSheet, StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-navigation';
 import CustomText from '../../../components/CustomText';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -9,13 +9,14 @@ import {
 import { resWidth, resFont, resHeight } from '../../../utils/utils';
 import { Divider, List, Appbar, Button, Surface } from 'react-native-paper';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
+import { Constants } from 'react-native-unimodules';
 
 class GetStartedScreen extends Component {
 
     render() {
         return (
             <CustomSafeAreaView style={{flex:1,backgroundColor: '#f5fcff' }}>
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction onPress={() => this.props.navigation.navigate('Auth')}
                     />
                 </Appbar.Header>

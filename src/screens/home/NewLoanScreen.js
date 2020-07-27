@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, ImageBackground, StatusBar } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme, HelperText } from 'react-native-paper';
 // import { Slider } from 'react-native'
@@ -11,6 +11,7 @@ import { publicURL, requestWithToken } from '../../utils/request';
 import { getCustomer } from '../../utils/storage';
 import Loader from '../../components/Loader';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import { Constants } from 'react-native-unimodules';
 
 class NewLoanScreen extends Component {
     constructor(props) {
@@ -154,7 +155,7 @@ class NewLoanScreen extends Component {
             <View
                 style={{ flex: 1, backgroundColor: '#fff' }}>
                 <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.Action icon='close' onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, TouchableWithoutFeedback, Platform, Image, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Platform, Image, StyleSheet, ScrollView, StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-navigation';
 import {
     Feather
@@ -40,7 +40,7 @@ class NewApplicationBaseScreen extends Component {
                     <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
-                                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     <Appbar.BackAction onPress={loan.cancel}/>
                                     <Appbar.Action />
                                 </Appbar.Header>
@@ -73,7 +73,7 @@ class NewApplicationBaseScreen extends Component {
                             </Fragment> :
 
                             <Fragment>
-                                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     {loan.currentPage > 1 && <Appbar.BackAction onPress={loan.goBack}
                                     />}
                                     <Appbar.Action icon="close" onPress={loan.cancel} />

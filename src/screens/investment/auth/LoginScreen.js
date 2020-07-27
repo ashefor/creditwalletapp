@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, TextInput as RNTextInput, Keyboard, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableWithoutFeedback, TextInput as RNTextInput, Keyboard, ScrollView, StatusBar } from 'react-native'
 import { Appbar, TextInput, Button, withTheme, TouchableRipple } from 'react-native-paper';
 import { resWidth, resHeight, resFont } from '../../../utils/utils';
 import { apiURL, request } from '../../../utils/request';
@@ -9,6 +9,7 @@ import CustomText from '../../../components/CustomText';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 import navigationservice from '../../../utils/navigationservice';
 import { NavigationActions } from 'react-navigation';
+import { Constants } from 'react-native-unimodules';
 
 
 
@@ -65,7 +66,7 @@ class LoginScreen extends Component {
         return (
             <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction
                             onPress={() => this.props.navigation.goBack()}
                         />

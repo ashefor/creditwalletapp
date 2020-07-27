@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ImageBackground, StatusBar } from 'react-native';
 import { Appbar, Divider, Button, withTheme, Chip, Portal, Modal, Colors } from 'react-native-paper'
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { resFont, resWidth, resHeight } from '../../utils/utils';
@@ -11,6 +11,7 @@ import Loader from '../../components/Loader';
 import LiquidateLoan from '../liquidate/LiquidateLoan';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { StackActions } from 'react-navigation';
+import { Constants } from 'react-native-unimodules';
 
 class LoanDetails extends Component {
     _isMounted = false;
@@ -99,7 +100,7 @@ class LoanDetails extends Component {
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff', }}>
                 <Loader isLoading={isLoading} />
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                     <Appbar.Content
                         titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}

@@ -32,7 +32,7 @@ class OnboardScreen extends Component {
                <Button
                 labelStyle={{textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white'}}
                     contentStyle={styles.signpbtn}
-                    mode="contained" onPress={() => this.props.navigation.navigate('Get Started')}>
+                    mode="contained" onPress={() => this.props.navigation.navigate('New Application')}>
                     Apply for a loan
                 </Button>
                 <View style={styles.loginInfo}>
