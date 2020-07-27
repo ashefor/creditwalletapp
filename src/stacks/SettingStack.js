@@ -20,7 +20,7 @@ const SettingStack = createStackNavigator({
     }, 
 }, {
     initialRouteName: 'Settings',
-    mode: 'card',
+    mode: 'modal',
 })
 
 export default SettingStack;

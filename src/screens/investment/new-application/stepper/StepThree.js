@@ -6,7 +6,7 @@ import { Slider } from 'react-native'
 import CustomText from '../../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../../utils/utils';
 import { publicURL, requestWithToken } from '../../../../utils/request';
-import { getUser } from '../../../../utils/storage';
+import { getCustomer } from '../../../../utils/storage';
 import Loader from '../../../../components/Loader';
 import { InvestmentContext } from '../provider/NewInvestmentProvider';
 import * as DocumentPicker from 'expo-document-picker';
@@ -56,7 +56,7 @@ const genders = [
 ];
 
 const banksPlaceholder = {
-    label: 'Salary Bank Name',
+    label: 'Bank Name',
     value: null,
     color: '#9EA0A4',
 };
@@ -269,7 +269,7 @@ class StepThree extends Component {
                                         ref={this._textInput}
                                         render={this.renderBankSelect}
                                         mode="outlined"
-                                        label='Salary Bank Name'
+                                        label='Bank Name'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
                                         value={loan.salary_bank_name}
                                         keyboardType='default'
@@ -280,7 +280,7 @@ class StepThree extends Component {
                                     <TextInput
                                     ref={this._customInput}
                                         mode="outlined"
-                                        label='Salary Bank Account'
+                                        label='Bank Account'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
                                         value={loan.salary_bank_account}
                                         keyboardType='number-pad'

@@ -1,4 +1,4 @@
-import { getToken } from "./storage"
+import { getCustomerToken } from "./storage"
 import navigationservice from "./navigationservice"
 
 export const apiURL = 'https://creditwallet.ng/api/public/customer/'
@@ -28,7 +28,7 @@ export const axiosPost = (options) => {
     return axios.post(options)
 }
 export const requestWithToken = async (url, options) => {
-    const token = await getToken();
+    const token = await getCustomerToken();
     if (token) {
         // console.log(token)
         const requestOptions = {

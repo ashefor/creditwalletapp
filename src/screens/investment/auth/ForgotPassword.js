@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-navigation';
 import { resWidth, resHeight, resFont } from '../../../utils/utils';
 import { apiURL, request } from '../../../utils/request';
 import Loader from '../../../components/Loader';
-import { setToken, setUser } from '../../../utils/storage';
+import { setCustomerToken, setCustomer } from '../../../utils/storage';
 import CustomText from '../../../components/CustomText';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 
@@ -42,9 +42,9 @@ class ForgotPasswordScreen extends Component {
                 this.setState({ visible: true }, () => {
                     this.props.navigation.navigate('Login')
                 })
-                setToken(data.token);
+                setCustomerToken(data.token);
                 // console.log()
-                setUser(data.customer);
+                setCustomer(data.customer);
                 // console.log(data)
             }).catch(error => {
                 this.setState({ isLoading: false, errorMsg: 'Error connecting to server. Please try again later' })
@@ -62,7 +62,7 @@ class ForgotPasswordScreen extends Component {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
             <View style={{flex: 1}}>
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />
@@ -70,15 +70,15 @@ class ForgotPasswordScreen extends Component {
                         titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
                         title="Reset Password"
                     />
-                    <Appbar.Action
+                    <Appbar.Action 
                     />
                 </Appbar.Header>
                 {/* <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'" /> */}
                 <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         <View style={{ marginTop: resHeight(1) }}>
-                            {/* <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Forgot Password</CustomText> */}
-                            <CustomText style={{ textAlign: 'left', fontSize: resFont(14), fontFamily: 'Baloo' }}>Kindly provide your email to reset your account</CustomText>
+                            <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Forgot Password</CustomText>
+                            <CustomText style={{ textAlign: 'left', fontSize: resFont(14), fontFamily: 'Baloo' }}>Kindly provide your email to enable us reset your investment account</CustomText>
                             {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                             <TextInput
                                 style={{ marginTop: resHeight(1), backgroundColor: 'white',height: resHeight(7) }}

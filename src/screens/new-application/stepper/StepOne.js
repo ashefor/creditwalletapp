@@ -6,7 +6,7 @@ import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
 import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
+import { getCustomer } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 import * as DocumentPicker from 'expo-document-picker';
@@ -38,7 +38,6 @@ class StepOne extends Component {
                         <View style={{ marginVertical: resHeight(2) }}>
                             <CustomText style={{
                                 fontFamily: 'Baloo-bold', fontSize: resFont(20),
-                                textTransform: 'uppercase'
                             }}>
                                 How much would you like?
                      </CustomText>
@@ -75,7 +74,7 @@ class StepOne extends Component {
                                 <Slider
                                     style={{ width: '100%', marginVertical: resHeight(3), height: 40 }}
                                     minimumValue={2}
-                                    maximumValue={24}
+                                    maximumValue={12}
                                     onValueChange={(duration) => loan.setDuration(duration)}
                                     onSlidingComplete={(duration) => loan.setDuration(duration)}
                                     value={loan.duration}

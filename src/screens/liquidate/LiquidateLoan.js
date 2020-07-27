@@ -91,7 +91,7 @@ class LiquidateLoan extends Component {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
@@ -146,7 +146,7 @@ class LiquidateLoan extends Component {
                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(.5) }}>
                                     <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                         <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Total Paid</CustomText>
-                                        <CustomText style={{ color: "gray", fontSize: resFont(12), fontFamily: 'Baloo' }}>Total Paid as at May 17, 2020</CustomText>
+                                        <CustomText style={{ color: "gray", fontSize: resFont(12), fontFamily: 'Baloo' }}>Total Paid as  at today {new Date(Date.now()).toDateString()}</CustomText>
                                     </View>
                                     <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{this.formatAsCurrency(loan.totalpaid)}</CustomText>
                                 </View>
@@ -184,7 +184,9 @@ class LiquidateLoan extends Component {
                         </View>
                     </ScrollView>
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginBottom: resHeight(2) }}>
-                        <Button onPress={() => this.RBSheet.open()} style={{height: resHeight(6)}}>Show Account Details</Button>
+                        <Button onPress={() => this.RBSheet.open()} contentStyle={{
+        height: resHeight(6)
+        }}>Show Account Details</Button>
                         <RBSheet
                             closeOnDragDown={true}
                             ref={ref => {

@@ -20,10 +20,10 @@ class OnboardScreen extends Component {
                 {/* <SafeAreaView /> */}
                 {/* <CustomSafeAreaView/> */}
                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-               <View style={styles.avatarContainer}>
+               {/* <View style={styles.avatarContainer}>
                     <Avatar.Image style={styles.avatar} size={40} source={require('../../assets/images/logo.png')} />
                     <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-bold' }}>Credit Wallet</CustomText>
-                </View>
+                </View> */}
                </View>
                 <View style={{flex: 2, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
                <OnboardCarousel />
@@ -41,9 +41,9 @@ class OnboardScreen extends Component {
                         <CustomText style={{ color: colors.primary, fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Login</CustomText>
                     </TouchableWithoutFeedback>
                 </View>
-                <TouchableWithoutFeedback onPress={()=> {this.props.navigation.navigate('Customer Investments', {}, NavigationActions.navigate({routeName: 'Onboard'}))}} style={styles.loginTxt}>
+                {/* <TouchableWithoutFeedback onPress={()=> {this.props.navigation.navigate('Customer Investments', {}, NavigationActions.navigate({routeName: 'Onboard'}))}} style={styles.loginTxt}>
                         <CustomText style={{ color: colors.primary, fontSize: resFont(15), fontFamily: 'Baloo-med', textDecorationLine: 'underline' }}>Make an investment</CustomText>
-                    </TouchableWithoutFeedback>
+                    </TouchableWithoutFeedback> */}
                </View>
 
                 <SafeAreaView />

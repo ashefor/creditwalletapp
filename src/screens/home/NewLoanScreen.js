@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, ImageBackground } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme, HelperText } from 'react-native-paper';
 // import { Slider } from 'react-native'
@@ -8,7 +8,7 @@ import Slider from '@react-native-community/slider'
 import CustomText from '../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../utils/utils';
 import { publicURL, requestWithToken } from '../../utils/request';
-import { getUser } from '../../utils/storage';
+import { getCustomer } from '../../utils/storage';
 import Loader from '../../components/Loader';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
@@ -55,7 +55,7 @@ class NewLoanScreen extends Component {
     }
 
     async componentDidMount() {
-        const user = await getUser();
+        const user = await getCustomer();
         user && this.setState({ user: JSON.parse(user) })
     }
 
@@ -65,7 +65,7 @@ class NewLoanScreen extends Component {
 
     _handleAcceptLoan = async () => {
         const url = `${publicURL}apply`;
-        const user = await getUser();
+        const user = await getCustomer();
         if (user) {
             const userObj = JSON.parse(user)
             // // console.log(userObj);
@@ -154,8 +154,8 @@ class NewLoanScreen extends Component {
             <View
                 style={{ flex: 1, backgroundColor: '#fff' }}>
                 <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
-                        <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
+                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    <Appbar.Action icon='close' onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
                             subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
@@ -174,8 +174,10 @@ class NewLoanScreen extends Component {
                         ) : <View>
                                 {loanOffer ? (
                                     <View>
-                                        <View style={styles.loanofferdetails}>
-                                            <View style={styles.loaninforow}>
+                                        <View style={{ width: '100%', marginVertical: 10, borderRadius: 10, overflow: 'hidden' }}>
+                                            <ImageBackground source={require('../../assets/images/background.jpeg')} style={{width: '100%'}}>
+                                                <View style={{padding: 10}}>
+                                                <View style={styles.loaninforow}>
                                                 <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                                     <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Amount</CustomText>
                                                 </View>
@@ -211,11 +213,18 @@ class NewLoanScreen extends Component {
                                                 </View>
                                                 <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>0.25%</CustomText>
                                             </View>
+                                       
+                                                </View>
+
+                                            </ImageBackground>
                                         </View>
 
                                         <View>
-                                            <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
-                                                By clicking Start Application, I, <CustomText style={{ color: '#f56b2a' }}>{user.borrower_firstname} {user.borrower_lastname}</CustomText> consent to Credit Wallet obtaining information from relevant third parties as may be necessary, on my employment details, salary payment, loans and other related data, to make a decision on my loan application. I also consent to the loan amounts being deducted from my salary at source before credit to my account and any outstanding loans being recovered automatically from any other accounts linked to me in the case of default
+                                            <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'left' }}>
+                                                By clicking Start Application, I, <CustomText style={{ color: '#f56b2a' }}>{user.borrower_firstname} {user.borrower_lastname}</CustomText> consent to Credit Wallet obtaining information from relevant third parties as may be necessary, on my employment details, salary payment, loans and other related data, to make a decision on my loan application.
+                                    </CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'left' }}>
+                                                 I also consent to the loan amounts being deducted from my salary at source before credit to my account and any outstanding loans being recovered automatically from any other accounts linked to me in the case of default
                                     </CustomText>
                                         </View>
                                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
@@ -276,7 +285,7 @@ class NewLoanScreen extends Component {
                                                     <Slider
                                                         style={{ width: '100%', marginVertical: resHeight(3), height: 40 }}
                                                         minimumValue={2}
-                                                        maximumValue={24}
+                                                        maximumValue={12}
                                                         onValueChange={(duration) => this.setState({ duration })}
                                                         value={duration}
                                                         step={1}

@@ -6,7 +6,7 @@ import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
 import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
+import { getCustomer } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
@@ -71,7 +71,7 @@ class StepFour extends Component {
     };
 
     handleFocus = () => {
-        this._customInput.current.handleBlur();
+        Keyboard.dismiss();
         this._textInput.current.handleFocus();
     };
 
@@ -97,10 +97,9 @@ class StepFour extends Component {
                         <View style={{ flex: 1 }}>
                             <KeyboardAvoidingView>
                                 <CustomText style={{
-                                    fontFamily: 'Baloo-bold', fontSize: resFont(20),
-                                    textTransform: 'uppercase'
+                                    fontFamily: 'Baloo-bold', fontSize: resFont(20)
                                 }}>
-                                    contact information
+                                    Contact Information
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput

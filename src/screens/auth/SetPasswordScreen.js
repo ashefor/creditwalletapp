@@ -4,7 +4,7 @@ import { Appbar, TextInput, Button, withTheme, TouchableRipple, Snackbar } from 
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 import { apiURL, request, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
-import { setToken, setUser } from '../../utils/storage';
+import { setCustomerToken, setCustomer } from '../../utils/storage';
 import CustomText from '../../components/CustomText';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 
@@ -57,7 +57,7 @@ class SetPasswordScreen extends Component {
         const { colors } = this.props.theme
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />

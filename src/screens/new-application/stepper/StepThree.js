@@ -6,7 +6,7 @@ import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
 import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
+import { getCustomer } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
@@ -72,7 +72,8 @@ class StepThree extends Component {
         const { style, value, selectTile } = props;
         const valueChange = (title) => {
             selectTile(title)
-            this.handleBlur();
+            Platform.OS === 'android' && this.handleBlur()
+            Keyboard.dismiss()
         }
         return (
             <PickerComponent
@@ -87,13 +88,18 @@ class StepThree extends Component {
     };
     renderGenderSelect = props => {
         const { style, value, selectGender } = props;
+        const setGender = (gender) => {
+            selectGender(gender)
+            Platform.OS === 'android' && this.handleGenderPickerBlur()
+            Keyboard.dismiss()
+        }
         return (
             <PickerComponent
                 handleFocus={this.handleGenderPickerFocus}
                 handleBlur={this.handleGenderPickerBlur}
                 placeholder={genderPlaceholder}
                 items={genders}
-                onValueChange={gender => selectGender(gender)}
+                onValueChange={gender => setGender(gender)}
                 value={value}
             />
         );
@@ -110,17 +116,18 @@ class StepThree extends Component {
 
     handleDatePickerFocus = (loan) => {
         // console.log('open')
+        Keyboard.dismiss()
         this._customeInput.current.handleBlur();
         loan.setShowDatePicker();
         this._datePicker.current.handleFocus()
         // this.setState({showDatePicker: true}, () => )
     };
     handleFocus = () => {
-        this._customeInput.current.handleBlur();
+        Keyboard.dismiss()
         this._textInput.current.handleFocus();
     };
     handleGenderPickerFocus = () => {
-        this._customeInput.current.handleBlur();
+        Keyboard.dismiss();
         this._selectGenderPicker.current.handleFocus();
     };
 
@@ -180,9 +187,8 @@ class StepThree extends Component {
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <View style={{ flex: 1 }}>
                             <KeyboardAvoidingView>
-                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
-                            personal information
+                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20)}}>
+                            Personal Information
                      </CustomText>
                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
                                     <TextInput

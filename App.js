@@ -14,7 +14,7 @@ import { NewLoanProvider } from './src/screens/new-application/provider/NewLoanP
 import { LoanOfferProvider } from './src/screens/loanoffer/provider/LoanOfferProvider';
 import MainApp from './src/utils/Navigator';
 import { AutoLoanOfferProvider } from './src/screens/autoloanoffer/provider/AutoLoanOfferProvider';
-import { getUser , setIntent} from './src/utils/storage';
+import { getCustomer , setIntent} from './src/utils/storage';
 import CombinedContextProvider from './src/components/CombinedProvider';
 
 I18nManager.forceRTL(false);

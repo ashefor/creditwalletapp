@@ -64,7 +64,6 @@ const pickerSelectStyles = StyleSheet.create({
     },
     placeholder: {
         color: 'rgba(0,0,0, .54)',
-        fontFamily: 'Baloo'
       },
       chevronContainer: {
           display: 'none'

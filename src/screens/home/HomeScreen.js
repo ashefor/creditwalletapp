@@ -5,7 +5,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons, AntDesign, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 import CustomText from '../../components/CustomText';
-import { getUser } from '../../utils/storage';
+import { getCustomer } from '../../utils/storage';
 import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
 import LiquidateLoan from '../liquidate/LiquidateLoan';
@@ -48,15 +48,16 @@ class HomeScreen extends Component {
     }
 
     componentWillUnmount = () => {
+        this.setState({ isLoading: false })
         this._isMounted = false;
     }
     getLoggedInUser = async () => {
-        const user = await getUser();
-       if(this._isMounted && user) {
-        this.setState({
-            username: JSON.parse(user).borrower_firstname
-        })
-       }
+        const user = await getCustomer();
+        if (this._isMounted && user) {
+            this.setState({
+                username: JSON.parse(user).borrower_firstname
+            })
+        }
         // // // console.log(JSON.parse(user).username)
     }
 
@@ -67,31 +68,31 @@ class HomeScreen extends Component {
         })
     }
     loadDashboard = (val) => {
-        if(this._isMounted) {
+        if (this._isMounted) {
             this.setState({ isLoading: val })
-        const url = `${apiURL}account/dashboard`;
-        const options = {
-            method: 'GET',
-        }
-        return new Promise((resolve, reject) => {
-            requestWithToken(url, options).then(data => {
-                // // console.log(data)
-                
-                this.setState({ isLoading: false })
-                if( data.status === 'success') {
-                    this.setState({ dashboard: data })
-                }
-                else {
-                    alert(data.message ? data.message : 'An error has occured. Try again later')
-                }
-                resolve()
-            }).catch(error => {
-                // console.log(error);
-                this.setState({ isLoading: false })
-                this.setState({ hasError: error && error.message ? error.message: 'An error has occured' })
-                // reject()
+            const url = `${apiURL}account/dashboard`;
+            const options = {
+                method: 'GET',
+            }
+            return new Promise((resolve, reject) => {
+                requestWithToken(url, options).then(data => {
+                    // console.log(data)
+
+                    this.setState({ isLoading: false })
+                    if (data.status === 'success') {
+                        this.setState({ dashboard: data })
+                    }
+                    else {
+                        alert(data.message ? data.message : 'An error has occured. Try again later')
+                    }
+                    resolve()
+                }).catch(error => {
+                    // console.log(error);
+                    this.setState({ isLoading: false })
+                    this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
+                    // reject()
+                })
             })
-        })
         }
     }
 
@@ -183,8 +184,8 @@ class HomeScreen extends Component {
             const pushAction = StackActions.push({
                 routeName: 'Liquidate Loan',
                 params: { loan_id: this.state.dashboard.open_loans[0].loan_id },
-              });
-              this.props.navigation.dispatch(pushAction);
+            });
+            this.props.navigation.dispatch(pushAction);
             // this.props.navigation.navigate('Liquidate Loan', { loan_id: this.state.dashboard.open_loans[0].loan_id, returnUrl: 'Home' })
         }
     }
@@ -223,8 +224,8 @@ class HomeScreen extends Component {
                 <Loader isLoading={isLoading} />
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <CustomText style={{marginVertical: 10, fontFamily: 'Baloo'}}>{hasError}</CustomText>
-                        <Button icon="reload" style={{backgroundColor: Colors.indigo400}} mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadDashboard}>
+                        <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>{hasError}</CustomText>
+                        <Button icon="reload" style={{ backgroundColor: Colors.indigo400 }} mode="contained" labelStyle={{ color: 'white', textTransform: 'capitalize' }} onPress={this.loadDashboard}>
                             reload
                         </Button>
                     </View>
@@ -278,20 +279,20 @@ class HomeScreen extends Component {
                                         </Appbar.Header>
                                         <View style={{ alignSelf: 'center', width: resWidth(90) }}>
                                             <Title style={{ fontSize: resFont(20), fontFamily: 'Baloo-extra-bold', color: colors.primary }}>Letter of {letterType}</Title>
-                                            <CustomText style={{fontFamily: 'Baloo'}}>Get your letter of {letterType} and send to any preferred email address</CustomText>
+                                            <CustomText style={{ fontFamily: 'Baloo' }}>Get your letter of {letterType} and send to any preferred email address</CustomText>
                                             <View style={{ marginTop: resHeight(2) }}>
                                                 {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error }}>{errorMsg}</CustomText>}
                                                 <TextInput
                                                     autoCapitalize={'none'}
                                                     label='Email'
-                                                    style={{backgroundColor: 'white', height: resHeight(7)}}
+                                                    style={{ backgroundColor: 'white', height: resHeight(7) }}
                                                     value={email}
                                                     mode={'outlined'}
                                                     ref={this.textInputRef}
                                                     onChangeText={email => this.setState({ email })}
                                                 />
                                                 {this.validateEmail(email) && <HelperText type='error' visible={true}>
-                                        Only valid emails are allowed
+                                                    Only valid emails are allowed
                                    </HelperText>}
                                                 <Button
                                                     disabled={isSending || this.validateEmail(email)}
@@ -408,12 +409,12 @@ class HomeScreen extends Component {
                                 label: 'Okay',
                                 onPress: () => this._onDismissSnackBar,
                             }}
-                            style={{backgroundColor: '#297045', color: '#fff'}}
+                            style={{ backgroundColor: '#297045', color: '#fff' }}
                         >
                             Email Successfully Sent
                             </Snackbar>
                     </Fragment>}
-                    </CustomSafeAreaView>
+            </CustomSafeAreaView>
         )
     }
 }
@@ -428,14 +429,23 @@ const styles = StyleSheet.create({
         marginVertical: resHeight(.5)
     },
     card: {
-        borderRadius: 15,
+        borderRadius: 10,
         width: '49%',
         height: resHeight(18),
         padding: 10,
         // backgroundColor: '#f7971e',
         display: 'flex',
         alignItems: 'flex-start',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
     },
     cardText: {
         color: '#fff',

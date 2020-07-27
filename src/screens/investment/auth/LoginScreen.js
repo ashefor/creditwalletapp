@@ -4,7 +4,7 @@ import { Appbar, TextInput, Button, withTheme, TouchableRipple } from 'react-nat
 import { resWidth, resHeight, resFont } from '../../../utils/utils';
 import { apiURL, request } from '../../../utils/request';
 import Loader from '../../../components/Loader';
-import { setToken, setUser } from '../../../utils/storage';
+import { setCustomerToken, setCustomer } from '../../../utils/storage';
 import CustomText from '../../../components/CustomText';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 import navigationservice from '../../../utils/navigationservice';
@@ -43,11 +43,11 @@ class LoginScreen extends Component {
             request(url, options).then(data => {
                 this.setState({ isLoading: false });
                 if (data.status === 'success') {
-                    setToken(data.token);
+                    setCustomerToken(data.token);
                     if (data.firstlogin === '1') {
                         navigationservice.navigate('Set Password')
                     } else {
-                        setUser(data.customer);
+                        setCustomer(data.customer);
                         this.props.navigation.navigate('Main')
                     }
                 }
@@ -65,7 +65,7 @@ class LoginScreen extends Component {
         return (
             <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction
                             onPress={() => this.props.navigation.goBack()}
                         />
@@ -80,8 +80,8 @@ class LoginScreen extends Component {
                     <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                         <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                             <View style={{ marginTop: resHeight(1) }}>
-                                {/* <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Hi, Welcome Back</CustomText> */}
-                                <CustomText style={{ textAlign: 'left', fontSize: resFont(14), fontFamily: 'Baloo' }}>Kindly provide your email and password to access portal</CustomText>
+                                <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Hi, Welcome Back</CustomText>
+                                <CustomText style={{ textAlign: 'left', fontSize: resFont(14), fontFamily: 'Baloo' }}>Kindly provide your email and password to access your investment(s) portal</CustomText>
                                 {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                                 <TextInput
                                     style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}

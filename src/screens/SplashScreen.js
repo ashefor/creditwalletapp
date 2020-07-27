@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, ActivityIndicator, Colors } from 'react-native-paper'
-import { getUser, getIntent } from '../utils/storage';
+import { getCustomer, getIntent, getUserType } from '../utils/storage';
 import * as Linking from 'expo-linking'
 import navigationservice from '../utils/navigationservice';
 import { resFont, resHeight } from '../utils/utils';
@@ -34,11 +34,20 @@ export default class Splashscreen extends Component {
             } else if (routeName == 'offerletter') {
                 navigationservice.navigate('Offer Letter', { loanid: id })
             } else {
-                await getUser().then(user => user ? this.props.navigation.navigate('Main') : this.props.navigation.navigate('Auth')).catch(error => this.props.navigation.navigate('Auth'))
+                const userType = await getUserType()
+                if(userType){
+                    await getCustomer().then(user => user ? this.props.navigation.navigate('Main') : this.props.navigation.navigate('Initial Screen')).catch(error => this.props.navigation.navigate('Initial Screen'))
+                } else {
+                    this.props.navigation.navigate('Initial Screen')
+                }
             }
         } else {
-            await getUser().then(user => user ? this.props.navigation.navigate('Main') : this.props.navigation.navigate('Auth')).catch(error => this.props.navigation.navigate('Auth'))
-            // console.log('else')
+            const userType = await getUserType()
+            if(userType){
+                await getCustomer().then(user => user ? this.props.navigation.navigate('Main') : this.props.navigation.navigate('Initial Screen')).catch(error => this.props.navigation.navigate('Initial Screen'))
+            } else {
+                this.props.navigation.navigate('Initial Screen')
+            }
         }
     }
 

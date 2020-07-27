@@ -2,14 +2,14 @@
 
 
 import React, { Component, Fragment } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ImageBackground } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
 import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
+import { getCustomer } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 
@@ -25,13 +25,15 @@ class StepTwo extends Component {
         return (
            <LoanContext.Consumer>
                {loan =>  <View style={{ flex: 1, marginTop: resHeight(2)}}>
-                   <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
-                    Loan breakdown
+                   <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20)}}>
+                    Loan Breakdown
                      </CustomText>
-                    <View style={styles.loanofferdetails}>
+                    <View style={{ width: '100%', marginVertical: 10, borderRadius: 10, overflow: 'hidden' }}>
                     
-                        <View style={styles.loaninforow}>
+                     <ImageBackground source={require('../../../assets/images/background.jpeg')} style={{width: '100%'}}>
+            <View style={{padding: 10}}>
+
+            <View style={styles.loaninforow}>
                             <View style={{ alignItems: 'flex-start', width: '70%' }}>
                                 <CustomText style={{ fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Amount</CustomText>
                             </View>
@@ -67,6 +69,9 @@ class StepTwo extends Component {
                             </View>
                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>0.25%</CustomText>
                         </View>
+                   
+            </View>
+                     </ImageBackground>
                     </View>
 
                     <View>

@@ -1,12 +1,12 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
 import { publicURL, requestWithToken } from '../../../utils/request';
-import { getUser } from '../../../utils/storage';
+import { getCustomer } from '../../../utils/storage';
 import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
@@ -54,6 +54,11 @@ class StepFive extends Component {
     }
     renderBankSelect = props => {
         const { style, value, selectBank } = props;
+        const setBank = code => {
+            Keyboard.dismiss()
+            selectBank(code);
+            Platform.OS === 'android' && this.handleBlur();
+        }
         return (
             <PickerComponent
                 handleFocus={this.handleFocus}
@@ -67,7 +72,7 @@ class StepFive extends Component {
     };
 
     handleFocus = () => {
-        this._customInput.current.handleBlur()
+        Keyboard.dismiss()
         this._textInput.current.handleFocus();
     };
 
@@ -86,9 +91,8 @@ class StepFive extends Component {
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <View style={{ flex: 1 }}>
                             <KeyboardAvoidingView>
-                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20),
-        textTransform: 'uppercase'}}>
-                            employment information
+                            <CustomText style={{fontFamily: 'Baloo-bold', fontSize: resFont(20)}}>
+                            Employment Information
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput

@@ -25,14 +25,14 @@ class InvOnboardScreen extends Component {
            <View style={styles.page}>
                
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <View style={styles.avatarContainer}>
+                        {/* <View style={styles.avatarContainer}>
                             <Avatar.Image style={styles.avatar} size={40} source={require('../../../assets/images/logo.png')} />
                             <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-bold' }}>Credit Wallet</CustomText>
-                        </View>
+                        </View> */}
                     </View>
-                    <View style={{ flex: 2, width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+                    <View style={{ flex: 2, width: resWidth(90), alignItems: 'center', justifyContent: 'center'}}>
                         <Image
-                            style={{ height: '100%', resizeMode: 'contain' }}
+                            style={{ height: '100%', resizeMode: 'contain', width: '100%' }}
                             source={require('../../../assets/images/investment.png')}
                         />
                     </View>
@@ -51,9 +51,9 @@ class InvOnboardScreen extends Component {
                         <CustomText style={{ color: colors.primary, fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Login</CustomText>
                     </TouchableWithoutFeedback>
                         </View>
-                        <TouchableWithoutFeedback onPress={()=> {this.props.navigation.navigate('Customer Loans', {}, NavigationActions.navigate({routeName: 'Onboard'}))}} style={styles.loginTxt}>
+                        {/* <TouchableWithoutFeedback onPress={()=> {this.props.navigation.navigate('Customer Loans', {}, NavigationActions.navigate({routeName: 'Onboard'}))}} style={styles.loginTxt}>
                         <CustomText style={{ color: colors.primary, fontSize: resFont(15), fontFamily: 'Baloo-med', textDecorationLine: 'underline' }}>Go to Loans</CustomText>
-                    </TouchableWithoutFeedback>
+                    </TouchableWithoutFeedback> */}
                     </View>
                     <SafeAreaView />
                 </View>

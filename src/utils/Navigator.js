@@ -6,8 +6,16 @@ import { Platform, StatusBar } from 'react-native';
 import * as Linking from 'expo-linking'
 import InvestmentStack from '../screens/investment/stacks/InvestmentStack';
 import LoanBaseStack from '../stacks/LoanBaseStack';
+import InitialScreen from '../screens/InitialScreen';
+import Splashscreen from '../screens/SplashScreen';
 
 const AppNavigation = createSwitchNavigator({
+    Loading: {
+        screen: Splashscreen,
+    },
+   'Initial Screen': {
+       screen: InitialScreen,
+   },
    'Customer Loans': {
     screen: LoanBaseStack
    },

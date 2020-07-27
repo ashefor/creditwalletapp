@@ -99,7 +99,7 @@ class LoanDetails extends Component {
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff', }}>
                 <Loader isLoading={isLoading} />
-                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
+                <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                     <Appbar.Content
                         titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
@@ -206,7 +206,11 @@ class LoanDetails extends Component {
                             </View>
                             {loanType === 'open' && <View style={{ width: resWidth(90), alignSelf: 'center' }}>
                                 <Button
-                                    style={{ marginVertical: resHeight(2), height: resHeight(6) }}
+                                    style={{ marginVertical: resHeight(2)}}
+                                    contentStyle={{
+                                        height: resHeight(6),
+                                        width: resWidth(90)
+                                    }}
                                     labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
                                     mode="contained" onPress={this.goToLiquidateLoan}>
                                     Liquidate/Pay off Loan

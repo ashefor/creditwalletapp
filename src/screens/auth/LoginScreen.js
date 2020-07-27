@@ -4,7 +4,7 @@ import { Appbar, TextInput, Button, withTheme, TouchableRipple } from 'react-nat
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 import { apiURL, request } from '../../utils/request';
 import Loader from '../../components/Loader';
-import { setToken, setUser } from '../../utils/storage';
+import { setCustomerToken, setCustomer } from '../../utils/storage';
 import CustomText from '../../components/CustomText';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import navigationservice from '../../utils/navigationservice';
@@ -42,11 +42,11 @@ class LoginScreen extends Component {
             request(url, options).then(data => {
                 this.setState({ isLoading: false });
                 if (data.status === 'success') {
-                    setToken(data.token);
+                    setCustomerToken(data.token);
                     if (data.firstlogin === '1') {
                         navigationservice.navigate('Set Password')
                     } else {
-                        setUser(data.customer);
+                        setCustomer(data.customer);
                         this.props.navigation.navigate('Main')
                     }
                 }
@@ -64,13 +64,12 @@ class LoginScreen extends Component {
         return (
             <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 1 }}>
-                        <Appbar.BackAction
-                            onPress={() => this.props.navigation.goBack()}
+                    <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff' , elevation: 0}}>
+                    <Appbar.Action icon='close' onPress={() => this.props.navigation.goBack()}
                         />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                            title="Login"
+                            title="Login to your account"
                         />
                         <Appbar.Action
                         />
@@ -80,7 +79,7 @@ class LoginScreen extends Component {
                         <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                             <View style={{ marginTop: resHeight(1) }}>
                                 <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Hi, Welcome Back</CustomText>
-                                <CustomText style={{ textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo' }}>Kindly provide your username and password to access your account</CustomText>
+                                <CustomText style={{ textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo' }}>Kindly provide your username and password to access your loan(s) account</CustomText>
                                 {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                                 <TextInput
                                     style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
