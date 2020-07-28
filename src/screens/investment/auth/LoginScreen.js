@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, TextInput as RNTextInput, Keyboard, ScrollView, StatusBar } from 'react-native'
-import { Appbar, TextInput, Button, withTheme, TouchableRipple } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, TouchableRipple, Snackbar, HelperText } from 'react-native-paper';
 import { resWidth, resHeight, resFont } from '../../../utils/utils';
-import { apiURL, request } from '../../../utils/request';
+import { apiURL, request, investmentURL } from '../../../utils/request';
 import Loader from '../../../components/Loader';
 import { setCustomerToken, setCustomer } from '../../../utils/storage';
 import CustomText from '../../../components/CustomText';
@@ -10,6 +10,7 @@ import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 import navigationservice from '../../../utils/navigationservice';
 import { NavigationActions } from 'react-navigation';
 import { Constants } from 'react-native-unimodules';
+const axios = require('axios').default;
 
 
 
@@ -18,16 +19,19 @@ class LoginScreen extends Component {
         username: '',
         password: '',
         isLoading: false,
-        errorMsg: null
+        errorMsg: null,
+        snackBarVisible: false
     };
     
+
+    _onDismissSnackBar = () => this.setState({ snackBarVisible: false });
     handleLogin = () => {
         this.setState({
             errorMsg: null
         })
-        const url = `${apiURL}login`;
+        const url = `${investmentURL}login`;
         const user = {
-            username: this.state.username,
+            email: this.state.username,
             password: this.state.password
         }
         const options = {
@@ -41,27 +45,53 @@ class LoginScreen extends Component {
         } else {
             Keyboard.dismiss()
             this.setState({ isLoading: true })
-            request(url, options).then(data => {
+            axios({
+                method: 'POST',
+                url: url,
+                data: user
+            }).then((data) => {
+                // console.log(data.data)
                 this.setState({ isLoading: false });
-                if (data.status === 'success') {
-                    setCustomerToken(data.token);
-                    if (data.firstlogin === '1') {
-                        navigationservice.navigate('Set Password')
-                    } else {
-                        setCustomer(data.customer);
-                        this.props.navigation.navigate('Main')
-                    }
+                if (data.data.status === 'success') {
+                    setCustomerToken(data.data.token);
+                    setCustomer(data.data.data.borrower);
+                    this.props.navigation.navigate('Main')
+                } else {
+                    this.setState({snackBarVisible: true,  errorMsg: `User ${data.data.message}` })
                 }
-                // console.log(data)
-            }).catch(error => {
-                this.setState({ isLoading: false, errorMsg: error.message })
+            }).catch((error) => {
+                // console.log('err' +error)
+                this.setState({snackBarVisible: true, isLoading: false, errorMsg: error.message })
                 // console.log(error)
             })
+            // request(url, options).then(data => {
+            //     console.log(data)
+            //     this.setState({ isLoading: false });
+            //     if (data.status === 'success') {
+            //         setCustomerToken(data.token);
+            //         setCustomer(data.customer);
+            //         this.props.navigation.navigate('Main')
+            //     } else {
+            //         console.log(data)
+            //     }
+            //     // console.log(data)
+            // }).catch(error => {
+            //     console.log(error)
+            //     this.setState({ isLoading: false, errorMsg: error.message })
+            //     // console.log(error)
+            // })
         }
 
     }
+
+    validateEmail(email) {
+        if (email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return !re.test(String(email).toLowerCase());
+        }
+    }
     render() {
-        const { username, password, isLoading, errorMsg } = this.state;
+        const { username, password, isLoading, errorMsg, snackBarVisible } = this.state;
         const { colors } = this.props.theme
         return (
             <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
@@ -83,16 +113,20 @@ class LoginScreen extends Component {
                             <View style={{ marginTop: resHeight(1) }}>
                                 <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Hi, Welcome Back</CustomText>
                                 <CustomText style={{ textAlign: 'left', fontSize: resFont(14), fontFamily: 'Baloo' }}>Kindly provide your email and password to access your investment(s) portal</CustomText>
-                                {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
+                                {/* {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>} */}
                                 <TextInput
                                     style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
-                                    label='Username'
+                                    label='Email'
                                     value={username}
                                     mode="outlined"
                                     autoCapitalize='none'
                                     returnKeyType='done'
+                                    keyboardType='email-address'
                                     onChangeText={username => this.setState({ username })}
                                 />
+                                  {this.validateEmail(username) && <HelperText type='error' visible={true}>
+                                        Please valid email only
+                                   </HelperText>}
                                 <TextInput
                                     secureTextEntry
                                     style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
@@ -107,7 +141,7 @@ class LoginScreen extends Component {
                                     labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
                                     contentStyle={styles.loginbtn}
                                     loading={isLoading}
-                                    disabled={isLoading}
+                                    disabled={isLoading || this.validateEmail(username) || !password}
                                     mode="contained" onPress={this.handleLogin}>
                                     {isLoading ? 'Logging in' : 'Login'}
                                 </Button>
@@ -117,11 +151,19 @@ class LoginScreen extends Component {
                                     onPress={() => {this.props.navigation.navigate('Forgot Password')}}
                                 >
                                     Forgot Password?
-        </Button>
+                                </Button>
 
                             </View>
                         </View>
+                        
                     </ScrollView>
+                    <Snackbar
+                            visible={snackBarVisible}
+                            onDismiss={this._onDismissSnackBar}
+                            style={{ backgroundColor: 'maroon', color: '#fff' }}
+                        >
+                            {errorMsg}
+                            </Snackbar>
                 </View>
             </CustomSafeAreaView>
 

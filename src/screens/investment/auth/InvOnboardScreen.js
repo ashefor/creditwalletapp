@@ -47,7 +47,7 @@ class InvOnboardScreen extends Component {
                 </Button>
                         <View style={styles.loginInfo}>
                         <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Existing Investor?</CustomText>
-                    <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('Customer Investments', {}, NavigationActions.navigate({routeName: 'Login'}))}} style={styles.loginTxt}>
+                    <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('Login')}} style={styles.loginTxt}>
                         <CustomText style={{ color: colors.primary, fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Login</CustomText>
                     </TouchableWithoutFeedback>
                         </View>

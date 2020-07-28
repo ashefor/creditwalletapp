@@ -42,7 +42,7 @@ class SettingScreen extends Component {
                     <List.Item
                         title="Sign Out" titleStyle={{fontFamily: 'Baloo-med', fontSize: resFont(15)}}
                         onPress={() => signOut()}
-                        left={props => <List.Icon {...props} icon="exit-to-app" color={'red'} />}
+                        left={props => <List.Icon {...props} icon="power-settings" color={'red'} />}
                     />
                 </ScrollView>
             </CustomSafeAreaView>

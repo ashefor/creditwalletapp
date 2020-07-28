@@ -14,9 +14,12 @@
     "@use-expo/font": "^2.0.0",
     "axios": "^0.19.2",
     "expo": "^38.0.0",
+    "expo-application": "~2.2.1",
+    "expo-constants": "~9.1.1",
     "expo-document-picker": "~8.2.1",
     "expo-font": "~8.2.1",
     "expo-linking": "^1.0.3",
+    "expo-permissions": "~9.0.1",
     "expo-secure-store": "~9.0.1",
     "expo-splash-screen": "^0.3.1",
     "expo-updates": "~0.2.8",
@@ -36,13 +39,12 @@
     "react-native-unimodules": "~0.10.1",
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.3.9",
+    "react-navigation-drawer": "^2.5.0",
     "react-navigation-fluid-transitions": "^0.3.2",
     "react-navigation-stack": "^2.5.0",
     "react-navigation-tabs": "^2.8.13",
     "react-navigation-transitions": "^1.0.12",
-    "expo-constants": "~9.1.1",
-    "expo-application": "~2.2.1",
-    "expo-permissions": "~9.0.1"
+    "expo-linear-gradient": "~8.2.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

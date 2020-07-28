@@ -6,6 +6,7 @@ import * as Linking from 'expo-linking'
 import navigationservice from '../utils/navigationservice';
 import { resFont, resHeight } from '../utils/utils';
 import CustomText from '../components/CustomText';
+import { NavigationActions } from 'react-navigation';
 
 export default class Splashscreen extends Component {
     constructor(props) {
@@ -36,7 +37,11 @@ export default class Splashscreen extends Component {
             } else {
                 const userType = await getUserType()
                 if(userType){
-                    await getCustomer().then(user => user ? this.props.navigation.navigate(userType, {}, NavigationActions.navigate({routeName: 'Main'})) : this.props.navigation.navigate('Initial Screen')).catch(error => this.props.navigation.navigate('Initial Screen'))
+                    if(userType.includes('Loans')) {
+                        this.props.navigation.navigate("Customer Loans", {}, NavigationActions.navigate({routeName: 'Main'}))
+                    } else {
+                        this.props.navigation.navigate("Customer Investments", {}, NavigationActions.navigate({routeName: 'Main'}))
+                    }
                 } else {
                     this.props.navigation.navigate('Initial Screen')
                 }
@@ -44,7 +49,11 @@ export default class Splashscreen extends Component {
         } else {
             const userType = await getUserType()
             if(userType){
-                await getCustomer().then(user => user ? this.props.navigation.navigate(userType, {}, NavigationActions.navigate({routeName: 'Main'})) : this.props.navigation.navigate('Initial Screen')).catch(error => this.props.navigation.navigate('Initial Screen'))
+                if(userType.includes('Loans')) {
+                    this.props.navigation.navigate("Customer Loans", {}, NavigationActions.navigate({routeName: 'Main'}))
+                } else {
+                    this.props.navigation.navigate("Customer Investments", {}, NavigationActions.navigate({routeName: 'Main'}))
+                }
             } else {
                 this.props.navigation.navigate('Initial Screen')
             }
