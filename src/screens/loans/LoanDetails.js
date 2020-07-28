@@ -100,7 +100,7 @@ class LoanDetails extends Component {
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff', }}>
                 <Loader isLoading={isLoading} />
-                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                     <Appbar.Content
                         titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}

@@ -44,3 +44,7 @@ export const getIntent = async () => {
 export const signOut = async() => {
     return await SecureStore.deleteItemAsync('creditWalletCustomerToken').then(SecureStore.deleteItemAsync('creditWalletCustomer').then(navigationservice.navigate('Initial Screen')))
 }
+
+export const signInvestorOut = async() => {
+    return await SecureStore.deleteItemAsync('creditWalletInvestorToken').then(SecureStore.deleteItemAsync('creditWalletUserType').then(SecureStore.deleteItemAsync('creditWalletCustomer'))).then(navigationservice.navigate('Initial Screen'))
+}

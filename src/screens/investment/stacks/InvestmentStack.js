@@ -3,6 +3,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import AuthStack from './AuthStack';
 import NewInvestmentStack from './NewInvestmentStack';
 import DrawerStack from './DrawerStack';
+import SavingScreen from '../SavingScreen';
 
 const InvestmentStack = createStackNavigator({
     'Auth': {
@@ -14,6 +15,13 @@ const InvestmentStack = createStackNavigator({
     },
     'Main': {
         screen: DrawerStack,
+        navigationOptions: {
+            headerTransparent: true,
+            headerShown: false
+        }
+    },
+    'Savings': {
+        screen: SavingScreen,
         navigationOptions: {
             headerTransparent: true,
             headerShown: false

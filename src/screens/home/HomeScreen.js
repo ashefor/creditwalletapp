@@ -274,7 +274,7 @@ class HomeScreen extends Component {
                                 contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
                                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
                                     <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                                        <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                                        <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                                             <Appbar.Action icon="close" onPress={this._hideModal} />
                                         </Appbar.Header>
                                         <View style={{ alignSelf: 'center', width: resWidth(90) }}>

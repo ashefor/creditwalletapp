@@ -65,7 +65,7 @@ class LoginScreen extends Component {
         return (
             <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header style={{ backgroundColor: '#f5fcff' , elevation: 0}}>
+                    <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff' , elevation: 0}}>
                     <Appbar.Action icon='close' onPress={() => this.props.navigation.goBack()}
                         />
                         <Appbar.Content

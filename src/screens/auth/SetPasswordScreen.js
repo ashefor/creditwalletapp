@@ -58,7 +58,7 @@ class SetPasswordScreen extends Component {
         const { colors } = this.props.theme
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />

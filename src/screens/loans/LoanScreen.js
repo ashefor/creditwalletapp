@@ -134,7 +134,7 @@ class LoanScreen extends Component {
                     </View>
                 </Fragment>}
                 {!hasError && <Fragment>
-                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.Action />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}

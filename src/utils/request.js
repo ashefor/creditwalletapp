@@ -76,7 +76,7 @@ export const investorequestWithToken = async (url, options) => {
         }
         return new Promise((resolve, reject) => {
             fetch(url, requestOptions).then(res => res.json()).then(data => {
-                if(data.message === "Unauthorized access"){
+                if(data.status === "error"){
                     navigationservice.navigate('Login')
                 } else {
                     resolve(data)

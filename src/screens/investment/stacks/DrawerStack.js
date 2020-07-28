@@ -1,10 +1,12 @@
 import React from 'react';
-import {createDrawerNavigator} from 'react-navigation-drawer';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import InvestorDashboard from '../InvestorDashboard';
-import { resWidth, resHeight , resFont} from '../../../utils/utils';
+import { resWidth, resHeight, resFont } from '../../../utils/utils';
 import { MaterialIcons } from '@expo/vector-icons';
 import DrawerComponent from '../../../components/DrawerComponent';
 import InvestorChangePasswordScreen from '../InvestorChangePasswordScreen';
+import SavingScreen from '../SavingScreen';
+import Null from '../../../components/Null';
 
 const DrawerStack = createDrawerNavigator({
     'Dashboard': {
@@ -12,7 +14,7 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             headerTransparent: true,
             headerShown: false,
-            drawerIcon: ({tintColor}) => <MaterialIcons name="info-outline" size={24} color={tintColor} />
+            drawerIcon: ({ tintColor }) => <MaterialIcons name="info-outline" size={24} color={tintColor} />
         }
     },
     'Change Password': {
@@ -20,16 +22,16 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             headerTransparent: true,
             headerShown: false,
-            drawerIcon: ({tintColor})=> <MaterialIcons name="settings" size={24} color={tintColor} />
+            drawerIcon: ({ tintColor }) => <MaterialIcons name="settings" size={24} color={tintColor} />
         }
     },
 }, {
-    drawerBackgroundColor: 'transparent',
+    drawerBackgroundColor: 'white',
     overlayColor: 'transparent',
     drawerType: 'slide',
     drawerWidth: resWidth(80),
-    contentComponent: (props) => <DrawerComponent {...props}/>,
-    hideStatusBar: true,
+    contentComponent: (props) => <DrawerComponent {...props} />,
+    // hideStatusBar: true,
     contentOptions: {
         inactiveTintColor: '#000',
         activeTintColor: '#f56b2a',

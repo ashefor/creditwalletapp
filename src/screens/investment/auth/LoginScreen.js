@@ -57,7 +57,7 @@ class LoginScreen extends Component {
                     setCustomer(data.data.data.borrower);
                     this.props.navigation.navigate('Main')
                 } else {
-                    this.setState({snackBarVisible: true,  errorMsg: `User ${data.data.message}` })
+                    this.setState({snackBarVisible: true, isLoading: false,  errorMsg: `User ${data.data.message}` })
                 }
             }).catch((error) => {
                 // console.log('err' +error)
@@ -95,8 +95,9 @@ class LoginScreen extends Component {
         const { colors } = this.props.theme
         return (
             <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
+                {/* <CustomText>{0 + StatusBar.currentHeight}</CustomText> */}
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction
                             onPress={() => this.props.navigation.goBack()}
                         />

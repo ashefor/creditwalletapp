@@ -22,7 +22,7 @@ const NewInvestmentStack = createStackNavigator({
         }
     }
 }, {
-    initialRouteName: 'Get Started',
+    initialRouteName: 'Investment Apply',
     mode: 'card',
 })
 

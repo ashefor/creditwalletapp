@@ -6,7 +6,9 @@ import CustomText from './CustomText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { List } from 'react-native-paper';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { signOut } from '../utils/storage';
+import { signOut, signInvestorOut } from '../utils/storage';
+import navigationservice from '../utils/navigationservice';
+import { NavigationActions } from 'react-navigation';
 
 const { width, height } = Dimensions.get('window')
 export default DrawerComponent = props => (
@@ -19,7 +21,7 @@ export default DrawerComponent = props => (
             <ScrollView contentContainerStyle={{paddingHorizontal: 10}}>
                 <DrawerItems {...props} />
             </ScrollView>
-            <TouchableOpacity onPress={signOut}>
+            <TouchableWithoutFeedback onPress={signInvestorOut}>
            <View style={{paddingHorizontal: 10}}>
            <View style={{marginBottom: 40, flexDirection: 'row', padding: 25}}>
             <MaterialIcons name="power-settings-new" size={24} color="red" style={{
@@ -29,7 +31,7 @@ export default DrawerComponent = props => (
             fontFamily: 'Baloo-med'}}>Log out</CustomText>
             </View>
            </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
         </View>
     </SafeAreaView>
 )

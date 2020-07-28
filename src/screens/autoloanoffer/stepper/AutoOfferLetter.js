@@ -62,7 +62,7 @@ class AutoOfferLetter extends Component {
                     {loan.hasFinishedFetching && loan.offerLetter && <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
-                                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     <Appbar.BackAction onPress={loan.cancel}/>
                                     <Appbar.Action />
                                 </Appbar.Header>
@@ -80,7 +80,7 @@ class AutoOfferLetter extends Component {
                             </Fragment> :
 
                             <Fragment>
-                                <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     {loan.currentPage > 1 && <Appbar.BackAction onPress={loan.goBack}
                                     />}
                                     <Appbar.Action icon="close" onPress={loan.cancel} />
@@ -102,7 +102,7 @@ class AutoOfferLetter extends Component {
                     </Fragment>}
                     {loan.hasFinishedFetching && !loan.offerLetter && 
                      <Fragment>
-                     <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                     <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                          
                          <Appbar.Action icon="close" onPress={loan.cancel}/>
                      </Appbar.Header>
