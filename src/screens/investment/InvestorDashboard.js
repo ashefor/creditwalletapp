@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SafeAreaView, View, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import CustomText from '../../components/CustomText';
-import { withTheme, Appbar, Divider } from 'react-native-paper';
+import { withTheme, Appbar, Divider, Button } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
@@ -11,6 +11,7 @@ import { getCustomerToken } from '../../utils/storage';
 import Loader from '../../components/Loader';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StackActions } from 'react-navigation';
+import InvestmentDetailsCard from '../../components/InvestmentDetailsCard';
 const axios = require('axios').default;
 
 class InvestorDashboard extends Component {
@@ -30,7 +31,7 @@ class InvestorDashboard extends Component {
         console.log(savingsId)
         const pushAction = StackActions.push({
             routeName: 'Savings',
-            params: { savings_id: savingsId},
+            params: { savings_id: savingsId },
         });
         this.props.navigation.dispatch(pushAction);
     }
@@ -79,59 +80,6 @@ class InvestorDashboard extends Component {
                         />
                     </Appbar.Header>
                     {dashboard && <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingVertical: 15, width: resWidth(90), alignSelf: 'center' }}>
-                        <View style={styles.investmentTable}>
-                            <View style={{ marginBottom: 20 }}>
-                                <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(17) }}>
-                                    Your Investment Details
-                        </CustomText>
-                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: '#ccc' }}>
-                                    Your deposit investment
-                        </CustomText>
-                            </View>
-
-                            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 15 }} horizontal>
-                                {allSavings && allSavings.map((saving, index) => (
-                                    <View key={index} style={{ flexDirection: 'row', borderWidth: 1, borderColor: '#f0f0f0', borderRadius: 5 }}>
-                                        <View style={{ borderRightWidth: 1, borderRightColor: '#f0f0f0' }}>
-                                            <CustomText style={{ fontFamily: 'Baloo-med', backgroundColor: '#f0f0f0', padding: 10, textAlign: 'center' }}>
-                                                .
-                                            </CustomText>
-                                            <View style={{ padding: 5 }}>
-                                                <TouchableOpacity onPress={()=> this._handleGotoSavings(saving.savings_id)} style={{ borderColor: '#f56b2a', padding: 5 }}>
-                                                    <CustomText style={{ fontFamily: 'Baloo', color: '#f56b2a', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                                                        View
-                                                    </CustomText>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                        <View style={{ borderRightWidth: 1, borderRightColor: '#f0f0f0' }}>
-                                            <CustomText style={{ fontFamily: 'Baloo-med', backgroundColor: '#f0f0f0', padding: 10 }}>
-                                                Savings Account No.
-                                            </CustomText>
-                                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), padding: 10 }}>
-                                                {saving.savings_account_number}
-                                            </CustomText>
-                                        </View>
-                                        <View style={{ borderRightWidth: 1, borderRightColor: '#f0f0f0' }}>
-                                            <CustomText style={{ fontFamily: 'Baloo-med', backgroundColor: '#f0f0f0', padding: 10 }}>
-                                                Savings savings_balance
-                                            </CustomText>
-                                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), padding: 10 }}>
-                                                {this.formatAsCurrency(saving.savings_balance)}
-                                            </CustomText>
-                                        </View>
-                                        <View style={{ borderRightWidth: 1, borderRightColor: '#f0f0f0' }}>
-                                            <CustomText style={{ fontFamily: 'Baloo-med', backgroundColor: '#f0f0f0', padding: 10 }}>
-                                                Maturity Date
-                                            </CustomText>
-                                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), padding: 10 }}>
-                                                {saving.custom_field_1176}
-                                            </CustomText>
-                                        </View>
-                                    </View>
-                                ))}
-                            </ScrollView>
-                        </View>
                         <LinearGradient colors={['#d57eeb', '#fccb90']} style={styles.linearGradient}>
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', margin: 10 }}>
                                 <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
@@ -162,6 +110,17 @@ class InvestorDashboard extends Component {
                             </CustomText>
                             </View>
                         </LinearGradient>
+                        <View style={{ marginTop: 20, marginBottom: 10 }}>
+                            <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(17) }}>
+                                Your Investment Details
+                        </CustomText>
+                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: '#ccc' }}>
+                                Your deposit investment
+                        </CustomText>
+                        </View>
+                       <View style={{width: '100%'}}>
+                           <InvestmentDetailsCard savings={allSavings}/>
+                       </View>
                     </ScrollView>}
 
                 </View>
@@ -178,7 +137,7 @@ const styles = StyleSheet.create({
         height: resHeight(15),
         width: '100%',
         borderRadius: 15,
-        marginVertical: 10
+        marginVertical: 5
     },
     investmentTable: {
         backgroundColor: '#fff',
