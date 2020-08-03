@@ -4,22 +4,8 @@ import { withTheme, Appbar, Divider, Button } from 'react-native-paper';
 import { resWidth, resHeight, resFont } from '../utils/utils';
 import CustomText from './CustomText';
 import { StackActions } from 'react-navigation';
+import navigationservice from '../utils/navigationservice';
 const { width } = Dimensions.get('window')
-
-const images = [
-    {
-        imgUrl: require('../assets/images/apply.png'),
-        text: 'Stress Free Application'
-    },
-    {
-        imgUrl: require('../assets/images/analysis.png'),
-        text: 'Quick and Fair Assessment'
-    },
-    {
-        imgUrl: require('../assets/images/disburse.png'),
-        text: 'Money Disbursed under 2 hours'
-    }
-]
 class InvestmentDetailsCard extends Component {
     _isMounted = false;
     scrollRef = createRef();
@@ -35,19 +21,6 @@ class InvestmentDetailsCard extends Component {
     // }
     componentDidMount = () => {
         this._isMounted = true;
-        // setInterval(() => {
-        //     if (this._isMounted) {
-        //         this.setState(prev => ({ selectedIndex: prev.selectedIndex === images.length - 1 ? 0 : prev.selectedIndex + 1 }),
-        //             () => {
-        //                 this.scrollRef.current.scrollTo({
-        //                     animated: true,
-        //                     y: 0,
-        //                     x: width * this.state.selectedIndex
-        //                 })
-        //             }
-        //         )
-        //     }
-        // }, 3000);
     }
 
     _handleGotoSavings = (savingsId) => {
@@ -55,7 +28,7 @@ class InvestmentDetailsCard extends Component {
             routeName: 'Savings',
             params: { savings_id: savingsId },
         });
-        this.props.navigation.dispatch(pushAction);
+        this.props.navigation.navigate(pushAction);
     }
     componentWillUnmount = () => {
         this._isMounted = false;
@@ -63,13 +36,13 @@ class InvestmentDetailsCard extends Component {
     setSelectedIndex = event => {
         const viewSize = event.nativeEvent.layoutMeasurement.width;
         const contentOffset = event.nativeEvent.contentOffset.x;
-        const selectedIndex = Math.floor(contentOffset / viewSize);
+        const selectedIndex = Math.round(contentOffset / viewSize);
         this.setState({ selectedIndex })
     }
 
     formatAsCurrency = (value) => {
         const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        return `₦${newvalue}`
+        return `₦ ${newvalue}`
     }
 
 
@@ -78,16 +51,21 @@ class InvestmentDetailsCard extends Component {
         const { savings } = this.props;
         const { selectedIndex } = this.state;
         return (
-            <View style={{width: '100%', marginBottom: 10}}>
+            <View style={{ width: '100%', marginBottom: 10 }}>
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{width: '100%'}}
+                    contentContainerStyle={{ width: '100%' }}
                     horizontal pagingEnabled onMomentumScrollEnd={this.setSelectedIndex}
                     ref={this.scrollRef}
                 >
                     {savings.map((saving, index) => (
                         <View style={styles.investmentTable} key={index}>
-                            <View style={{width: '100%'}}>
+                            <View style={{ width: '100%' }}>
+                                <View style={{ padding: 5 }}>
+                                    <View style={{ width: 30, height: 30, borderRadius: 15, borderWidth: 1, flex: 1, alignItems: 'center', justifyContent: 'center', borderColor: '#ccc' }}>
+                                        <CustomText style={{ color: '#f56b2a', fontFamily: 'Baloo-med' }}>{index + 1}</CustomText>
+                                    </View>
+                                </View>
                                 <View style={{ flexDirection: 'row', padding: 5, width: '100%', justifyContent: 'space-between' }}>
                                     <CustomText style={{ fontFamily: 'Baloo' }}>
                                         Savings Account No.
@@ -128,7 +106,7 @@ class InvestmentDetailsCard extends Component {
                     {savings.map((saving, index) => (
                         <View
                             key={index}
-                            style={[styles.whitedot, { backgroundColor: index === selectedIndex ? '#d57eeb' : '#666' }]}
+                            style={[styles.whitedot, { backgroundColor: index === selectedIndex ? '#f56b2a' : '#666' }]}
                         />
                     ))}
                 </View>
@@ -167,7 +145,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        width: '100%',
+        width: resWidth(90),
         elevation: 2,
     },
     pagination: {

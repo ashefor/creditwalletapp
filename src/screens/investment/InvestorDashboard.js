@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { SafeAreaView, View, StyleSheet, ScrollView, StatusBar } from 'react-native';
+import React, { Component, createRef } from 'react';
+import { SafeAreaView, View, StyleSheet, ScrollView, StatusBar, Modal } from 'react-native';
 import CustomText from '../../components/CustomText';
 import { withTheme, Appbar, Divider, Button } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -12,19 +12,26 @@ import Loader from '../../components/Loader';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StackActions } from 'react-navigation';
 import InvestmentDetailsCard from '../../components/InvestmentDetailsCard';
+import SampleCard from '../../components/SampleCard';
 const axios = require('axios').default;
 
 class InvestorDashboard extends Component {
-    state = {
-        dashboard: null,
-        allSavings: null,
-        isLoading: false,
-        errorMsg: null,
-        snackBarVisible: false
-    };
+    scrollRef = createRef();
+    constructor(props) {
+        super(props);
+        this.state = {
+            dashboard: null,
+            allSavings: null,
+            isLoading: false,
+            selectedIndex: 0,
+            errorMsg: null,
+            showDetails: false,
+            snackBarVisible: false
+        };
+    }
     formatAsCurrency = (value) => {
         const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        return `₦${newvalue}`
+        return `₦ ${newvalue}`
     }
 
     _handleGotoSavings = (savingsId) => {
@@ -37,16 +44,19 @@ class InvestorDashboard extends Component {
     }
 
     async componentDidMount() {
-        const token = await getCustomerToken()
-        // axios.get(`${investmentURL}/dashboard`).then(data=> console.log(data.data))
-        const options = {
-            method: 'GET',
-        }
-        this.loadDashboard()
+        await this.loadDashboard().then(data => {
+            if (data) {
+                console.log(data);
+                this.setState({ isLoading: false, dashboard: data, allSavings: data.total_savings })
+            }
+        }).catch(error => {
+            console.log(error);
+            this.setState({ isLoading: false })
+            this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
+        })
     }
 
     loadDashboard = (val) => {
-        console.log('welp')
         this.setState({ isLoading: val })
         const url = `${investmentURL}dashboard`;
         const options = {
@@ -55,18 +65,15 @@ class InvestorDashboard extends Component {
         this.setState({ isLoading: true })
         return new Promise((resolve, reject) => {
             investorequestWithToken(url, options).then(data => {
-                this.setState({ isLoading: false, dashboard: data, allSavings: data.total_savings })
                 resolve(data)
             }).catch(error => {
-                console.log(error);
-                this.setState({ isLoading: false })
-                this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
                 reject(error)
             })
         })
     }
+
     render() {
-        const { dashboard, isLoading, allSavings } = this.state
+        const { dashboard, isLoading, allSavings, showDetails } = this.state
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Loader isLoading={isLoading} />
@@ -75,19 +82,46 @@ class InvestorDashboard extends Component {
                         <Appbar.Action icon='menu'
                             onPress={() => this.props.navigation.openDrawer()}
                         />
-
+                        <Appbar.Content
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            title="Dashboard"
+                        />
                         <Appbar.Action
                         />
                     </Appbar.Header>
-                    {dashboard && <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingVertical: 15, width: resWidth(90), alignSelf: 'center' }}>
-                        <LinearGradient colors={['#d57eeb', '#fccb90']} style={styles.linearGradient}>
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', margin: 10 }}>
-                                <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
-                                    {this.formatAsCurrency(dashboard.total_investment)}
-                                </CustomText>
+                    {dashboard && <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingTop: 5, paddingBottom: 20, width: resWidth(90), alignSelf: 'center' }}>
+                        <View style={{ marginBottom: 15 }}>
+                            <View style={{ marginBottom: 10 }}>
+                                <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(17) }}>
+                                    Your Investment Details
+                        </CustomText>
+                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>
+                                    Your deposit investment
+                        </CustomText>
+                            </View>
+                            <View style={{ width: '100%', marginBottom: 10 }}>
+                                <InvestmentDetailsCard savings={allSavings} {...this.props} />
+                            </View>
+                        </View>
+
+                        <View style={{ marginBottom: 10 }}>
+                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(17) }}>
+                                Your Investment Summary
+                        </CustomText>
+                        </View>
+                        <View style={{ height: resHeight(27), width: resWidth(90) }}>
+                            <SampleCard investmentDetails={dashboard}
+                            
+                            {...this.props} />
+                        </View>
+                        {/* <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, .5)']} style={styles.linearGradient}>
+                            <View style={{ flex: 1, margin: 10 }}>
                                 <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>
                                     Total investment
                             </CustomText>
+                                <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
+                                    {this.formatAsCurrency(dashboard.total_investment)}
+                                </CustomText>
                             </View>
                         </LinearGradient>
                         <LinearGradient colors={['#4facfe', '#00f2fe']} style={styles.linearGradient}>
@@ -109,20 +143,9 @@ class InvestorDashboard extends Component {
                                     Total Interest Receivable
                             </CustomText>
                             </View>
-                        </LinearGradient>
-                        <View style={{ marginTop: 20, marginBottom: 10 }}>
-                            <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(17) }}>
-                                Your Investment Details
-                        </CustomText>
-                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: '#ccc' }}>
-                                Your deposit investment
-                        </CustomText>
-                        </View>
-                       <View style={{width: '100%'}}>
-                           <InvestmentDetailsCard savings={allSavings}/>
-                       </View>
-                    </ScrollView>}
+                        </LinearGradient> */}
 
+                    </ScrollView>}
                 </View>
             </CustomSafeAreaView>
         )

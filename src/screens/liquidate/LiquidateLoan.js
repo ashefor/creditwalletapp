@@ -83,7 +83,7 @@ class LiquidateLoan extends Component {
 
     formatAsCurrency = (value) => {
         const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        return `₦${newvalue}`
+        return `₦ ${newvalue}`
     }
     render() {
         const { paymentType, isLoading, loan, refreshing, hasError, returnUrl } = this.state;

@@ -111,7 +111,7 @@ class NewLoanScreen extends Component {
     }
     formatAsCurrency = (value) => {
         const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        return `₦${newvalue}`
+        return `₦ ${newvalue}`
     }
 
     unFormat(val) {

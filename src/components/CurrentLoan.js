@@ -10,7 +10,7 @@ const CurrentLoan = props => {
     const { navigation, loan } = props;
     function formatAsCurrency(value) {
         const newvalue = parseFloat(value)
-        return `₦${newvalue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+        return `₦ ${newvalue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
     }
 
     function redirectToRepayments() {

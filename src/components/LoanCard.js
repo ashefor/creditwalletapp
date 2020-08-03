@@ -11,7 +11,7 @@ const LoanCard = props => {
 
     function formatAsCurrency(value) {
         const newvalue = parseFloat(value)
-        return `₦${newvalue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+        return `₦ ${newvalue.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
     }
     function redirectToRepayments() {
         navigation.navigate('Loan Details', { loan_id: loan.loan_id, type: 'closed' })

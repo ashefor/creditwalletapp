@@ -27,8 +27,7 @@ const DrawerStack = createDrawerNavigator({
     },
 }, {
     drawerBackgroundColor: 'white',
-    overlayColor: 'transparent',
-    drawerType: 'slide',
+    drawerType: 'front',
     drawerWidth: resWidth(80),
     contentComponent: (props) => <DrawerComponent {...props} />,
     // hideStatusBar: true,
