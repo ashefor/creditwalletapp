@@ -164,7 +164,7 @@ class AutoLoanOfferProvider extends Component {
             monthly_repayment: this.state.monthlyrepayment,
             duration: this.state.duration
         }
-        console.log(loan)
+        // console.log(loan)
         this.setState({ isAccepting: true })
         axios({
             method: 'POST',

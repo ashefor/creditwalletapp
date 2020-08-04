@@ -70,7 +70,7 @@ class InvestmentDetailsCard extends Component {
                                     <CustomText style={{ fontFamily: 'Baloo' }}>
                                         Savings Account No.
                              </CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(14) }}>
                                         {saving.savings_account_number}
                                     </CustomText>
                                 </View>
@@ -78,7 +78,7 @@ class InvestmentDetailsCard extends Component {
                                     <CustomText style={{ fontFamily: 'Baloo' }}>
                                         Savings Balance
                              </CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(14) }}>
                                         {this.formatAsCurrency(saving.savings_balance)}
                                     </CustomText>
                                 </View>
@@ -86,8 +86,8 @@ class InvestmentDetailsCard extends Component {
                                     <CustomText style={{ fontFamily: 'Baloo' }}>
                                         Maturity Date
                              </CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>
-                                        {saving.custom_field_1176}
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(14) }}>
+                                        {new Date(saving.custom_field_1176).toDateString()}
                                     </CustomText>
                                 </View>
                                 <View style={{ alignItems: 'flex-end' }}>

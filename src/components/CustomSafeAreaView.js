@@ -1,17 +1,21 @@
-import React from 'react';
-import { StyleSheet, Platform, SafeAreaView, View, StatusBar } from 'react-native';
+import React, { Fragment } from 'react';
+import { StyleSheet, Platform, SafeAreaView, View } from 'react-native';
 import Constants from 'expo-constants';
 import { width, resHeight } from '../utils/utils';
+import { StatusBar } from 'expo-status-bar';
 
 const CustomSafeAreaView = props => {
     const { children, style } = props
     // console.log(children)
     return (
-        <SafeAreaView style={[{flex:1, ...style }]}>
+        <Fragment>
+            <StatusBar style='dark'/>
+            <SafeAreaView style={[{flex:1, ...style }]}>
             <View style={styles.AndroidSafeArea}>
                 {children}
             </View>
         </SafeAreaView>
+        </Fragment>
     )
 }
 

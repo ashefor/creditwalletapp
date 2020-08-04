@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native'
 import { Button, TouchableRipple, Text as RPText, withTheme, Avatar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,6 +9,8 @@ import CustomText from '../../components/CustomText';
 import { Constants } from 'react-native-unimodules';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { NavigationActions } from 'react-navigation';
+import {StatusBar} from 'expo-status-bar'
+
 class OnboardScreen extends Component {
     constructor(props) {
         super(props)
@@ -16,7 +18,9 @@ class OnboardScreen extends Component {
     render() {
         const { colors } = this.props.theme;
         return (
-            <View style={styles.page}>
+           <Fragment>
+               <StatusBar style='dark'/>
+                <View style={styles.page}>
                 {/* <SafeAreaView /> */}
                 {/* <CustomSafeAreaView/> */}
                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -48,6 +52,7 @@ class OnboardScreen extends Component {
 
                 <SafeAreaView />
             </View>
+           </Fragment>
         )
     }
 }

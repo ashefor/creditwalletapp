@@ -15,7 +15,7 @@ export const FlatListRender = ({ savings }) => (
                 {savings.date || savings.transaction_date}
             </CustomText>
             <CustomText style={{ textAlign: 'right', marginVertical: 5, fontFamily: 'Baloo-med' }}>
-{savings.transaction === 1 ? '' : savings.transaction === 9 ? '': savings.transaction === 14 ? '-' : ''}{formatAsCurrency(savings.balance || savings.transaction_amount)}
+{savings.transaction === 1 ? '' : savings.transaction === 9 ? '': savings.transaction === 14 ? '-' : ''}{formatAsCurrency((savings.transaction === 1 ? savings.credit : savings.transaction === 9 ? savings.credit: savings.transaction === 14 ? savings.debit : '') || savings.transaction_amount)}
         </CustomText>
         </View>
         <Divider />

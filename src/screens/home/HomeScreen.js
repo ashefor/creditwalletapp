@@ -25,6 +25,7 @@ class HomeScreen extends Component {
             selectedIndex: 0,
             open: false,
             email: '',
+            username: null,
             isLoading: false,
             isSending: false,
             dashboard: null,
@@ -54,7 +55,7 @@ class HomeScreen extends Component {
     }
     getLoggedInUser = async () => {
         const user = await getCustomer();
-        if (this._isMounted && user) {
+        if (user) {
             this.setState({
                 username: JSON.parse(user).borrower_firstname
             })
@@ -69,7 +70,7 @@ class HomeScreen extends Component {
         })
     }
     loadDashboard = (val) => {
-       
+    //    console.log('dashboard');
             this.setState({ isLoading: val })
             const url = `${apiURL}account/dashboard`;
             const options = {
@@ -77,8 +78,6 @@ class HomeScreen extends Component {
             }
             return new Promise((resolve, reject) => {
                 requestWithToken(url, options).then(data => {
-                    console.log(data)
-
                     this.setState({ isLoading: false })
                     if (data.status === 'success') {
                         this.setState({ dashboard: data })
@@ -86,7 +85,7 @@ class HomeScreen extends Component {
                     else {
                         alert(data.message ? data.message : 'An error has occured. Try again later')
                     }
-                    resolve()
+                    // resolve()
                 }).catch(error => {
                     // console.log(error);
                     this.setState({ isLoading: false })
@@ -274,7 +273,7 @@ class HomeScreen extends Component {
                                 contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
                                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
                                     <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                                        <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                                        <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                                             <Appbar.Action icon="close" onPress={this._hideModal} />
                                         </Appbar.Header>
                                         <View style={{ alignSelf: 'center', width: resWidth(90) }}>
@@ -469,7 +468,7 @@ const styles = StyleSheet.create({
     },
     header: {
         height: resHeight(5),
-        marginTop: Constants.statusBarHeight ,
+        marginTop: 45,
         justifyContent: 'space-between',
         display: 'flex',
         flexDirection: 'row',

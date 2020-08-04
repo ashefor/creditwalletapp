@@ -39,7 +39,7 @@ class SavingScreen extends Component {
         this.setState({ isLoading: true })
         return new Promise((resolve, reject) => {
             investorequestWithToken(url, options).then(data => {
-                // console.log(data)
+                console.log(data)
                 this.setState({ isLoading: false, savings: data })
                 // resolve(data)
             }).catch(error => {

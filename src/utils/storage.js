@@ -42,9 +42,43 @@ export const getIntent = async () => {
 };
 
 export const signOut = async() => {
-    return await SecureStore.deleteItemAsync('creditWalletCustomerToken').then(SecureStore.deleteItemAsync('creditWalletCustomer').then(navigationservice.navigate('Initial Screen')))
+    return await SecureStore.deleteItemAsync('creditWalletCustomerToken').then(SecureStore.deleteItemAsync('creditWalletCustomer').then(SecureStore.deleteItemAsync('creditWalletUserType')).then(navigationservice.navigate('Initial Screen')))
 }
 
 export const signInvestorOut = async() => {
     return await SecureStore.deleteItemAsync('creditWalletInvestorToken').then(SecureStore.deleteItemAsync('creditWalletUserType').then(SecureStore.deleteItemAsync('creditWalletCustomer'))).then(navigationservice.navigate('Initial Screen'))
 }
+
+export const deleteToken = async() => {
+    return await SecureStore.deleteItemAsync('creditWalletCustomerToken').then(
+        navigationservice.navigate('Login')).catch(
+            navigationservice.navigate('Login'))
+}
+export const deleteInvestorToken = async() => {
+    return await SecureStore.deleteItemAsync('creditWalletInvestorToken').then(
+        navigationservice.navigate('Login')).catch(
+            navigationservice.navigate('Login'))
+}
+
+export const storeUsername = async(value) => {
+    await SecureStore.setItemAsync('creditWalletUserName', JSON.stringify(value));
+}
+
+export const getUsername = async () => {
+    return JSON.parse(await SecureStore.getItemAsync('creditWalletUserName'))
+};
+
+export const storePassword = async(value) => {
+    const user = await getUsername();
+    if(user) {
+        const newUser = {
+            username: user.username,
+            password: value
+        };
+        storeUsername(newUser);
+    }
+}
+
+export const getPassword = async () => {
+    return await SecureStore.getItemAsync('creditWalletUserPassword');
+};

@@ -180,7 +180,7 @@ class LiquidateLoan extends Component {
                                 Please note that the amount stated above is the liquidation payment due as at today {new Date(Date.now()).toDateString()} and subject to change if payment is not made within 24 hours.
                     </Paragraph>
 
-                            <Paragraph style={{ marginTop: resHeight(2), fontFamily: 'Baloo-bold', fontSize: resFont(12) }}>Please include the unique code 'LCW1002297-02' in the Payment narration /description.
+                            <Paragraph style={{ marginTop: resHeight(2), fontFamily: 'Baloo-bold', fontSize: resFont(12) }}>Please include the unique code '{loan.transaction_reference}' in the Payment narration /description.
                     </Paragraph>
                         </View>
                     </ScrollView>
@@ -193,8 +193,8 @@ class LiquidateLoan extends Component {
                             ref={ref => {
                                 this.RBSheet = ref;
                             }}
-                            height={resHeight(32)}
-                            openDuration={250}
+                            height={resHeight(21)}
+                            openDuration={200}
                             customStyles={{
                                 container: {
                                     //   justifyContent: "center",
@@ -203,7 +203,7 @@ class LiquidateLoan extends Component {
                             }}
                         >
                             <View style={{ width: resWidth(90), alignSelf: 'center', justifyContent: 'center' }}>
-                                <View style={{ display: 'flex', marginTop: resHeight(1), flexDirection: 'row', justifyContent: 'space-between' }}>
+                                {/* <View style={{ display: 'flex', marginTop: resHeight(1), flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Surface style={styles.surface}>
                                         <TouchableRipple
                                             style={[styles.paymentCard,
@@ -222,23 +222,23 @@ class LiquidateLoan extends Component {
                                             <Text style={{ fontSize: resFont(14), fontFamily: 'Baloo-med', textAlign: 'center', color: paymentType === 'deposit' ? 'white' : colors.text }}>Cash Deposit</Text>
                                         </TouchableRipple>
                                     </Surface>
-                                </View>
+                                </View> */}
                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(.5) }}>
-                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Account Name</CustomText>
+                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Account Name:</CustomText>
                                     <View>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{paymentType === 'deposit' ? 'Princeps Credit Systems' : 'Credit Wallet-Atiku Attahiru'}</CustomText>
+                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Credit Wallet-{loan.borrower.borrower_firstname} {loan.borrower.borrower_lastname}</CustomText>
                                     </View>
                                 </View>
                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(.5) }}>
-                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Account No.</CustomText>
+                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Account Number:</CustomText>
                                     <View>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{paymentType === 'deposit' ? '0102877545' : '9915335025'}</CustomText>
+                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{loan.borrower.custom_field_5444}</CustomText>
                                     </View>
                                 </View>
                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(.5) }}>
-                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Bank</CustomText>
+                                    <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo' }}>Bank Name:</CustomText>
                                     <View>
-                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{paymentType === 'deposit' ? 'Union Bank Of Nigeria Plc.' : 'Providus Bank'}</CustomText>
+                                        <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{loan.borrower.custom_field_5443}</CustomText>
                                     </View>
                                 </View>
 

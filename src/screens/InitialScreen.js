@@ -1,5 +1,5 @@
-import React, { Component, createRef } from 'react';
-import { View, Text, StyleSheet, Platform, ImageBackground, StatusBar, Image } from 'react-native'
+import React, { Component, createRef, Fragment } from 'react';
+import { View, Text, StyleSheet, Platform, ImageBackground, Image } from 'react-native'
 import { Button, TouchableRipple, Text as RPText, withTheme, Avatar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { resHeight, resWidth, resFont } from '../utils/utils';
@@ -9,6 +9,7 @@ import { Constants } from 'react-native-unimodules';
 import CustomSafeAreaView from '../components/CustomSafeAreaView';
 import { NavigationActions } from 'react-navigation';
 import { setUserType } from '../utils/storage';
+import {StatusBar} from 'expo-status-bar'
 class InitialScreen extends Component {
     constructor(props) {
         super(props)
@@ -28,10 +29,11 @@ class InitialScreen extends Component {
         const { hasNotification, isLoading } = this.state
         const { colors } = this.props.theme;
         return (
+            <Fragment>
+                <StatusBar style='light'/>
             <View style={styles.page}>
-                <StatusBar barStyle='light-content' />
                 <ImageBackground source={require('../assets/images/bg.jpg')} resizeMode='cover' style={{ height: '100%', width: '100%' }}>
-                    <View style={{ flex: 1, paddingVertical: Constants.statusBarHeight }}>
+                    <View style={{ flex: 1, paddingVertical: 50}}>
                         <View style={{ flex: 1, alignItems: 'center' }}>
                        <View style={{width: 70, height: 70, borderRadius: 35, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', padding: 20}}>
                        <Avatar.Image size={40} source={require('../assets/images/logo.png')}  />
@@ -69,6 +71,7 @@ class InitialScreen extends Component {
                     </View>
                 </ImageBackground>
             </View>
+            </Fragment>
         )
     }
 }

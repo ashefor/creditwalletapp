@@ -31,12 +31,14 @@ export default class Splashscreen extends Component {
             const routeName = routes[2]
             const id = routes[3]
             if (routeName == 'liquidate') {
-                navigationservice.navigate('Loan Liquidate', { loan_id: id })
+                this.props.navigation.navigate("Customer Loans", {}, NavigationActions.navigate({routeName: 'Loan Liquidate', params: {loan_id: id}}))
+                // navigationservice.navigate('Loan Liquidate', { loan_id: id })
             } else if (routeName == 'offerletter') {
-                navigationservice.navigate('Offer Letter', { loanid: id })
+                // navigationservice.navigate('Offer Letter', { loanid: id })
+                this.props.navigation.navigate("Customer Loans", {}, NavigationActions.navigate({routeName: 'Offer Letter', params: {loan_id: id}}))
             } else {
                 const userType = await getUserType()
-                console.log(userType)
+                // console.log(userType)
                 if(userType){
                     if(userType.includes('Loans')) {
                         this.props.navigation.navigate("Customer Loans", {}, NavigationActions.navigate({routeName: 'Main'}))

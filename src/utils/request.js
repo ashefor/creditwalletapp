@@ -1,4 +1,4 @@
-import { getCustomerToken } from "./storage"
+import { getCustomerToken, signOut, deleteToken, deleteInvestorToken } from "./storage"
 import navigationservice from "./navigationservice"
 
 export const apiURL = 'https://creditwallet.ng/api/public/customer/';
@@ -36,6 +36,7 @@ export const requestWithToken = async (url, options) => {
     const token = await getCustomerToken();
     if (token) {
         // console.log(token)
+        axios.defaults.headers.common = {'Authorization': token}
         const requestOptions = {
             ...options,
             headers: {
@@ -45,7 +46,7 @@ export const requestWithToken = async (url, options) => {
         }
         return new Promise((resolve, reject) => {
             fetch(url, requestOptions).then(res => res.json()).then(data => {
-                // console.log(data);
+                console.log(data);
                 if (data.status === "error" && data.message === "Authorization Failed, Please login to continue") {
                     navigationservice.navigate('Login')
                 } else if (data.status === "success") {
@@ -54,9 +55,36 @@ export const requestWithToken = async (url, options) => {
                     return reject(data)
                 }
             }).catch(error => {
+                deleteToken();
+                // console.log(error)
                 return reject(error)
             })
         })
+        //  return new Promise((resolve, reject) => {
+        //     axios({
+        //         method: 'GET',
+        //         url: url
+        //     }).then(data => {
+        //         // console.log(data);
+        //         if (data.data.status === "error" && data.message === "Authorization Failed, Please login to continue") {
+        //             deleteToken()
+        //         } else if (data.data.status === "success") {
+        //             return resolve(data.data)
+        //         } else {
+        //             return reject(data.data)
+        //         }
+        //     }).catch(error => {
+        //         // deleteToken();
+        //         console.log(error)
+        //         return reject(error)
+        //     })
+        // })
+        // axios({
+        //     method: 'GET',
+        //     url: url
+        // }).then(data=> {
+        //     console.log(data.data)
+        // }).catch(error => console.log(error))
     } else {
         navigationservice.navigate('Auth')
         // console.log('no token')
@@ -77,7 +105,7 @@ export const investorequestWithToken = async (url, options) => {
         return new Promise((resolve, reject) => {
             fetch(url, requestOptions).then(res => res.json()).then(data => {
                 if(data.status === "error"){
-                    navigationservice.navigate('Login')
+                    deleteInvestorToken()
                 } else {
                     resolve(data)
                 }

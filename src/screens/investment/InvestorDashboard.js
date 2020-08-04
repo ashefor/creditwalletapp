@@ -46,7 +46,7 @@ class InvestorDashboard extends Component {
     async componentDidMount() {
         await this.loadDashboard().then(data => {
             if (data) {
-                console.log(data);
+                // console.log(data);
                 this.setState({ isLoading: false, dashboard: data, allSavings: data.total_savings })
             }
         }).catch(error => {
@@ -90,6 +90,16 @@ class InvestorDashboard extends Component {
                         />
                     </Appbar.Header>
                     {dashboard && <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingTop: 5, paddingBottom: 20, width: resWidth(90), alignSelf: 'center' }}>
+                    <View style={{ marginBottom: 10 }}>
+                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(17) }}>
+                                Your Investment Summary
+                        </CustomText>
+                        </View>
+                        <View style={{ height: resHeight(27), width: resWidth(90) }}>
+                            <SampleCard investmentDetails={dashboard}
+                            
+                            {...this.props} />
+                        </View>
                         <View style={{ marginBottom: 15 }}>
                             <View style={{ marginBottom: 10 }}>
                                 <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(17) }}>
@@ -104,16 +114,7 @@ class InvestorDashboard extends Component {
                             </View>
                         </View>
 
-                        <View style={{ marginBottom: 10 }}>
-                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(17) }}>
-                                Your Investment Summary
-                        </CustomText>
-                        </View>
-                        <View style={{ height: resHeight(27), width: resWidth(90) }}>
-                            <SampleCard investmentDetails={dashboard}
-                            
-                            {...this.props} />
-                        </View>
+                        
                         {/* <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, .5)']} style={styles.linearGradient}>
                             <View style={{ flex: 1, margin: 10 }}>
                                 <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>

@@ -22,7 +22,8 @@ class SettingScreen extends Component {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff'}}>
                  <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
-                    
+                 <Appbar.Action
+                        />
                     <Appbar.Content
                         titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
                         title="Settings"

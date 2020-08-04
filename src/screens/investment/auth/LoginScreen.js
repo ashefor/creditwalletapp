@@ -44,7 +44,7 @@ class LoginScreen extends Component {
             return alert('Enter password')
         } else {
             Keyboard.dismiss()
-            this.setState({ isLoading: true })
+            this.setState({ isLoading: true, snackBarVisible: false })
             axios({
                 method: 'POST',
                 url: url,
@@ -60,8 +60,8 @@ class LoginScreen extends Component {
                     this.setState({snackBarVisible: true, isLoading: false,  errorMsg: `User ${data.data.message}` })
                 }
             }).catch((error) => {
-                // console.log('err' +error)
-                this.setState({snackBarVisible: true, isLoading: false, errorMsg: error.message })
+                // console.log(error.message)
+                this.setState({snackBarVisible: true, isLoading: false, errorMsg: 'Wrong username or password' })
                 // console.log(error)
             })
             // request(url, options).then(data => {
