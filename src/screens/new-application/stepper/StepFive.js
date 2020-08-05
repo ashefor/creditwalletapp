@@ -14,6 +14,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { states } from '../../../utils/states';
 import { salaryBanks } from '../../../utils/salaryBanks';
 import { Constants } from 'react-native-unimodules';
+import AndroidSelectPicker from '../../../components/AndroidSelectPicker';
 
 const titles = [
     {
@@ -59,6 +60,7 @@ class StepFive extends Component {
             selectBank(code);
             Platform.OS === 'android' && this.handleBlur();
         }
+       
         return (
             <PickerComponent
                 handleFocus={this.handleFocus}
@@ -68,6 +70,13 @@ class StepFive extends Component {
                 onValueChange={bankcode => selectBank(bankcode)}
                 value={value}
             />
+        );
+    };
+
+    renderAndroidBankSelectPicker = props => {
+        const { style, value, selectBank } = props;
+        return (
+            <AndroidSelectPicker data={salaryBanks} onValueChange={selectBank} value={value} />
         );
     };
 
@@ -103,7 +112,7 @@ class StepFive extends Component {
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
                                         value={loan.place_of_work}
                                         autoCapitalize='none'
-                                        keyboardType='email-address'
+                                        keyboardType='numbers-and-punctuation'
                                         onChangeText={work => loan.setPlaceOfWork(work)}
                                     />
                                 </View>
@@ -121,7 +130,7 @@ class StepFive extends Component {
                                     />
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
-                                <TextInput
+                                {Platform.OS === 'ios' && <TextInput
                                         ref={this._textInput}
                                         render={this.renderBankSelect}
                                         mode="outlined"
@@ -130,7 +139,17 @@ class StepFive extends Component {
                                         value={loan.salary_bank_name}
                                         keyboardType='default'
                                         selectBank={loan.setBankCode}
-                                    />
+                                    />}
+                                    {Platform.OS === 'android' && <TextInput
+                                        ref={this._textInput}
+                                        render={this.renderAndroidBankSelectPicker}
+                                        mode="outlined"
+                                        label='Salary Bank Name'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.salary_bank_name}
+                                        keyboardType='default'
+                                        selectBank={loan.setBankCode}
+                                    />}
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput

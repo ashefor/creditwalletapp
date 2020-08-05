@@ -11,6 +11,7 @@ import Loader from '../../../../components/Loader';
 import { InvestmentContext } from '../provider/NewInvestmentProvider';
 import PickerComponent from '../../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AndroidSelectPicker from '../../../../components/AndroidSelectPicker';
 
 
 const durations = [
@@ -71,6 +72,13 @@ class StepOne extends Component {
                 onValueChange={duration => selectDuration(duration)}
                 value={value}
             />
+        );
+    };
+
+    renderAndroidDurationSelectPicker = props => {
+        const { style, value, selectDuration } = props;
+        return (
+           <AndroidSelectPicker data={durations} onValueChange={selectDuration} value={value} />
         );
     };
 
@@ -172,7 +180,7 @@ class StepOne extends Component {
                                                     </HelperText>}
                                 </View>
                                 <View style={{ marginVertical: resHeight(.5) }}>
-                                  <TextInput
+                                 {Platform.OS === 'ios' &&  <TextInput
                                         ref={this._selectDurationPicker}
                                         render={this.renderDurationSelect}
                                         mode="outlined"
@@ -181,7 +189,17 @@ class StepOne extends Component {
                                         value={loan.duration}
                                         keyboardType='default'
                                         selectDuration={loan.setDuration}
-                                    />
+                                    />}
+                                    {Platform.OS === 'android' &&  <TextInput
+                                        ref={this._selectDurationPicker}
+                                        render={this.renderAndroidDurationSelectPicker}
+                                        mode="outlined"
+                                        label='Duration'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13)}}
+                                        value={loan.duration}
+                                        keyboardType='default'
+                                        selectDuration={loan.setDuration}
+                                    />}
                                 </View>
                                 <View style={{ marginVertical: resHeight(.5) }}>
                                     <TextInput

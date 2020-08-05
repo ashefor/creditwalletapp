@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform, TouchableOpacity, FlatList } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors , Modal, Portal } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
@@ -11,6 +11,7 @@ import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AndroidSelectPicker from '../../../components/AndroidSelectPicker';
 
 const titles = [
     {
@@ -66,6 +67,7 @@ class StepThree extends Component {
         this._datePicker = createRef()
         this.state = {
             showDatePicker: false,
+            visibll: false
         }
     }
     renderTitleSelect = props => {
@@ -84,6 +86,20 @@ class StepThree extends Component {
                 onValueChange={title => valueChange(title)}
                 value={value}
             />
+        );
+    };
+
+    renderAndroidTitleSelectPicker = props => {
+        const { style, value, selectTile } = props;
+        return (
+           <AndroidSelectPicker data={titles} onValueChange={selectTile} value={value}/>
+        );
+    };
+
+    renderAndroidGenderSelectPicker = props => {
+        const { style, value, selectGender } = props;
+        return (
+           <AndroidSelectPicker data={genders} onValueChange={selectGender} value={value}/>
         );
     };
     renderGenderSelect = props => {
@@ -191,7 +207,7 @@ class StepThree extends Component {
                             Personal Information
                      </CustomText>
                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
-                                    <TextInput
+                                   {Platform.OS === 'ios' &&  <TextInput
                                         ref={this._textInput}
                                         render={this.renderTitleSelect}
                                         mode="outlined"
@@ -200,8 +216,18 @@ class StepThree extends Component {
                                         value={loan.title}
                                         keyboardType='default'
                                         selectTile={loan.setTitle}
-                                    />
-                                    <TextInput
+                                    />}
+                                     {Platform.OS === 'android' &&  <TextInput
+                                        ref={this._textInput}
+                                        render={this.renderAndroidTitleSelectPicker}
+                                        mode="outlined"
+                                        label='Title'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        value={loan.title}
+                                        keyboardType='default'
+                                        selectTile={loan.setTitle}
+                                    />}
+                                   {Platform.OS === 'ios' &&  <TextInput
                                         ref={this._selectGenderPicker}
                                         render={this.renderGenderSelect}
                                         mode="outlined"
@@ -210,7 +236,17 @@ class StepThree extends Component {
                                         value={loan.gender}
                                         keyboardType='default'
                                         selectGender={loan.setGender}
-                                    />
+                                    />}
+                                       {Platform.OS === 'android' &&  <TextInput
+                                         ref={this._selectGenderPicker}
+                                         render={this.renderAndroidGenderSelectPicker}
+                                         mode="outlined"
+                                         label='Gender'
+                                         style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13)}}
+                                         value={loan.gender}
+                                         keyboardType='default'
+                                         selectGender={loan.setGender}
+                                    />}
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput

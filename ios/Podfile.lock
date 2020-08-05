@@ -1,7 +1,5 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - BVLinearGradient (2.5.6):
-    - React
   - DoubleConversion (1.1.6)
   - EXApplication (2.2.1):
     - UMCore
@@ -16,7 +14,7 @@ PODS:
   - EXFileSystem (9.0.1):
     - UMCore
     - UMFileSystemInterface
-  - EXFont (8.2.1):
+  - EXFont (8.2.2):
     - UMCore
     - UMFontInterface
   - EXImageLoader (1.1.1):
@@ -27,6 +25,9 @@ PODS:
     - UMCore
   - EXLinearGradient (8.2.1):
     - UMCore
+  - EXLocalAuthentication (9.1.1):
+    - UMConstantsInterface
+    - UMCore
   - EXLocation (8.2.1):
     - UMCore
     - UMPermissionsInterface
@@ -36,12 +37,13 @@ PODS:
     - UMPermissionsInterface
   - EXSecureStore (9.0.1):
     - UMCore
-  - EXSplashScreen (0.3.1):
+  - EXSplashScreen (0.5.0):
+    - React
     - UMCore
   - EXSQLite (8.2.1):
     - UMCore
     - UMFileSystemInterface
-  - EXUpdates (0.2.11):
+  - EXUpdates (0.2.14):
     - React
     - UMCore
   - FBLazyVector (0.62.2)
@@ -318,7 +320,6 @@ PODS:
   - Yoga (1.14.0)
 
 DEPENDENCIES:
-  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
@@ -329,10 +330,11 @@ DEPENDENCIES:
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
+  - EXLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - EXLocation (from `../node_modules/expo-location/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
-  - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
+  - EXSplashScreen (from `../node_modules/expo/node_modules/expo-splash-screen/ios`)
   - EXSQLite (from `../node_modules/expo-sqlite/ios`)
   - EXUpdates (from `../node_modules/expo-updates/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -388,8 +390,6 @@ SPEC REPOS:
     - boost-for-react-native
 
 EXTERNAL SOURCES:
-  BVLinearGradient:
-    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   EXApplication:
@@ -410,6 +410,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-keep-awake/ios"
   EXLinearGradient:
     :path: "../node_modules/expo-linear-gradient/ios"
+  EXLocalAuthentication:
+    :path: "../node_modules/expo-local-authentication/ios"
   EXLocation:
     :path: "../node_modules/expo-location/ios"
   EXPermissions:
@@ -417,7 +419,7 @@ EXTERNAL SOURCES:
   EXSecureStore:
     :path: "../node_modules/expo-secure-store/ios"
   EXSplashScreen:
-    :path: "../node_modules/expo-splash-screen/ios"
+    :path: "../node_modules/expo/node_modules/expo-splash-screen/ios"
   EXSQLite:
     :path: "../node_modules/expo-sqlite/ios"
   EXUpdates:
@@ -513,23 +515,23 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   EXApplication: 91a9f4aeadbf75685cfbb3bf9bc732f841f8c042
   EXConstants: c2c6d5805520a34f274e09b778404310c52b118f
   EXDocumentPicker: 274a7699925eb0e3e6a5b267c7ad152ae98e98dc
   EXErrorRecovery: 59499558ff624ba190bc3c3ff9d5b8e983edcb18
   EXFileSystem: 8d1dc2924d62046275c84d70b88fa3aa7daeb116
-  EXFont: 363ab50f9e9a1cd2b990c7d74e5ad168743bc62b
+  EXFont: 5c464ce400b92f87f907d68093c29946177295bf
   EXImageLoader: 8366cb1a7d207a241a1bfaa4c5ab4859cf72d507
   EXKeepAwake: 1c77f2d31eafaea3410c00957669f306f340b843
   EXLinearGradient: d25940ede1e798882f57715cff9edb4075d95e2d
+  EXLocalAuthentication: 8ebacc193ea099fb8e185842f69cbadb9130d1f1
   EXLocation: c50022a5a829bad7a621d42eaecc60e171d8efa7
   EXPermissions: b6d7134b7215c33420318c2bbb5d362c20ac9726
   EXSecureStore: 4e2f86185b51da130beb67572e27dcab4428d4d1
-  EXSplashScreen: 820fada8feff48f1d7504ee842240572b825a88f
+  EXSplashScreen: 2429477a39b51c9c9433d2480cbae699e6a0374b
   EXSQLite: b001ba35deb3001bd6e4b256581a558ae745ef2f
-  EXUpdates: 16b06137b910aa3e0b25eb491e4c659090dc1feb
+  EXUpdates: 8c4570807f9435337769850d9976d63a407cecfc
   FBLazyVector: 4aab18c93cd9546e4bfed752b4084585eca8b245
   FBReactNativeSpec: 5465d51ccfeecb7faa12f9ae0024f2044ce4044e
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51

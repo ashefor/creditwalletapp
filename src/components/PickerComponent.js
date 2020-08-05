@@ -42,7 +42,8 @@ const pickerSelectStyles = StyleSheet.create({
         width: '100%',
         overflow: 'hidden',
         paddingHorizontal: 14,
-        fontSize: resFont(13)
+        fontSize: resFont(13),
+        fontFamily: 'Baloo',
         // fontSize: resFont(16),
         // fontFamily: 'Baloo',
         // backgroundColor: '#fff',
@@ -78,6 +79,7 @@ const pickerSelectStyles = StyleSheet.create({
         height: '100%',
         width: '100%',
         overflow: 'hidden',
+        fontFamily: 'Baloo',
         paddingHorizontal: 14,
         fontSize: resFont(13)
     },

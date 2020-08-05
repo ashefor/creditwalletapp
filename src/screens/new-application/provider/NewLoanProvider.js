@@ -196,7 +196,8 @@ class NewLoanProvider extends Component {
         })
     }
     _handleCancelApplication = () => {
-        this.setState(this.initialstate, ()=> navigationservice.navigate('Auth'))
+        navigationservice.navigate('Auth')
+        this.setState(this.initialstate)
     }
     setShowDatePicker = () => {
         return this.setState({showDatePicker: true})

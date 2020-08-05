@@ -1,5 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors } from 'react-native-paper';
 import { Slider } from 'react-native'
@@ -14,6 +14,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { states } from '../../../../utils/states';
 import { salaryBanks } from '../../../../utils/salaryBanks';
 import { Constants } from 'react-native-unimodules';
+import AndroidSelectPicker from '../../../../components/AndroidSelectPicker';
 
 const titles = [
     {
@@ -63,6 +64,15 @@ class StepFive extends Component {
                 onValueChange={bankcode => selectBank(bankcode)}
                 value={value}
             />
+        );
+    };
+
+    renderBankSelect = props => {
+        const { style, value, selectBank } = props;
+        return (
+           <AndroidSelectPicker data={salaryBanks}
+           onValueChange={selectBank}
+           value={value}/>
         );
     };
 
@@ -117,7 +127,7 @@ class StepFive extends Component {
                                     />
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
-                                <TextInput
+                               {Platform.OS === 'ios' &&  <TextInput
                                         ref={this._textInput}
                                         render={this.renderBankSelect}
                                         mode="outlined"
@@ -126,7 +136,18 @@ class StepFive extends Component {
                                         value={loan.salary_bank_name}
                                         keyboardType='default'
                                         selectBank={loan.setBankCode}
-                                    />
+                                    />}
+
+                                    {Platform.OS === 'android'  &&  <TextInput
+                                        ref={this._textInput}
+                                        render={this.renderBankSelect}
+                                        mode="outlined"
+                                        label='Salary Bank Name'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.salary_bank_name}
+                                        keyboardType='default'
+                                        selectBank={loan.setBankCode}
+                                    />}
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput

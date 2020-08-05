@@ -1,5 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors, HelperText } from 'react-native-paper';
 import { Slider } from 'react-native'
@@ -12,6 +12,7 @@ import { InvestmentContext } from '../provider/NewInvestmentProvider';
 import PickerComponent from '../../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { states } from '../../../../utils/states';
+import AndroidSelectPicker from '../../../../components/AndroidSelectPicker';
 
 const titles = [
     {
@@ -67,6 +68,19 @@ class StepFour extends Component {
                 onValueChange={selectedState => valueChange(selectedState)}
                 value={value}
             />
+        );
+    };
+
+    renderAndroidStateSelectPicker = props => {
+        const { style, value, selectState } = props;
+        const valueChange = (selectedState) => {
+            selectState(selectedState)
+            this.handleBlur();
+        }
+        return (
+           <AndroidSelectPicker data={states}
+           onValueChange={selectState}
+           value={value}/>
         );
     };
 
@@ -144,7 +158,7 @@ class StepFour extends Component {
                                     />
                                 </View>
                                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: resHeight(1) }}>
-                                    <TextInput
+                                  {Platform.OS === 'ios' &&   <TextInput
                                         ref={this._textInput}
                                         render={this.renderStateSelect}
                                         mode="outlined"
@@ -153,7 +167,18 @@ class StepFour extends Component {
                                         value={loan.selectedState}
                                         keyboardType='default'
                                         selectState={loan.setSelectedState}
-                                    />
+                                    />}
+
+                                    {Platform.OS === 'android' &&   <TextInput
+                                        ref={this._textInput}
+                                        render={this.renderAndroidStateSelectPicker}
+                                        mode="outlined"
+                                        label='State'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        value={loan.selectedState}
+                                        keyboardType='default'
+                                        selectState={loan.setSelectedState}
+                                    />}
                                     <TextInput
                                         ref={this._customInput}
                                         mode="outlined"

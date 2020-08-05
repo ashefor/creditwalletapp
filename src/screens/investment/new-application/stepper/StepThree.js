@@ -1,5 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, Platform } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme, HelperText } from 'react-native-paper';
 import { Slider } from 'react-native'
@@ -12,6 +12,7 @@ import { InvestmentContext } from '../provider/NewInvestmentProvider';
 import * as DocumentPicker from 'expo-document-picker';
 import PickerComponent from '../../../../components/PickerComponent';
 import { salaryBanks } from '../../../../utils/salaryBanks';
+import AndroidSelectPicker from '../../../../components/AndroidSelectPicker';
 
 const titles = [
     {
@@ -127,6 +128,17 @@ class StepThree extends Component {
             />
         );
     };
+
+    renderAndroidTitleSelectPicker = props => {
+        const { style, value, selectTile } = props;
+        const valueChange = (title) => {
+            selectTile(title)
+            this.handleBlur();
+        }
+        return (
+           <AndroidSelectPicker value={value} onValueChange={selectTile} data={titles}/>
+        );
+    };
     renderGenderSelect = props => {
         const { style, value, selectGender } = props;
         return (
@@ -138,6 +150,16 @@ class StepThree extends Component {
                 onValueChange={gender => selectGender(gender)}
                 value={value}
             />
+        );
+    };
+
+
+    renderAndroidGenderSelectPicker = props => {
+        const { style, value, selectGender } = props;
+        return (
+            <AndroidSelectPicker data={genders}
+            onValueChange={selectGender}
+            value={value} />
         );
     };
 
@@ -190,7 +212,7 @@ class StepThree extends Component {
                             Kindly provide the details below to complete investment process
                      </CustomText>
                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: resHeight(.5) }}>
-                                    <TextInput
+                                   {Platform.OS === 'ios' &&  <TextInput
                                         ref={this._textInput}
                                         render={this.renderTitleSelect}
                                         mode="outlined"
@@ -199,8 +221,19 @@ class StepThree extends Component {
                                         value={loan.title}
                                         keyboardType='default'
                                         selectTile={loan.setTitle}
-                                    />
-                                    <TextInput
+                                    />}
+
+                                    {Platform.OS === 'android' &&  <TextInput
+                                        ref={this._textInput}
+                                        render={this.renderAndroidTitleSelectPicker}
+                                        mode="outlined"
+                                        label='Title'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13) }}
+                                        value={loan.title}
+                                        keyboardType='default'
+                                        selectTile={loan.setTitle}
+                                    />}
+                                   {Platform.OS === 'ios' &&  <TextInput
                                         ref={this._selectGenderPicker}
                                         render={this.renderGenderSelect}
                                         mode="outlined"
@@ -209,7 +242,17 @@ class StepThree extends Component {
                                         value={loan.gender}
                                         keyboardType='default'
                                         selectGender={loan.setGender}
-                                    />
+                                    />}
+                                    {Platform.OS === 'android' &&  <TextInput
+                                        ref={this._selectGenderPicker}
+                                        render={this.renderAndroidGenderSelectPicker}
+                                        mode="outlined"
+                                        label='Gender'
+                                        style={{ backgroundColor: 'white', width: '47%', fontSize: resFont(13)}}
+                                        value={loan.gender}
+                                        keyboardType='default'
+                                        selectGender={loan.setGender}
+                                    />}
                                 </View>
                                 <View style={{ marginVertical: resHeight(.5) }}>
                                     <TextInput
