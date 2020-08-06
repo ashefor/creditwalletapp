@@ -53,10 +53,8 @@ class InvestorChangePasswordScreen extends Component {
                     this.setState({ visible: true })
                     // this.props.navigation.goBack();
                 });
-                // console.log(data)
             }).catch(error => {
                 this.setState({ isLoading: false, errorMsg: error.message })
-                console.log(error)
             })
         }
 
@@ -69,9 +67,7 @@ class InvestorChangePasswordScreen extends Component {
         }
     }
 
-    componentWillUnmount = () => {
-        console.log('unmount')
-    }
+ 
     render() {
         const { visible, oldPassword, password, password_confirmation, isLoading, errorMsg } = this.state;
         const { colors } = this.props.theme

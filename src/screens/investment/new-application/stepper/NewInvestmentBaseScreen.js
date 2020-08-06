@@ -19,22 +19,16 @@ import StepFour from './StepFour';
 import StepFive from './StepFive';
 
 class NewInvestmentBaseScreen extends Component {
-    _handleCancel = () => {
-        this.props.navigation.navigate('Auth')
+    static contextType = InvestmentContext;
+
+    componentWillUnmount = () => {
+        this.context.resetState()
     }
+
     render() {
         return (
             <InvestmentContext.Consumer>
                 {loan => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                {/* <Toast
-                        visible={loan.hasError}
-                        position={Constants.statusBarHeight}
-                        backgroundColor='red'
-                        shadow={false}
-                        opacity={1}
-                        animation={false}
-                        hideOnPress={true}
-                    >{loan.errorMsg}</Toast> */}
                     <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
@@ -46,8 +40,8 @@ class NewInvestmentBaseScreen extends Component {
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(1) }}>
                                             <Image
-                                                style={{ width: resWidth(90), resizeMode: 'contain', height: resHeight(40), alignSelf: 'center' }}
-                                                source={require('../../../../assets/images/success.png')}
+                                                style={{ width: resWidth(50), resizeMode: 'contain', height: resHeight(20), alignSelf: 'center' }}
+                                                source={require('../../../../assets/images/mail.png')}
                                             />
                                             {/* <Feather style={{ width: 50, height: 50, alignSelf: 'center' }} name="check-circle" size={resFont(40)} color="#f56b2a" /> */}
                                         </View>

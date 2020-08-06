@@ -43,16 +43,10 @@ class HomeScreen extends Component {
         }
     }
     componentDidMount = () => {
-        // console.log(this._isMounted)
         this.getLoggedInUser(); 
         this.loadDashboard(true)
-        // console.log(this.state.isLoading)
     }
 
-    componentWillUnmount = () => {
-        // this.setState({ isLoading: false })
-        console.log(this.state.isLoading)
-    }
     getLoggedInUser = async () => {
         const user = await getCustomer();
         if (user) {
@@ -60,7 +54,6 @@ class HomeScreen extends Component {
                 username: JSON.parse(user).borrower_firstname
             })
         }
-        // // // console.log(JSON.parse(user).username)
     }
 
     _onrefresh = () => {
@@ -70,7 +63,6 @@ class HomeScreen extends Component {
         })
     }
     loadDashboard = (val) => {
-    //    console.log('dashboard');
             this.setState({ isLoading: val })
             const url = `${apiURL}account/dashboard`;
             const options = {
@@ -87,7 +79,6 @@ class HomeScreen extends Component {
                     }
                     // resolve()
                 }).catch(error => {
-                    // console.log(error);
                     this.setState({ isLoading: false })
                     this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
                     // reject()
@@ -128,29 +119,12 @@ class HomeScreen extends Component {
                 this._hideModal()
                 this.setState({ snackBarVisible: true })
             });
-            // // console.log(data)
         }).catch(error => {
             this.setState({ isSending: false, errorMsg: error.message })
-            // // console.log(error)
         })
 
     }
-    setSelectedIndex = event => {
-        // // // console.log(event.nativeEvent)
-        const viewSize = event.nativeEvent.layoutMeasurement.width;
-        // // console.log(event.nativeEvent.contentOffset.x)
-        const contentOffset = event.nativeEvent.contentOffset.x;
-        const selectedIndex = Math.round(contentOffset / resWidth(75));
-        // // console.log(selectedIndex)
-        this.setState({ selectedIndex },
-            () => {
-                this.carouselRef.current.scrollTo({
-                    animated: true,
-                    y: 0,
-                    x: resWidth(70) * this.state.selectedIndex
-                })
-            })
-    }
+    
     formatAsCurrency = (value) => {
         const newvalue = Number(value).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         return `₦ ${newvalue}`
@@ -190,7 +164,6 @@ class HomeScreen extends Component {
     }
 
     showLiquidationModal = () => {
-        // // console.log('showing', this.state.dashboard.open_loans[0].loan_id)
         this.setState({ showLiquidation: true })
     }
 
@@ -394,13 +367,6 @@ class HomeScreen extends Component {
                                 </View>
                             </ScrollView>
                         </View>
-                        {/* <FAB
-                        style={[styles.fab, { bottom: snackBarVisible ? 50 : 0 }]}
-                        // small
-                        color="white"
-                        icon="plus"
-                        onPress={() => // // console.log('Pressed')}
-                    /> */}
                         <Snackbar
                             visible={snackBarVisible}
                             onDismiss={this._onDismissSnackBar}

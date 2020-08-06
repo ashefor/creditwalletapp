@@ -164,18 +164,14 @@ class StepThree extends Component {
     };
 
     handleDatePickerFocus = (loan) => {
-        // console.log('open')
-        this._customeInput.current.handleBlur();
         loan.setShowDatePicker();
         this._datePicker.current.handleFocus()
         // this.setState({showDatePicker: true}, () => )
     };
     handleFocus = () => {
-        this._customeInput.current.handleBlur();
         this._textInput.current.handleFocus();
     };
     handleGenderPickerFocus = () => {
-        this._customeInput.current.handleBlur();
         this._selectGenderPicker.current.handleFocus();
     };
 
@@ -186,7 +182,6 @@ class StepThree extends Component {
     };
 
     handleGenderPickerBlur = () => {
-        // console.log('blur')
         setTimeout(() => {
             this._selectGenderPicker.current.handleBlur()
         }, 100)

@@ -23,9 +23,6 @@ class AutoOfferStepOne extends Component {
         return `₦ ${newvalue}`
     }
 
-    componentDidMount = () => {
-        // console.log(this.props.loan)
-    }
 
     render() {
         const { colors } = this.props.theme

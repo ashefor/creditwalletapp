@@ -85,17 +85,16 @@ class StepOne extends Component {
     renderDatePicker = props => {
         const { style, value, loan } = props;
         return (
-            <TouchableRipple style={{flex: 1, justifyContent: 'center'}} onPress={() => this.handleDatePickerFocus(loan)}>
-            <Text style={{paddingHorizontal: 14}}>{value}</Text>
-          </TouchableRipple>
+            <TouchableWithoutFeedback onPress={() => this.handleDatePickerFocus(loan)}>
+            <View style={{height: 56, backgroundColor: 'transparent', paddingHorizontal: 14, justifyContent: 'center'}}>
+            <CustomText>{value}</CustomText>
+            </View>
+          </TouchableWithoutFeedback>
         );
     };
 
     handleDatePickerFocus = (loan) => {
-        // console.log('open')
-        this._customeInput.current.handleBlur();
         loan.setShowDatePicker();
-        this._datePicker.current.handleFocus()
         // this.setState({showDatePicker: true}, () => )
     };
     handleFocus = () => {
@@ -114,7 +113,6 @@ class StepOne extends Component {
     };
 
     handleDurationPickerBlur = () => {
-        // console.log('blur')
         setTimeout(() => {
             this._selectDurationPicker.current.handleBlur()
         }, 100)
@@ -146,7 +144,6 @@ class StepOne extends Component {
         }
         
         const selectDate = (event, date, loan) => {
-            // console.log(event,date, loan)
             loan.dateOnChange(event, date)
             this.handleDatePickerBlur();
         }
@@ -221,7 +218,11 @@ class StepOne extends Component {
                                         label='Start Date'
                                         loan={loan}
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.start_date && new Date(loan.start_date).toISOString().slice(0, 10)}
+                                        value={loan.start_date && new Date(loan.start_date).toLocaleDateString('en-CA', {
+                                            month: 'short',
+                                            day: 'numeric',
+                                            year: 'numeric'
+                                          })}
                                     />
 
                                    {Platform.OS === 'ios' &&  <Modal visible={loan.showDatePicker} transparent={true} onRequestClose={() => closeDatePicker(loan)} >

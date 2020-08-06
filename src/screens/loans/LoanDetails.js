@@ -64,7 +64,6 @@ class LoanDetails extends Component {
                     alert(data.message ? data.message : 'An error has occured. Try again later')
                 }
             }).catch(error => {
-                // console.log(error);
                 this.setState({ isLoading: false })
                 this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
             })
@@ -74,12 +73,10 @@ class LoanDetails extends Component {
 
     // )
     showLiquidationModal = () => {
-        // console.log('showing', this.state.loan_id)
         this.setState({ showLiquidation: true })
     }
 
     closeLiquidationModal = () => {
-        // console.log('close liquidation')
         this.setState({ showLiquidation: false })
     }
     formatAsCurrency = (value) => {

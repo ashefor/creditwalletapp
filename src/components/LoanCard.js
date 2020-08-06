@@ -7,7 +7,6 @@ import { resFont } from '../utils/utils';
 const LoanCard = props => {
     const { colors } = useTheme();
     const { loan, navigation } = props;
-    // console.log(loan)
 
     function formatAsCurrency(value) {
         const newvalue = parseFloat(value)

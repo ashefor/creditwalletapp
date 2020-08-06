@@ -44,12 +44,9 @@ class ForgotPasswordScreen extends Component {
                     this.props.navigation.navigate('Login')
                 })
                 setCustomerToken(data.token);
-                // console.log()
                 setCustomer(data.customer);
-                // console.log(data)
             }).catch(error => {
                 this.setState({ isLoading: false, errorMsg: 'Error connecting to server. Please try again later' })
-                console.log(error)
             })
         }
 

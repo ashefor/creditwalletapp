@@ -85,17 +85,14 @@ class LoanOfferProvider extends Component {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
         }
-        // console.log(account)
         this.setState({ isValidating: true, hasError: false })
          axios({
              method: 'POST',
              url: url,
              data: account
          }).then((data) => {
-            //  console.log(data)
             this.setState({ isValidating: false })
             if (data.data.status === 'success') {
-                // console.log(data);
                 this._handleGoNext();
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
@@ -103,13 +100,16 @@ class LoanOfferProvider extends Component {
         }).catch((error) => {
             this.setState({ isValidating: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-            console.log(error)
         })
     }
 
 
     _handleCancelApplication = () => {
-        this.setState(this.initialstate, () => navigationservice.navigate('Home'))
+        navigationservice.navigate('Home')
+    }
+
+    resetState = () => {
+        return this.setState(this.initialstate)
     }
     _handleLoanApply = () => {
         const url = `${publicURL}loan/finalize/new`;
@@ -117,7 +117,6 @@ class LoanOfferProvider extends Component {
             amount: this.state.amount,
             tenor: this.state.duration
         }
-        // console.log(loan)
         const options = {
             method: 'POST',
             data: loan,
@@ -129,38 +128,31 @@ class LoanOfferProvider extends Component {
              url: url,
              data: loan
          }).then((data) => {
-            //  console.log(data)
             this.setState({ isAccepting: false })
             if (data.data.status === 'success') {
-                // console.log(data);
                 // this.setState({ })
             }
         }).catch((error) => {
             this.setState({ isAccepting: false })
-            console.log(error)
         })
     }
 
 
     _handleComplete = async () => {
         const url = `${publicURL}loan/finalize/new`;
-            // console.log(userObj);
             const loan = {
                 id: this.state.offerLetter.id,
                 idcard: this.state.idCard,
                 passport: this.state.passport,
             }
-            // console.log(loan)
             this.setState({ isAccepting: true })
          axios({
              method: 'POST',
              url: url,
              data: loan
          }).then((data) => {
-            //  console.log(data)
             this.setState({ isAccepting: false })
             if (data.data.status === 'success') {
-                // console.log(data);
                 this.setState({ applicationSuccess: true })
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
@@ -168,18 +160,15 @@ class LoanOfferProvider extends Component {
         }).catch((error) => {
             this.setState({ isAccepting: false, applicationSuccess: false  })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-            console.log(error)
         })
     }
 
 
     _handleFetchLoanOffer = async (loanId) => {
         const url = `${publicURL}loan/offer/view`;
-            // console.log(userObj);
             const loan_id = {
                 id: loanId
             }
-            // console.log( loan_id)
             this.setState({ isFetchingOffer: true })
             axios({
                 method: 'POST',
@@ -188,7 +177,6 @@ class LoanOfferProvider extends Component {
             }).then((data) => {
                 this.setState({ isFetchingOffer: false , hasFinishedFetching: true})
                 if (data.data.status === 'success') {
-                    // console.log(data);
                     this.setState({ offerLetter: data.data.loan})
                 } else {
                     this.setState({noOffer: true})
@@ -235,7 +223,8 @@ class LoanOfferProvider extends Component {
                 setPassport: this.setPassport,
                 complete: this._handleComplete,
                 verifyAccount: this.validateAccountDetails,
-                _onDismissSnackBar: this._onDismissSnackBar
+                _onDismissSnackBar: this._onDismissSnackBar,
+                resetState: this.resetState,
             }}
             >
                {this.props.children}

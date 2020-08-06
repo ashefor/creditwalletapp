@@ -46,10 +46,8 @@ class ChangePasswordScreen extends Component {
                     this.setState({visible: true})
                     this.props.navigation.goBack();
                 });
-                // console.log(data)
             }).catch(error => {
                 this.setState({ isLoading: false , errorMsg: error.message})
-                console.log(error)
             })
         }
        
@@ -79,7 +77,7 @@ class ChangePasswordScreen extends Component {
                         <View style={{ marginTop: resHeight(1) }}>
                         <CustomText style={{textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary}}>Change your password</CustomText>
                         <CustomText style={{textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo'}}>Change your Account Password</CustomText>
-                        {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>}
+                        {/* {errorMsg && <CustomText style={{textAlign: 'center', color: colors.error, marginVertical: resHeight(1)}}>{errorMsg}</CustomText>} */}
                         <TextInput
                                 secureTextEntry
                                 style={{marginTop: resHeight(1), backgroundColor: 'white' }}
@@ -116,9 +114,9 @@ class ChangePasswordScreen extends Component {
                                     // Do something
                                 },
                             }}
-                            style={{backgroundColor: '#297045', color: '#fff'}}
+                            style={{backgroundColor: errorMsg ? 'maroon' : '#297045', color: '#fff'}}
                         >
-                            Password Changed successfully
+                            {errorMsg ? errorMsg : 'Password Changed successfully'}
                             </Snackbar>
                     </View>
                 </TouchableWithoutFeedback>

@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, FlatList } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 import { Modal, Portal } from 'react-native-paper';
 import CustomText from './CustomText';
 import { resFont } from '../utils/utils';
@@ -36,8 +37,9 @@ const AndroidSelectPicker = (props) => {
     return (
         <Fragment>
             <TouchableWithoutFeedback style={{ height: '100%' }} onPress={showPicker}>
-                <View style={{ backgroundColor: 'transparent', height: 55, justifyContent: 'center', paddingHorizontal: 14, flexGrow: 1 }}>
+                <View style={{ backgroundColor: 'transparent', flexDirection:'row', height: 55, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 14, flexGrow: 1 }}>
                     <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), textTransform: 'capitalize', color: value ? '#000' : 'rgba(0,0,0, .54)' }}>{pickerValue}</CustomText>
+                    <Entypo name="chevron-down" size={resFont(15)} color='#000' />
                 </View>
             </TouchableWithoutFeedback>
             <Portal>

@@ -50,7 +50,6 @@ class LoginScreen extends Component {
                 url: url,
                 data: user
             }).then((data) => {
-                // console.log(data.data)
                 this.setState({ isLoading: false });
                 if (data.data.status === 'success') {
                     setCustomerToken(data.data.token);
@@ -60,26 +59,8 @@ class LoginScreen extends Component {
                     this.setState({snackBarVisible: true, isLoading: false,  errorMsg: `User ${data.data.message}` })
                 }
             }).catch((error) => {
-                // console.log(error.message)
                 this.setState({snackBarVisible: true, isLoading: false, errorMsg: 'Wrong username or password' })
-                // console.log(error)
             })
-            // request(url, options).then(data => {
-            //     console.log(data)
-            //     this.setState({ isLoading: false });
-            //     if (data.status === 'success') {
-            //         setCustomerToken(data.token);
-            //         setCustomer(data.customer);
-            //         this.props.navigation.navigate('Main')
-            //     } else {
-            //         console.log(data)
-            //     }
-            //     // console.log(data)
-            // }).catch(error => {
-            //     console.log(error)
-            //     this.setState({ isLoading: false, errorMsg: error.message })
-            //     // console.log(error)
-            // })
         }
 
     }

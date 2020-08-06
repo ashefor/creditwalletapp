@@ -38,7 +38,6 @@ export default class Splashscreen extends Component {
                 this.props.navigation.navigate("Customer Loans", {}, NavigationActions.navigate({routeName: 'Offer Letter', params: {loan_id: id}}))
             } else {
                 const userType = await getUserType()
-                // console.log(userType)
                 if(userType){
                     if(userType.includes('Loans')) {
                         this.props.navigation.navigate("Customer Loans", {}, NavigationActions.navigate({routeName: 'Main'}))

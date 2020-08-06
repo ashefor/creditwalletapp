@@ -37,7 +37,7 @@ export default PickerComponent;
 
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
         height: '100%',
         width: '100%',
         overflow: 'hidden',

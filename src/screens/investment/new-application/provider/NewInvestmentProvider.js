@@ -129,9 +129,7 @@ class NewInvestmentProvider extends Component {
         this.setState({selectedState})
     }
     setDate = (event, selectedDate) => {
-        // console.log(selectedDate)
         const currentDate = selectedDate || this.state.date;
-        // console.log(currentDate)
         this.setState({date: currentDate})
     }
 
@@ -188,7 +186,6 @@ class NewInvestmentProvider extends Component {
             accountnumber: this.state.salary_bank_account,
             tax_id: this.state.tax_id ? this.state.tax_id : ''
         }
-        console.log(account)
         this.setState({ isValidating: true, isLoading: true })
          axios({
              method: 'POST',
@@ -196,10 +193,8 @@ class NewInvestmentProvider extends Component {
              data: account
          }).then((data) => {
              this.setState({isLoading: false})
-             console.log(data.data)
             // this.setState({ isLoading: false })
             if (data.data.status === 'success') {
-                // console.log(data);
                 this._handleCompleteApplication();
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
@@ -207,12 +202,16 @@ class NewInvestmentProvider extends Component {
         }).catch((error) => {
             this.setState({ isLoading: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-            console.log(error)
         })
     }
     _handleCancelApplication = () => {
-        this.setState(this.initialstate, ()=> navigationservice.navigate('Auth'))
+        navigationservice.navigate('Auth')
     }
+
+    resetState = () => {
+        return this.setState(this.initialstate)
+    }
+
     setShowDatePicker = () => {
         return this.setState({showDatePicker: true})
     }
@@ -231,7 +230,6 @@ class NewInvestmentProvider extends Component {
             amount: this.unFormat(this.state.amount),
             tenor: this.state.duration
         }
-        // console.log(loan)
         const options = {
             method: 'POST',
             data: loan,
@@ -243,10 +241,8 @@ class NewInvestmentProvider extends Component {
              url: url,
              data: loan
          }).then((data) => {
-            //  console.log(data)
             this.setState({ isApplying: false })
             if (data.data.status === 'success') {
-                // console.log(data);
                 this.setState({ loanOffer: data.data, currentPage: 2 })
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
@@ -254,7 +250,6 @@ class NewInvestmentProvider extends Component {
         }).catch((error) => {
             this.setState({ isApplying: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-            // console.log(error)
         })
     }
 
@@ -262,7 +257,6 @@ class NewInvestmentProvider extends Component {
     _handleCompleteApplication = async () => {
         const url = `${publicURL}/investment/account/start/initiate`;
         const {amount, duration, gender, firstname, lastname, title, start_date, email, telephone, salary_bank_name, salary_bank_account, referralcode, interest, tax_id} = this.state;
-            // console.log(userObj);
             const investor = {
                 firstname: firstname,
                 lastname: lastname,
@@ -279,14 +273,12 @@ class NewInvestmentProvider extends Component {
                 code: referralcode ? referralcode : '',
                 tax_id: tax_id ? tax_id : ''
             }
-            // console.log(investor)
             this.setState({ isLoading: true })
             axios({
                 method: 'POST',
                 url: url,
                 data: investor
             }).then((data) => {
-                console.log(data.data)
                 if (data.data.status === 'success') {
                     const investorDataIncomplete = data.data;
                     investorDataIncomplete .id = data.initiate_id
@@ -299,7 +291,6 @@ class NewInvestmentProvider extends Component {
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-                // console.log(`this is the error -> ${error}`)
             })
     }
 
@@ -316,17 +307,14 @@ class NewInvestmentProvider extends Component {
                 url: url,
                 data: param
             }).then((data) => {
-                console.log(data.data)
                 this.setState({isLoading: false})
                 if (data.data.status === 'success') {
-                    console.log(this.state.investorDataIncomplete);
                     const completerUrl = `${publicURL}/investment/account/payment/create`;
                     axios({
                         method: 'POST',
                         url: completerUrl,
                         data: this.state.investorDataIncomplete
                     }).then((data) => {
-                        console.log(data.data)
                         if (data.data.status === 'success') {
                             this.setState({isLoading: false}, () => this.setState({applicationSuccess: true}))
                         } else {
@@ -336,7 +324,6 @@ class NewInvestmentProvider extends Component {
                         this.setState({ isLoading: false })
                         this.setState({ applicationSuccess: false })
                         this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-                        // console.log(`this is the error -> ${error}`)
                     })
                 } else {
                     this.setState({ hasError: true, errorMsg: data.data.responseMessage ? data.data.responseMessage : 'An error has occured. Try again later' })
@@ -345,7 +332,6 @@ class NewInvestmentProvider extends Component {
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-                // console.log(`this is the error -> ${error}`)
             })
         } else {
             const completerUrl = `${publicURL}/investment/account/payment/create`;
@@ -365,7 +351,6 @@ class NewInvestmentProvider extends Component {
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-                // console.log(`this is the error -> ${error}`)
             })
         }
     }
@@ -382,9 +367,7 @@ class NewInvestmentProvider extends Component {
                 url: url,
                 data: codeData
             }).then((data) => {
-                // console.log(data.data);
                 // this.setState({ isLoading: false })
-                console.log(data.data);
                 if (data.data.status === 'success') {
                     this.setState({ interest: data.data.referralcode.interest }, () => this.processInterest())
                 } else {
@@ -394,7 +377,6 @@ class NewInvestmentProvider extends Component {
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-                // console.log(`this is the error -> ${error}`)
             })
 
         } else {
@@ -411,16 +393,13 @@ class NewInvestmentProvider extends Component {
             interest: this.state.interest,
             startdate: this.state.start_date.toISOString().slice(0, 10)
         }
-        console.log(investmentData);
         this.setState({ isLoading: true })
         axios({
             method: 'POST',
             url: url,
             data: investmentData
         }).then((data) => {
-            // console.log(data.data);
             this.setState({ isLoading: false })
-            console.log(data.data);
             if (data.data.status === 'success') {
                 this.setState({ investmentDetails: data.data})
                 this._handleGoNext()
@@ -431,7 +410,6 @@ class NewInvestmentProvider extends Component {
             this.setState({ isLoading: false })
             // this.setState({ applicationSuccess: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-            // console.log(`this is the error -> ${error}`)
         })
     }
 
@@ -503,7 +481,8 @@ class NewInvestmentProvider extends Component {
                 setShowDatePicker: this.setShowDatePicker,
                 verifyAccount: this.validateAccountDetails,
                 proceed: this.proceedToViewDetails,
-                _onDismissSnackBar: this._onDismissSnackBar
+                _onDismissSnackBar: this._onDismissSnackBar,
+                resetState: this.resetState,
             }}
             >
                {this.props.children}

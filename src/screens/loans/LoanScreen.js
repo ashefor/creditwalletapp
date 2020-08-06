@@ -57,7 +57,6 @@ class LoanScreen extends Component {
             }
             return new Promise((resolve, reject) => {
                 requestWithToken(url, options).then(data => {
-                    // console.log(data)
                     this.setState({ isLoading: false })
                     if (data.status === 'success') {
                         this.setState({ openLoans: data.open_loans })

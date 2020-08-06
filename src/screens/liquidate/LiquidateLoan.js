@@ -28,7 +28,6 @@ class LiquidateLoan extends Component {
         }
     }
     setPaymentType = (type) => {
-        // console.log(type)
         if (type === 1) {
             this.setState({ paymentType: 'transfer' })
         } else {
@@ -65,14 +64,12 @@ class LiquidateLoan extends Component {
             requestWithToken(url, options).then(data => {
                 this.setState({ isLoading: false })
                 if (data.status === 'success') {
-                    // console.log(data)
                     this.setState({ loan: data })
                 } else {
                     alert(data.message ? data.message : 'An error has occured. Try again later')
                 }
                 resolve()
             }).catch(error => {
-                // console.log(error);
                 this.setState({ isLoading: false })
                 this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
                 // reject()

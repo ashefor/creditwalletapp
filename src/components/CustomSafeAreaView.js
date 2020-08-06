@@ -6,7 +6,6 @@ import { StatusBar } from 'expo-status-bar';
 
 const CustomSafeAreaView = props => {
     const { children, style } = props
-    // console.log(children)
     return (
         <Fragment>
             <StatusBar style='dark'/>

@@ -67,19 +67,15 @@ class LoginScreen extends Component {
 
     checkForBiometricsType = async () => {
         const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
-        // console.log(types)
         this.setState({types})
-        console.log(this.state.types)
     }
     checkDeviceForHardware = async () => {
         const canUseBiometric = await LocalAuthentication.hasHardwareAsync()
-        console.log(canUseBiometric)
         this.setState({ canUseBiometric })
     }
 
     checkForBiometrics = async () => {
         const hasBiometrics = await LocalAuthentication.isEnrolledAsync();
-        // console.log(hasBiometrics)
         this.setState({ hasBiometrics })
     }
 
@@ -108,10 +104,8 @@ class LoginScreen extends Component {
             } else {
                 this.setState({ snackBarVisible: true, isBioLoading: false, errorMsg: data.message })
             }
-            // console.log(data)
         }).catch(error => {
             this.setState({ isBioLoading: false, snackBarVisible: true, errorMsg: error.message })
-            // console.log(error)
         })
 
     }
@@ -146,10 +140,8 @@ class LoginScreen extends Component {
             } else {
                 this.setState({ snackBarVisible: true, isLoading: false, errorMsg: data.message })
             }
-            // console.log(data)
         }).catch(error => {
             this.setState({ isLoading: false, snackBarVisible: true, errorMsg: error.message })
-            // console.log(error)
         })
 
     }

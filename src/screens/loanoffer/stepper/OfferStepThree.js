@@ -34,7 +34,6 @@ class OfferStepThree extends Component {
         const url = `${publicURL}passport/upload`
         const formData = new FormData();
         formData.append('file[]', result, result.name)
-        // console.log(result)
         if (result && result.type === 'success') {
             this.setState({ idCardName: null, isUploading: true })
             axios({
@@ -43,18 +42,14 @@ class OfferStepThree extends Component {
                 data: formData,
                 onUploadProgress: (progressEvent) => {
                     const { loaded, total } = progressEvent;
-                    // console.log(progressEvent)
                     let percent = (Math.floor((loaded * 100) / total) / 100);
-                    // console.log(percent)
                     if (percent < 100) {
                         this.setState({ uploadPercentage: percent })
                     }
-                    // console.log(this.state.uploadPercentage)
                 }
             }).then((data) => {
                 this.setState({ isAccepting: false, isUploading: false })
                 if (data.data.status === 'success') {
-                    // console.log(data.data);
                     this.setState({uploadPercentage: 1 , idCardName: result.name }, () => {
                         setTimeout(() => {
                             this.setState({uploadPercentage: 0 })
@@ -67,11 +62,8 @@ class OfferStepThree extends Component {
             }).catch((error) => {
                 this.setState({ isUploading: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-                console.log(error)
             })
         }
-
-        // console.log(result);
     }
 
     render() {

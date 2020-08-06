@@ -35,7 +35,6 @@ class InvestorDashboard extends Component {
     }
 
     _handleGotoSavings = (savingsId) => {
-        console.log(savingsId)
         const pushAction = StackActions.push({
             routeName: 'Savings',
             params: { savings_id: savingsId },
@@ -46,11 +45,9 @@ class InvestorDashboard extends Component {
     async componentDidMount() {
         await this.loadDashboard().then(data => {
             if (data) {
-                // console.log(data);
                 this.setState({ isLoading: false, dashboard: data, allSavings: data.total_savings })
             }
         }).catch(error => {
-            console.log(error);
             this.setState({ isLoading: false })
             this.setState({ hasError: error && error.message ? error.message : 'An error has occured' })
         })

@@ -51,7 +51,6 @@ class AutoOfferStepFour extends Component {
             }).then((data) => {
                 this.setState({ isAccepting: false, isUploading: false })
                 if (data.data.status === 'success') {
-                    // console.log(data.data);
                     this.setState({ uploadPercentage: 1, passportName: result.name }, () => {
                         setTimeout(() => {
                             this.setState({ uploadPercentage: 0 })
@@ -64,11 +63,8 @@ class AutoOfferStepFour extends Component {
             }).catch((error) => {
                 this.setState({ isUploading: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-                console.log(error)
             })
         }
-
-        // console.log(result);
     }
 
     render() {

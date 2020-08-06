@@ -45,10 +45,8 @@ class SetPasswordScreen extends Component {
             requestWithToken(url, options).then(data => {
                 this.setState({ isLoading: false });
                 this.setState({ visible: true }, () => this.props.navigation.navigate('Main'))
-                // console.log(data)
             }).catch(error => {
                 this.setState({ isLoading: false, errorMsg: error.message })
-                console.log(error)
             })
         }
 

@@ -32,8 +32,6 @@ class OfferLetter extends Component {
     }
     componentDidMount() {
         this._isMounted = true;
-        // console.log(this.state.loan_id)
-        // console.log(this.context)
         if (this._isMounted) {
             this.context.fetchLoanOffer(this.state.loan_id)
         }
@@ -41,6 +39,7 @@ class OfferLetter extends Component {
 
     componentWillUnmount() {
         this._isMounted = false;
+        this.context.resetState()
     }
     _handleCancel = () => {
         this.props.navigation.navigate('Auth')
@@ -49,29 +48,20 @@ class OfferLetter extends Component {
         return (
             <LoanOfferContext.Consumer>
                 {loan => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                {/* <Toast
-                        visible={loan.hasError}
-                        position={StatusBar.currentHeight}
-                        opacity={1}
-                        backgroundColor='red'
-                        shadow={false}
-                        animation={false}
-                        hideOnPress={true}
-                    >{loan.errorMsg}</Toast> */}
                     <Loader isLoading={loan.isFetchingOffer || loan.isAccepting} />
                     {loan.hasFinishedFetching && loan.offerLetter && <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
                                 <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
-                                    <Appbar.BackAction onPress={loan.cancel}/>
+                                <Appbar.Action icon="close" onPress={loan.cancel} />
                                     <Appbar.Action />
                                 </Appbar.Header>
                                 <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(1) }}>
                                         <Image
-                                                style={{ width: resWidth(90), resizeMode: 'contain', height:resHeight(40), alignSelf: 'center' }}
-                                                source={require('../../../assets/images/success.png')}
+                                                style={{ width: resWidth(50), resizeMode: 'contain', height:resHeight(20), alignSelf: 'center' }}
+                                                source={require('../../../assets/images/mail.png')}
                                             />
                                         </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Loan Application submitted successfully. Kindly await a response from our team!</CustomText>

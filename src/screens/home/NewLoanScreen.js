@@ -35,7 +35,6 @@ class NewLoanScreen extends Component {
             amount: this.unFormat(this.state.amount),
             tenor: this.state.duration
         }
-        // console.log(loan)
         const options = {
             method: 'POST',
             body: JSON.stringify(loan),
@@ -44,14 +43,12 @@ class NewLoanScreen extends Component {
         requestWithToken(url, options).then((data) => {
             this.setState({ isApplying: false })
             if (data.status === 'success') {
-                // console.log(data);
                 this.setState({ loanOffer: data })
             } else {
                 alert(data.message ? data.message : 'An error has occured. Try again later')
             }
         }).catch((error) => {
             this.setState({ isApplying: false })
-            // console.log(error)
         })
     }
 
@@ -69,7 +66,6 @@ class NewLoanScreen extends Component {
         const user = await getCustomer();
         if (user) {
             const userObj = JSON.parse(user)
-            // // console.log(userObj);
             const loanData = {
                 firstname: userObj.borrower_firstname,
                 lastname: userObj.borrower_lastname,
@@ -90,7 +86,6 @@ class NewLoanScreen extends Component {
                 dob: userObj.borrower_dob
             }
 
-            // console.log(loanData)
             const options = {
                 method: 'POST',
                 body: JSON.stringify(loanData),
@@ -99,13 +94,11 @@ class NewLoanScreen extends Component {
             requestWithToken(url, options).then((data) => {
                 this.setState({ isLoading: false })
                 if (data.status === 'success') {
-                    // console.log(data);
                     this.setState({ applicationSuccess: true })
                 }
             }).catch((error) => {
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
-                // console.log(error)
             })
         }
     }

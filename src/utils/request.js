@@ -17,14 +17,12 @@ export const request = (url, options) => {
     return new Promise((resolve, reject) => {
         fetch(url, requestOptions).then(res => res.text()).then(data => {
             const parsedData = JSON.parse(data);
-            // console.log(parsedData)
             if (parsedData.status === "success") {
                 return resolve(parsedData)
             } else {
                 return reject(parsedData)
             }
         }).catch(error => {
-            console.log(error)
             reject(error)
         })
     })
@@ -35,7 +33,6 @@ export const axiosPost = (options) => {
 export const requestWithToken = async (url, options) => {
     const token = await getCustomerToken();
     if (token) {
-        // console.log(token)
         axios.defaults.headers.common = {'Authorization': token}
         const requestOptions = {
             ...options,
@@ -46,7 +43,6 @@ export const requestWithToken = async (url, options) => {
         }
         return new Promise((resolve, reject) => {
             fetch(url, requestOptions).then(res => res.json()).then(data => {
-                console.log(data);
                 if (data.status === "error" && data.message === "Authorization Failed, Please login to continue") {
                     navigationservice.navigate('Login')
                 } else if (data.status === "success") {
@@ -56,7 +52,6 @@ export const requestWithToken = async (url, options) => {
                 }
             }).catch(error => {
                 deleteToken();
-                // console.log(error)
                 return reject(error)
             })
         })
@@ -65,7 +60,6 @@ export const requestWithToken = async (url, options) => {
         //         method: 'GET',
         //         url: url
         //     }).then(data => {
-        //         // console.log(data);
         //         if (data.data.status === "error" && data.message === "Authorization Failed, Please login to continue") {
         //             deleteToken()
         //         } else if (data.data.status === "success") {
@@ -75,7 +69,6 @@ export const requestWithToken = async (url, options) => {
         //         }
         //     }).catch(error => {
         //         // deleteToken();
-        //         console.log(error)
         //         return reject(error)
         //     })
         // })
@@ -83,18 +76,15 @@ export const requestWithToken = async (url, options) => {
         //     method: 'GET',
         //     url: url
         // }).then(data=> {
-        //     console.log(data.data)
-        // }).catch(error => console.log(error))
+        // }).catch(error => {})
     } else {
         navigationservice.navigate('Auth')
-        // console.log('no token')
     }
 }
 
 export const investorequestWithToken = async (url, options) => {
     const token = await getCustomerToken();
     if (token) {
-        // console.log(token)
         const requestOptions = {
             ...options,
             headers: {
@@ -122,6 +112,5 @@ export const investorequestWithToken = async (url, options) => {
         })
     } else {
         navigationservice.navigate('Auth')
-        // console.log('no token')
     }
 }

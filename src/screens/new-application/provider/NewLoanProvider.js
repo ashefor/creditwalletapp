@@ -119,9 +119,7 @@ class NewLoanProvider extends Component {
         this.setState({selectedState})
     }
     setDate = (event, selectedDate) => {
-        // console.log(selectedDate)
         const currentDate = selectedDate || this.state.date;
-        // console.log(currentDate)
         this.setState({date: currentDate})
     }
 
@@ -174,17 +172,14 @@ class NewLoanProvider extends Component {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
         }
-        // console.log(account)
         this.setState({ isValidating: true, hasError: false })
          axios({
              method: 'POST',
              url: url,
              data: account
          }).then((data) => {
-            //  console.log(data)
             this.setState({ isValidating: false })
             if (data.data.status === 'success') {
-                // console.log(data);
                 this._handleAcceptLoan();
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
@@ -192,12 +187,14 @@ class NewLoanProvider extends Component {
         }).catch((error) => {
             this.setState({ isValidating: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-            console.log(error)
         })
     }
     _handleCancelApplication = () => {
         navigationservice.navigate('Auth')
-        this.setState(this.initialstate)
+    }
+
+    resetState = () => {
+        return this.setState(this.initialstate)
     }
     setShowDatePicker = () => {
         return this.setState({showDatePicker: true})
@@ -217,7 +214,6 @@ class NewLoanProvider extends Component {
             amount: this.unFormat(this.state.amount),
             tenor: this.state.duration
         }
-        // console.log(loan)
         const options = {
             method: 'POST',
             data: loan,
@@ -229,10 +225,8 @@ class NewLoanProvider extends Component {
              url: url,
              data: loan
          }).then((data) => {
-            //  console.log(data)
             this.setState({ isApplying: false })
             if (data.data.status === 'success') {
-                // console.log(data);
                 this.setState({ loanOffer: data.data, currentPage: 2 })
             } else {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
@@ -240,7 +234,6 @@ class NewLoanProvider extends Component {
         }).catch((error) => {
             this.setState({ isApplying: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-            // console.log(error)
         })
     }
 
@@ -251,7 +244,6 @@ class NewLoanProvider extends Component {
     _handleAcceptLoan = async () => {
         const url = `${publicURL}apply/new`;
         const {amount, duration, loanOffer, firstname, lastname, title, gender, dob, email, telephone, address, city, selectedState, place_of_work, ippisnumber, salary_bank_name, salary_bank_account, referralcode} = this.state;
-            // console.log(userObj);
             const loan = {
                 firstname: firstname,
                 lastname: lastname,
@@ -266,20 +258,18 @@ class NewLoanProvider extends Component {
                 ippisnumber: ippisnumber,
                 salary_bank_account: salary_bank_account,
                 salary_bank_name: salary_bank_name,
-                loan_amount: amount,
+                loan_amount: this.unFormat(amount),
                 monthly_repayment: loanOffer.monthlyrepayment,
                 tenor: duration,
-                dob: dob.toDateString(),
+                dob: new Date(dob).toDateString(),
                 refferalcode: referralcode ? referralcode : 0
             }
-            // console.log(loan)
             this.setState({ isLoading: true })
             axios({
                 method: 'POST',
                 url: url,
                 data: loan
             }).then((data) => {
-                // console.log(data.data);
                 this.setState({ isLoading: false })
                 if (data.data.status === 'success') {
                     this.setState({ applicationSuccess: true })
@@ -295,19 +285,7 @@ class NewLoanProvider extends Component {
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
-                // console.log(`this is the error -> ${error}`)
             })
-            // request(url, options).then((data) => {
-            //     console.log(data);
-            //     this.setState({ isLoading: false })
-            //     if (data.status === 'success') {
-            //         this.setState({ applicationSuccess: true })
-            //     }
-            // }).catch((error) => {
-            //     this.setState({ isLoading: false })
-            //     this.setState({ applicationSuccess: false })
-            //     console.log(`this is the error -> ${error}`)
-            // })
     }
 
 
@@ -376,7 +354,8 @@ class NewLoanProvider extends Component {
                 closeDatePicker: this.closeDatePicker,
                 setShowDatePicker: this.setShowDatePicker,
                 verifyAccount: this.validateAccountDetails,
-                _onDismissSnackBar: this._onDismissSnackBar
+                _onDismissSnackBar: this._onDismissSnackBar,
+                resetState: this.resetState
             }}
             >
                {this.props.children}

@@ -44,12 +44,9 @@ class ForgotPasswordScreen extends Component {
                     this.props.navigation.navigate('Login')
                 })
                 setCustomerToken(data.token);
-                // console.log()
                 setCustomer(data.customer);
-                // console.log(data)
             }).catch(error => {
-                this.setState({ isLoading: false, errorMsg: 'Error connecting to server. Please try again later' })
-                console.log(error)
+                this.setState({ isLoading: false, errorMsg: error.message ? error.message : 'Error connecting to server. Please try again later' })
             })
         }
 
@@ -79,7 +76,7 @@ class ForgotPasswordScreen extends Component {
                         <View style={{ marginTop: resHeight(1) }}>
                             <CustomText style={{ textAlign: 'left', fontSize: resFont(20), fontFamily: 'Baloo-bold', color: colors.primary }}>Forgot Password</CustomText>
                             <CustomText style={{ textAlign: 'left', fontSize: resFont(13), fontFamily: 'Baloo' }}>Kindly provide your email to enable us reset your loan account</CustomText>
-                            {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
+                            {/* {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>} */}
                             <TextInput
                                 style={{ marginTop: resHeight(1), backgroundColor: 'white',height: resHeight(7) }}
                                 label='Username'
@@ -108,15 +105,9 @@ class ForgotPasswordScreen extends Component {
                         <Snackbar
                             visible={visible}
                             onDismiss={this._onDismissSnackBar}
-                            style={{ backgroundColor: '#f56b2a', color: '#fff' }}
-                            action={{
-                                label: 'okay',
-                                onPress: () => {
-                                    // Do something
-                                },
-                            }}
+                            style={{ backgroundColor: errorMsg ? 'maroon' : '#f56b2a', color: '#fff' }}
                         >
-                            Password successfully reset
+                            {errorMsg ? errorMsg : 'Password successfully reset'}
                             </Snackbar>
                     </View>
                 </ScrollView>

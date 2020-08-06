@@ -1,7 +1,7 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, Modal, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, ScrollView, PickerIOSComponent, Platform, TouchableOpacity, FlatList } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
-import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors , Modal, Portal } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors , Portal } from 'react-native-paper';
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
@@ -12,6 +12,7 @@ import { LoanContext } from '../provider/NewLoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AndroidSelectPicker from '../../../components/AndroidSelectPicker';
+import { TouchableWithoutFeedback as TWF} from 'react-native-gesture-handler'
 
 const titles = [
     {
@@ -124,18 +125,17 @@ class StepThree extends Component {
     renderDatePicker = props => {
         const { style, value, loan } = props;
         return (
-            <TouchableRipple style={{flex: 1, justifyContent: 'center'}} onPress={() => this.handleDatePickerFocus(loan)}>
-            <Text style={{paddingHorizontal: 14}}>{value}</Text>
-          </TouchableRipple>
+            <TouchableWithoutFeedback onPress={() => this.handleDatePickerFocus(loan)}>
+            <View style={{height: 56, backgroundColor: 'transparent', paddingHorizontal: 14, justifyContent: 'center'}}>
+            <CustomText>{value}</CustomText>
+            </View>
+          </TouchableWithoutFeedback>
         );
     };
 
     handleDatePickerFocus = (loan) => {
-        // console.log('open')
         Keyboard.dismiss()
-        this._customeInput.current.handleBlur();
         loan.setShowDatePicker();
-        this._datePicker.current.handleFocus()
         // this.setState({showDatePicker: true}, () => )
     };
     handleFocus = () => {
@@ -154,7 +154,6 @@ class StepThree extends Component {
     };
 
     handleGenderPickerBlur = () => {
-        // console.log('blur')
         setTimeout(() => {
             this._selectGenderPicker.current.handleBlur()
         }, 100)
@@ -184,16 +183,8 @@ class StepThree extends Component {
             loan.closeDatePicker()
             this.handleDatePickerBlur()
         }
-
-        const closeAndroidDatePicker = loan => {
-        //    console.log(loan.dateOnChange)
-           loan.dateOnChange()
-            loan.closeDatePicker()
-            // this.setState({showDatePicker: false}, )
-        }
         
         const dater = (event, date, loan) => {
-            // console.log(event,date, loan)
             loan.dateOnChange(event, date)
             this.handleDatePickerBlur();
         }
@@ -280,7 +271,11 @@ class StepThree extends Component {
                                         label='Date of birth'
                                         loan={loan}
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.dob && new Date(loan.dob).toLocaleDateString()}
+                                        value={loan.dob && new Date(loan.dob).toLocaleDateString('en-CA', {
+                                            month: 'short',
+                                            day: 'numeric',
+                                            year: 'numeric'
+                                          })}
                                     />
 
                                    {Platform.OS === 'ios' &&  <Modal visible={loan.showDatePicker} transparent={true} onRequestClose={() => closeDatePicker(loan)} >
