@@ -25,7 +25,7 @@ class SettingScreen extends Component {
                  <Appbar.Action
                         />
                     <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                        titleStyle={{fontSize: resFont(13),  textAlign: 'center', fontFamily: 'Baloo-med' }}
                         title="Settings"
                     />
                     <Appbar.Action

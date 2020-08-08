@@ -6,9 +6,9 @@ export const investmentURL = 'https://app.creditwallet.ng/api/v1/investments/';
 export const publicURL = 'https://creditwallet.ng/api/public/';
 const axios = require('axios').default;
 
-const token = getCustomerToken()
-axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
-export default axios;
+// const token = getCustomerToken()
+// axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+// export default axios;
 
 export const request = (url, options) => {
     const requestOptions = {

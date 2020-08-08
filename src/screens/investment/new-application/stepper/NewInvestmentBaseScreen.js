@@ -59,13 +59,14 @@ class NewInvestmentBaseScreen extends Component {
                                 <Loader isLoading={loan.isLoading} />
                                 <View style={styles.container}>
                                     <CustomText style={styles.headerText}>
-                                        Step {loan.currentPage}/3
+                                        Step {loan.currentPage}/4
                      </CustomText>
-                                    <ProgressBar progress={1/3 * loan.currentPage} color={'#f56b2a'} />
+                                    <ProgressBar progress={1/4 * loan.currentPage} color={'#f56b2a'} />
                                     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} keyboardDismissMode='interactive' keyboardShouldPersistTaps='always'>
                                         {loan.currentPage === 1 && <StepOne/>}
                                         {loan.currentPage === 2 && <StepTwo />}
                                         {loan.currentPage === 3 && <StepThree />}
+                                        {loan.currentPage === 4 && <StepFour/>}
                                         {/* {loan.currentPage === 4 && <StepFour />}
                                         {loan.currentPage === 5 && <StepFive />} */}
                                     </ScrollView>

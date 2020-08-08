@@ -82,7 +82,7 @@ class InvestorChangePasswordScreen extends Component {
                         onPress={() => this.props.navigation.openDrawer()}
                     />
                     <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med', fontSize: resFont(13) }}
                         title="Change Password"
                     />
                     <Appbar.Action
@@ -98,7 +98,7 @@ class InvestorChangePasswordScreen extends Component {
                             {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                             <TextInput
                                 secureTextEntry
-                                style={{ marginTop: resHeight(1), backgroundColor: 'white' }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7),fontSize: resFont(13) }}
                                 mode='outlined'
                                 label='Old Password'
                                 value={oldPassword}
@@ -107,7 +107,7 @@ class InvestorChangePasswordScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7),fontSize: resFont(13) }}
                                 mode='outlined'
                                 label='New Password'
                                 value={password}
@@ -116,20 +116,20 @@ class InvestorChangePasswordScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7), fontSize: resFont(13) }}
                                 mode='outlined'
                                 label='Confirm Password'
                                 value={password_confirmation}
                                 returnKeyType='done'
                                 onChangeText={password => this.setState({ password_confirmation: password })}
                             />
-                            {this.confirmNewPassword(password_confirmation) && <HelperText type='error' >
+                            {this.confirmNewPassword(password_confirmation) && <HelperText type='error' style={{fontSize: resFont(12)}}>
                                 Passwords must match
                                                     </HelperText>}
                             <Button
                                 style={{ marginTop: resHeight(2) }}
                                 disabled={!oldPassword || !password || !password_confirmation || this.confirmNewPassword(password_confirmation)}
-                                labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                                 contentStyle={styles.loginbtn}
                                 mode="contained" onPress={this.handleChangePassword}>
                                 Change password

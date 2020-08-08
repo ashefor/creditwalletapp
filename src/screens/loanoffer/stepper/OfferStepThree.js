@@ -1,6 +1,6 @@
 import React, { Component, Fragment, createRef } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import { Appbar, TextInput, Button, withTheme, ProgressBar } from 'react-native-paper';
+import { Appbar, TextInput, Button, withTheme, ProgressBar, Snackbar } from 'react-native-paper';
 import CustomText from '../../../components/CustomText';
 import Toast from 'react-native-root-toast';
 import { resWidth, resHeight, resFont, getBankCode, width } from '../../../utils/utils';
@@ -29,6 +29,9 @@ class OfferStepThree extends Component {
             errorMsg: null,
         }
     }
+
+    _onDismissSnackBar = () => this.setState({ hasError: false });
+
     pickDocument = async () => {
         let result = await DocumentPicker.getDocumentAsync({});
         const url = `${publicURL}passport/upload`
@@ -61,7 +64,7 @@ class OfferStepThree extends Component {
                 }
             }).catch((error) => {
                 this.setState({ isUploading: false })
-                this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
+                this.setState({ hasError: true, errorMsg: error.message ? error.message : 'Error connecting to server. Please try again' })
             })
         }
     }
@@ -72,15 +75,6 @@ class OfferStepThree extends Component {
         return (
             <LoanOfferContext.Consumer>
                 {loan => <Fragment>
-                <Toast
-                        visible={hasError}
-                        position={Constants.statusBarHeight}
-                        opacity={1}
-                        backgroundColor='red'
-                        shadow={false}
-                        animation={false}
-                        hideOnPress={true}
-                    >{errorMsg}</Toast>
                     <View style={{ flex: 1, marginVertical: resHeight(2) }}>
                         <View style={{ flex: 1, marginTop: resHeight(1) }}>
                             <KeyboardAvoidingView>
@@ -92,23 +86,23 @@ class OfferStepThree extends Component {
                                         icon='upload'
                                         disabled={isUploading}
                                         style={{ width: resWidth(50), alignSelf: 'center' }}
-                                        labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                        labelStyle={{ textTransform: 'none', fontSize: resFont(13), fontFamily: 'Baloo-med' }}
                                         onPress={this.pickDocument}>
                                         {isUploading ? 'Uploading' : 'Select File'}
                                     </Button>
                                     {uploadPercentage > 0 && <ProgressBar style={{marginTop: resHeight(2)}} progress={uploadPercentage} color={'#f56b2a'} />}
-                                    {idCardName && <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(1) }}>
+                                    {idCardName && <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(12), textAlign: 'center', marginVertical: resHeight(1) }}>
                                         {idCardName}
                                     </CustomText>}
                                 </View>
-                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(10), textAlign: 'center', marginVertical: resHeight(2) }}>
+                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(12), textAlign: 'center', marginVertical: resHeight(2) }}>
                                     You can skip this step and send your identification document via WhatsApp to 07085698828 or email to support@creditwallet.ng
                      </CustomText>
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained"
                                         disabled={isUploading}
                                         loading={isUploading}
-                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.goNext}>
                                         {idCardName ? 'Continue' : 'Skip'}
                                     </Button>
@@ -117,7 +111,13 @@ class OfferStepThree extends Component {
                         </View>
 
                     </View>
-
+                    <Snackbar
+                            visible={hasError}
+                            onDismiss={this._onDismissSnackBar}
+                            style={{backgroundColor: 'maroon', color: '#fff'}}
+                        >
+                            {errorMsg}
+                            </Snackbar>
                 </Fragment>}
             </LoanOfferContext.Consumer>
         )

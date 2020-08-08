@@ -59,16 +59,16 @@ class StepTwo extends Component {
                             <View style={styles.card}>
                             <CustomText style={{ fontFamily: 'Baloo-bold', color: colors.primary, fontSize: resFont(17) }}>First</CustomText>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Month Interest</CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.investmentDetails.first_month_interest)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Month Interest</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>{this.formatAsCurrency(loan.investmentDetails.first_month_interest)}</CustomText>
                                 </View>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Month Witholding Tax</CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.investmentDetails.first_month_withholding_tax)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Month Witholding Tax</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>{this.formatAsCurrency(loan.investmentDetails.first_month_withholding_tax)}</CustomText>
                                 </View>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Month Net Interest</CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold',  color: colors.primary }}>{this.formatAsCurrency(loan.investmentDetails.net_first_month_interest)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Month Net Interest</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold', fontSize: resFont(13),  color: colors.primary }}>{this.formatAsCurrency(loan.investmentDetails.net_first_month_interest)}</CustomText>
                                 </View>
                             </View>
                         </ImageBackground>
@@ -78,16 +78,16 @@ class StepTwo extends Component {
                             <View style={styles.card}>
                             <CustomText style={{ fontFamily: 'Baloo-bold', color: colors.primary, fontSize: resFont(17) }}>Subsequent</CustomText>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Monthly Interest</CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.investmentDetails.subsequent_month_interest)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Monthly Interest</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>{this.formatAsCurrency(loan.investmentDetails.subsequent_month_interest)}</CustomText>
                                 </View>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Monthly Witholding Tax</CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.investmentDetails.subsequent_month_interest_withholding_tax)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Monthly Witholding Tax</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>{this.formatAsCurrency(loan.investmentDetails.subsequent_month_interest_withholding_tax)}</CustomText>
                                 </View>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Net Interest</CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold', color: colors.primary }}>{this.formatAsCurrency(loan.investmentDetails.net_subsequent_month_interest)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Net Interest</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold', fontSize: resFont(13), color: colors.primary }}>{this.formatAsCurrency(loan.investmentDetails.net_subsequent_month_interest)}</CustomText>
                                 </View>
                             </View>
                         </ImageBackground>
@@ -97,16 +97,16 @@ class StepTwo extends Component {
                             <View style={styles.card}>
                                 <CustomText style={{ fontFamily: 'Baloo-bold', color: colors.primary, fontSize: resFont(17) }}>Total</CustomText>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Interest</CustomText>
-                                      <CustomText style={{ fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.investmentDetails.total_interest)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Interest</CustomText>
+                                      <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>{this.formatAsCurrency(loan.investmentDetails.total_interest)}</CustomText>
                                 </View>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Witholding Tax</CustomText>
-                                      <CustomText style={{ fontFamily: 'Baloo' }}>{this.formatAsCurrency(loan.investmentDetails.total_withholding_tax)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Witholding Tax</CustomText>
+                                      <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>{this.formatAsCurrency(loan.investmentDetails.total_withholding_tax)}</CustomText>
                                 </View>
                                 <View style={{ display: 'flex', marginVertical: resHeight(.2), flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo-med' }}>Net Interest</CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold', color: colors.primary }}>{this.formatAsCurrency(loan.investmentDetails.net_total_interest)}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(13) }}>Net Interest</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold', color: colors.primary , fontSize: resFont(13)}}>{this.formatAsCurrency(loan.investmentDetails.net_total_interest)}</CustomText>
                                 </View>
                             </View>
                         </ImageBackground>
@@ -118,7 +118,7 @@ class StepTwo extends Component {
                             contentStyle={styles.button}
                             style={{ marginVertical: resHeight(2) }}
                             onPress={loan.goNext}
-                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface, fontSize: resFont(14) }}
                             mode="contained">
                             Proceed
                         </Button>

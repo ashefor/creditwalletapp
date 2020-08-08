@@ -61,7 +61,7 @@ class SetPasswordScreen extends Component {
                         onPress={() => this.props.navigation.goBack()}
                     />
                     <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med', fontSize: resFont(13) }}
                         title="Change Password"
                     />
                     <Appbar.Action
@@ -76,7 +76,7 @@ class SetPasswordScreen extends Component {
                             {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                             <TextInput
                                 secureTextEntry
-                                style={{ marginTop: resHeight(1), backgroundColor: 'white' }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white',fontSize: resFont(13) }}
                                 mode='outlined'
                                 label='Old Password'
                                 value={oldPassword}
@@ -85,7 +85,7 @@ class SetPasswordScreen extends Component {
                             />
                             <TextInput
                                 secureTextEntry
-                                style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7),fontSize: resFont(13) }}
                                 mode='outlined'
                                 label='New Password'
                                 value={newPassword}
@@ -94,7 +94,7 @@ class SetPasswordScreen extends Component {
                             />
                             <Button
                                 style={{ marginTop: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                                 contentStyle={styles.loginbtn}
                                 mode="contained" onPress={this.handleChangePassword}>
                                 Change password

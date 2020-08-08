@@ -100,8 +100,7 @@ class LoanDetails extends Component {
                 <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                     <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                        subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                        titleStyle={{fontSize: resFont(13),  textAlign: 'center', fontFamily: 'Baloo-med' }}
                         title="Loans Details"
                     />
                     <Appbar.Action />
@@ -209,7 +208,7 @@ class LoanDetails extends Component {
                                         height: resHeight(6),
                                         width: resWidth(90)
                                     }}
-                                    labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                                    labelStyle={{ textTransform: 'none',  fontSize: resFont(14),fontFamily: 'Baloo-med', color: colors.surface }}
                                     mode="contained" onPress={this.goToLiquidateLoan}>
                                     Liquidate/Pay off Loan
                         </Button>

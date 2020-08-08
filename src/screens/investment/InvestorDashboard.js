@@ -80,7 +80,7 @@ class InvestorDashboard extends Component {
                             onPress={() => this.props.navigation.openDrawer()}
                         />
                         <Appbar.Content
-                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med', fontSize: resFont(13) }}
                             title="Dashboard"
                         />
                         <Appbar.Action

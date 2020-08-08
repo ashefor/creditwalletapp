@@ -151,8 +151,7 @@ class NewLoanScreen extends Component {
                     <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.Action icon='close' onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
-                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                            subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med',fontSize: resFont(13),  }}
                             title="New Loan"
                         />
                         <Appbar.Action />
@@ -214,10 +213,10 @@ class NewLoanScreen extends Component {
                                         </View>
 
                                         <View>
-                                            <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'left' }}>
-                                                By clicking Start Application, I, <CustomText style={{ color: '#f56b2a' }}>{user.borrower_firstname} {user.borrower_lastname}</CustomText> consent to Credit Wallet obtaining information from relevant third parties as may be necessary, on my employment details, salary payment, loans and other related data, to make a decision on my loan application.
+                                            <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'left', fontSize: resFont(13) }}>
+                                                By clicking Start Application, I, <CustomText style={{ color: '#f56b2a', fontSize: resFont(13),  }}>{user.borrower_firstname} {user.borrower_lastname}</CustomText> consent to Credit Wallet obtaining information from relevant third parties as may be necessary, on my employment details, salary payment, loans and other related data, to make a decision on my loan application.
                                     </CustomText>
-                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'left' }}>
+                                    <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'left', fontSize: resFont(13) }}>
                                                  I also consent to the loan amounts being deducted from my salary at source before credit to my account and any outstanding loans being recovered automatically from any other accounts linked to me in the case of default
                                     </CustomText>
                                         </View>
@@ -227,7 +226,7 @@ class NewLoanScreen extends Component {
                                                 contentStyle={styles.button}
                                                 onPress={this._handleGoBack}
                                                 style={{ backgroundColor: isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '40%', marginHorizontal: resWidth(2) }}
-                                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
+                                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white', fontSize: resFont(14) }}
                                                 mode="contained">
                                                 Back
                          </Button>
@@ -237,7 +236,7 @@ class NewLoanScreen extends Component {
                                                 contentStyle={styles.button}
                                                 style={{ marginVertical: resHeight(2), width: '40%', marginHorizontal: resWidth(2) }}
                                                 onPress={this._handleAcceptLoan}
-                                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
+                                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white', fontSize: resFont(14) }}
                                                 mode="contained">
                                                 {isLoading ? 'Accepting' : 'Accept'}
                                             </Button>
@@ -245,28 +244,28 @@ class NewLoanScreen extends Component {
                                     </View>) : (
                                         <View>
                                             <View style={{ marginVertical: resHeight(3) }}>
-                                                <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
+                                                <CustomText style={{ fontFamily: 'Baloo-semi-bold', fontSize: resFont(13),  }}>
                                                     How much would you like?
                              </CustomText>
                                                 <View style={{ marginVertical: resHeight(1) }}>
                                                     <TextInput
                                                         mode="outlined"
                                                         label='Amount'
-                                                        style={{ backgroundColor: 'white', height: resHeight(7) }}
+                                                        style={{ backgroundColor: 'white', height: resHeight(7), fontSize: resFont(13) }}
                                                         value={amount}
                                                         keyboardType='numeric'
                                                         onChangeText={amount => this.setState({ amount: this.formatNum(amount) })}
                                                     />
-                                                   {this.hasErrors(amount) &&  <HelperText type='error' >
+                                                   {this.hasErrors(amount) &&  <HelperText type='error' style={{fontSize: resFont(12)}}>
                                             Amount should be greater than {this.formatAsCurrency(20000)}
                                                     </HelperText>}
-                                                    {this.invalidAmount(amount) &&  <HelperText type='error' >
+                                                    {this.invalidAmount(amount) &&  <HelperText type='error' style={{fontSize: resFont(12)}}>
                                             Invalid Amount. Please check
                                                     </HelperText>}
                                                 </View>
                                             </View>
                                             <View style={{ marginVertical: resHeight(3) }}>
-                                                <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
+                                                <CustomText style={{ fontFamily: 'Baloo-semi-bold', fontSize: resFont(13),  }}>
                                                     For how long?
                              </CustomText>
                                                 <View style={{ marginVertical: resHeight(1) }}>
@@ -293,7 +292,7 @@ class NewLoanScreen extends Component {
                                                     onPress={this._handleLoanApply}
                                                     style={{ marginVertical: resHeight(2) }}
                                                     contentStyle={styles.button}
-                                                    labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
+                                                    labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white', fontSize: resFont(14)  }}
                                                     mode="contained">
                                                     Apply for loan
                          </Button>

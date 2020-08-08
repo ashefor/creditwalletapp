@@ -1,5 +1,5 @@
 import React, { Component, Fragment, createRef } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import { TextInput, Button, withTheme } from 'react-native-paper';
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont } from '../../../utils/utils';
@@ -7,6 +7,7 @@ import { salaryBanks } from '../../../utils/salaryBanks';
 import { AutoLoanOfferContext } from '../provider/AutoLoanOfferProvider';
 import * as DocumentPicker from 'expo-document-picker';
 import PickerComponent from '../../../components/PickerComponent';
+import AndroidSelectPicker from '../../../components/AndroidSelectPicker';
 
 const banksPlaceholder = {
     label: 'Salary Bank Name',
@@ -36,6 +37,14 @@ class AutoOfferStepTwo extends Component {
             />
         );
     };
+    renderAndroidBankSelectPicker = props => {
+        const { style, value, selectBank } = props;
+        return (
+           <AndroidSelectPicker  data={salaryBanks}
+           onValueChange={selectBank}
+           value={value}/>
+        );
+    };
 
     handleFocus = () => {
         this._customInput.current.handleBlur()
@@ -61,7 +70,7 @@ class AutoOfferStepTwo extends Component {
                                     To proceed please provide details of your preferred account to receive your funds
                      </CustomText>
                                 <View style={{ marginVertical: resHeight(1) }}>
-                                    <TextInput
+                                  {Platform.OS === 'ios' &&   <TextInput
                                         ref={this._textInput}
                                         render={this.renderBankSelect}
                                         mode="outlined"
@@ -70,7 +79,17 @@ class AutoOfferStepTwo extends Component {
                                         value={loan.salary_bank_name}
                                         keyboardType='default'
                                         selectBank={loan.setBankCode}
-                                    />
+                                    />}
+                                    {Platform.OS === 'android' &&   <TextInput
+                                        ref={this._textInput}
+                                        render={this.renderAndroidBankSelectPicker}
+                                        mode="outlined"
+                                        label='Salary Bank Name'
+                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
+                                        value={loan.salary_bank_name}
+                                        keyboardType='default'
+                                        selectBank={loan.setBankCode}
+                                    />}
                                 </View>
                                 <View style={{ marginVertical: resHeight(1) }}>
                                     <TextInput
@@ -88,7 +107,7 @@ class AutoOfferStepTwo extends Component {
                                     <Button mode="contained"
                                         disabled={!loan.salary_bank_account || !loan.salary_bank_name || loan.isValidating}
                                         loading={loan.isValidating}
-                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.verifyAccount}>
                                         Start Application
                         </Button>

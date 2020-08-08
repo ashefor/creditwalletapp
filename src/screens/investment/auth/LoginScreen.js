@@ -83,7 +83,7 @@ class LoginScreen extends Component {
                             onPress={() => this.props.navigation.goBack()}
                         />
                         <Appbar.Content
-                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med',fontSize: resFont(13) }}
                             title="Login to your account"
                         />
                         <Appbar.Action
@@ -97,7 +97,7 @@ class LoginScreen extends Component {
                                 <CustomText style={{ textAlign: 'left', fontSize: resFont(14), fontFamily: 'Baloo' }}>Kindly provide your email and password to access your investment(s) portal</CustomText>
                                 {/* {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>} */}
                                 <TextInput
-                                    style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
+                                    style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) , fontSize: resFont(13)}}
                                     label='Email'
                                     value={username}
                                     mode="outlined"
@@ -106,12 +106,12 @@ class LoginScreen extends Component {
                                     keyboardType='email-address'
                                     onChangeText={username => this.setState({ username })}
                                 />
-                                  {this.validateEmail(username) && <HelperText type='error' visible={true}>
+                                  {this.validateEmail(username) && <HelperText type='error' visible={true} style={{fontSize: resFont(12)}}>
                                         Please valid email only
                                    </HelperText>}
                                 <TextInput
                                     secureTextEntry
-                                    style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) }}
+                                    style={{ marginTop: resHeight(1), backgroundColor: 'white', height: resHeight(7) ,fontSize: resFont(13)}}
                                     label='Password'
                                     mode="outlined"
                                     value={password}
@@ -120,7 +120,7 @@ class LoginScreen extends Component {
                                 />
                                 <Button
                                     style={{ marginTop: resHeight(2) }}
-                                    labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                    labelStyle={{ textTransform: 'none', color: 'white', fontSize: resFont(14), fontFamily: 'Baloo-med' }}
                                     contentStyle={styles.loginbtn}
                                     loading={isLoading}
                                     disabled={isLoading || this.validateEmail(username) || !password}
@@ -129,7 +129,7 @@ class LoginScreen extends Component {
                                 </Button>
                                 <Button
                                     style={{ marginTop: resHeight(3) }}
-                                    labelStyle={{ textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary }}
+                                    labelStyle={{ textTransform: 'capitalize',fontSize: resFont(13), fontFamily: 'Baloo-med', color: colors.primary }}
                                     onPress={() => {this.props.navigation.navigate('Forgot Password')}}
                                 >
                                     Forgot Password?

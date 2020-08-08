@@ -67,7 +67,7 @@ class StepFive extends Component {
         );
     };
 
-    renderBankSelect = props => {
+    renderAndroidBankSelectPicker = props => {
         const { style, value, selectBank } = props;
         return (
            <AndroidSelectPicker data={salaryBanks}
@@ -140,7 +140,7 @@ class StepFive extends Component {
 
                                     {Platform.OS === 'android'  &&  <TextInput
                                         ref={this._textInput}
-                                        render={this.renderBankSelect}
+                                        render={this.renderAndroidBankSelectPicker}
                                         mode="outlined"
                                         label='Salary Bank Name'
                                         style={{ backgroundColor: 'white', fontSize: resFont(13) }}
@@ -165,7 +165,7 @@ class StepFive extends Component {
                                     <Button mode="contained" 
                                     disabled={!loan.salary_bank_account || !loan.salary_bank_name || !loan.place_of_work || loan.isValidating}
                                     loading={loan.isValidating}
-                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.verifyAccount}>
                                         {loan.isValidating ? 'Applying' : 'Complete'}
                         </Button>

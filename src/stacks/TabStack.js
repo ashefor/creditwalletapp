@@ -5,25 +5,44 @@ import LoanStack from './LoanStack';
 import HomeStack from './HomeStack';
 import SettingStack from './SettingStack';
 import MainHomeStack from './MainHomeStack';
+import { resFont } from '../utils/utils';
+import CustomText from '../components/CustomText';
 
+const activeTintLabelColor = '#f56b2a';
+const inactiveTintLabelColor = '#808080';
 const TabNavigator = createBottomTabNavigator({
     Home: {
         screen: HomeStack,
         navigationOptions: {
-            tabBarIcon: ({tintColor}) => (<AntDesign name='home' size={20} color={tintColor}/>),
+            tabBarLabel: ({ focused }) => (
+                <CustomText style={{marginHorizontal: 20, fontSize: resFont(13), fontFamily: 'Baloo', textAlign: 'center', color: focused ? activeTintLabelColor : inactiveTintLabelColor }}>
+                  Home
+                </CustomText>
+              ),
+            tabBarIcon: ({tintColor}) => (<AntDesign name='home' size={resFont(15)} color={tintColor}/>),
         }
     },
     Loans: {
         screen: LoanStack,
         navigationOptions: {
-            tabBarIcon: ({tintColor}) => (<AntDesign name='creditcard' size={20} color={tintColor}/>),
+            tabBarLabel: ({ focused }) => (
+                <CustomText style={{marginHorizontal: 20, fontSize: resFont(13), fontFamily: 'Baloo', color: focused ? activeTintLabelColor : inactiveTintLabelColor }}>
+                  Loans
+                </CustomText>
+              ),
+            tabBarIcon: ({tintColor}) => (<AntDesign name='creditcard' size={resFont(15)} color={tintColor}/>),
             // tabBarVisible: false,
         }
     },
     Settings: {
         screen: SettingStack,
         navigationOptions: {
-            tabBarIcon: ({tintColor}) => (<AntDesign name='setting' size={20} color={tintColor}/>)
+            tabBarLabel: ({ focused }) => (
+                <CustomText style={{marginHorizontal: 20, fontSize: resFont(13), fontFamily: 'Baloo', color: focused ? activeTintLabelColor : inactiveTintLabelColor }}>
+                  Settings
+                </CustomText>
+              ),
+            tabBarIcon: ({tintColor}) => (<AntDesign name='setting' size={resFont(15)} color={tintColor}/>)
         }
     },
 }, {
@@ -31,7 +50,7 @@ const TabNavigator = createBottomTabNavigator({
         tabBarOptions: {
             activeTintColor: '#f56b2a',
             style: {
-                backgroundColor: '#f5fcff'
+                backgroundColor: '#f5fcff',
             }
         },
     }

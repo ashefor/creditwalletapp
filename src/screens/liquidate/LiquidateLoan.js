@@ -92,8 +92,7 @@ class LiquidateLoan extends Component {
                 <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
-                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
-                            subtitleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med', fontSize: resFont(13) }}
                             title={`Liquidate ${loan && loan.transaction_reference ? loan.transaction_reference : ''}`}
                         />
                         <Appbar.Action />
@@ -113,7 +112,7 @@ class LiquidateLoan extends Component {
                         }
                         showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
                         <View style={{ paddingTop: resHeight(2), width: resWidth(90), alignSelf: 'center' }}>
-                            <CustomText style={{ textAlign: 'center', fontFamily: 'Baloo-med', color: colors.primary }}>
+                            <CustomText style={{ textAlign: 'center', fontFamily: 'Baloo-med', color: colors.primary, fontSize: resFont(13) }}>
                                 Loan Liquidation Details as at today {new Date(Date.now()).toDateString()}
                     </CustomText>
                             <View style={{ marginVertical: resHeight(1) }}>
@@ -173,18 +172,18 @@ class LiquidateLoan extends Component {
                                     <CustomText style={{ fontSize: resFont(15), fontFamily: 'Baloo-med' }}>{this.formatAsCurrency(loan.liquidation_amount)}</CustomText>
                                 </View>
                             </View>
-                            <Paragraph style={{ fontFamily: 'Baloo-bold', fontSize: resFont(12) }}>
+                            <CustomText style={{ fontFamily: 'Baloo-bold', fontSize: resFont(13) }}>
                                 Please note that the amount stated above is the liquidation payment due as at today {new Date(Date.now()).toDateString()} and subject to change if payment is not made within 24 hours.
-                    </Paragraph>
+                    </CustomText>
 
-                            <Paragraph style={{ marginTop: resHeight(2), fontFamily: 'Baloo-bold', fontSize: resFont(12) }}>Please include the unique code '{loan.transaction_reference}' in the Payment narration /description.
-                    </Paragraph>
+                            <CustomText style={{ marginTop: resHeight(2), fontFamily: 'Baloo-bold', fontSize: resFont(13) }}>Please include the unique code '{loan.transaction_reference}' in the Payment narration /description.
+                    </CustomText>
                         </View>
                     </ScrollView>
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginBottom: resHeight(2) }}>
                         <Button onPress={() => this.RBSheet.open()} contentStyle={{
         height: resHeight(6)
-        }}>Show Account Details</Button>
+        }} labelStyle={{fontSize: resFont(13)}}>Show Account Details</Button>
                         <RBSheet
                             closeOnDragDown={true}
                             ref={ref => {

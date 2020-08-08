@@ -210,10 +210,10 @@ class HomeScreen extends Component {
                                 onDismiss={this._hideDialogOne}>
                                 <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
                                 <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
-                                    <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>You have no open loans</Paragraph>
+                                    <CustomText style={{ fontSize: resFont(13),  textAlign: 'center' }}>You have no open loans</CustomText>
                                 </Dialog.Content>
                                 <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Button onPress={this._hideDialogOne}>Okay</Button>
+                                    <Button onPress={this._hideDialogOne} labelStyle={{fontSize: resFont(13)}}>Okay</Button>
                                 </Dialog.Actions>
                             </Dialog>
                             <Dialog
@@ -221,10 +221,10 @@ class HomeScreen extends Component {
                                 onDismiss={this._hideDialogTwo}>
                                 <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
                                 <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
-                                    <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>There is an error with your account. Please contact admin</Paragraph>
+                                    <CustomText style={{ fontSize: resFont(13),  textAlign: 'center', fontFamily: 'Baloo' }}>There is an error with your account. Please contact admin</CustomText>
                                 </Dialog.Content>
                                 <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Button onPress={this._hideDialogTwo}>Okay</Button>
+                                    <Button onPress={this._hideDialogTwo} labelStyle={{fontSize: resFont(13)}}>Okay</Button>
                                 </Dialog.Actions>
                             </Dialog>
                             <Dialog
@@ -232,12 +232,12 @@ class HomeScreen extends Component {
                                 onDismiss={this._hideDialog}>
                                 <Dialog.Title style={{ textAlign: 'center' }}>Alert</Dialog.Title>
                                 <Dialog.Content style={{ alignItems: 'center', justifyContent: 'center', texAlign: 'center' }}>
-                                    <Paragraph style={{ fontSize: 16, textAlign: 'center' }}>You currently have an open loan of <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
+                                    <CustomText style={{ fontSize: resFont(13), textAlign: 'center', fontFamily: 'Baloo' }}>You currently have an open loan of <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
                                         {this.formatAsCurrency(dashboard.loan_balance)}
-                                    </CustomText> so you can not get letter of Non-Indebtness at this point. Kindly pay off your loan</Paragraph>
+                                    </CustomText> so you can not get letter of Non-Indebtness at this point. Kindly pay off your loan</CustomText>
                                 </Dialog.Content>
                                 <Dialog.Actions style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Button onPress={this._hideDialog}>Okay</Button>
+                                    <Button onPress={this._hideDialog} labelStyle={{fontSize: resFont(13)}}>Okay</Button>
                                 </Dialog.Actions>
                             </Dialog>
                             <Modal
@@ -246,24 +246,24 @@ class HomeScreen extends Component {
                                 contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
                                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
                                     <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                                        <Appbar.Header statusBarHeight={0} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                                        <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                                             <Appbar.Action icon="close" onPress={this._hideModal} />
                                         </Appbar.Header>
                                         <View style={{ alignSelf: 'center', width: resWidth(90) }}>
-                                            <Title style={{ fontSize: resFont(20), fontFamily: 'Baloo-extra-bold', color: colors.primary }}>Letter of {letterType}</Title>
-                                            <CustomText style={{ fontFamily: 'Baloo' }}>Get your letter of {letterType} and send to any preferred email address</CustomText>
+                                            <CustomText style={{ fontSize: resFont(20), fontFamily: 'Baloo-extra-bold', color: colors.primary }}>Letter of {letterType}</CustomText>
+                                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>Get your letter of {letterType} and send to any preferred email address</CustomText>
                                             <View style={{ marginTop: resHeight(2) }}>
                                                 {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error }}>{errorMsg}</CustomText>}
                                                 <TextInput
                                                     autoCapitalize={'none'}
                                                     label='Email'
-                                                    style={{ backgroundColor: 'white', height: resHeight(7) }}
+                                                    style={{ backgroundColor: 'white', height: resHeight(7), fontSize: resFont(13) }}
                                                     value={email}
                                                     mode={'outlined'}
                                                     ref={this.textInputRef}
                                                     onChangeText={email => this.setState({ email })}
                                                 />
-                                                {this.validateEmail(email) && <HelperText type='error' visible={true}>
+                                                {this.validateEmail(email) && <HelperText type='error' visible={true} style={{fontSize: resFont(12)}}>
                                                     Only valid emails are allowed
                                    </HelperText>}
                                                 <Button

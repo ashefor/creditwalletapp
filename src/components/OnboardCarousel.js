@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import { StyleSheet, View, Image, Text, ScrollView, Dimensions } from 'react-native';
-import { resWidth, resHeight } from '../utils/utils';
+import { resWidth, resHeight, resFont } from '../utils/utils';
 import CustomText from './CustomText';
 const { width } = Dimensions.get('window')
 
@@ -76,7 +76,7 @@ class OnboardCarousel extends Component {
                                     style={styles.onboardImage}
                                 />
                                 <View style={styles.onboardText}>
-                                    <CustomText style={{ fontSize: 15, fontFamily: 'Baloo' }}>{image.text}</CustomText>
+                                    <CustomText style={{ fontSize: resFont(12), fontFamily: 'Baloo' }}>{image.text}</CustomText>
                                 </View>
                             </View>
                         </View>

@@ -46,7 +46,7 @@ class InitialScreen extends Component {
                         <Button
                         icon='cash-multiple'
                                 style={{ marginTop: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: resFont(14), fontFamily: 'Baloo-med' }}
                                 contentStyle={styles.actionBtn}
                                 loading={isLoading}
                                 disabled={isLoading}
@@ -58,7 +58,7 @@ class InitialScreen extends Component {
                             <Button
                              icon='finance'
                                 style={{ marginTop: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: resFont(14), fontFamily: 'Baloo-med' }}
                                 contentStyle={styles.actionBtn}
                                 loading={isLoading}
                                 disabled={isLoading}

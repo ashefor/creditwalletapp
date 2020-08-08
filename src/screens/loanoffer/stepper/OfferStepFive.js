@@ -55,7 +55,7 @@ class OfferStepFive extends Component {
                                     <Button mode="contained"
                                         disabled={!loan.code || loan.isAccepting}
                                         loading={loan.isAccepting}
-                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.complete}>
                                         Complete
                         </Button>

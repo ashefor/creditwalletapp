@@ -124,7 +124,7 @@ class StepFour extends Component {
                                         keyboardType='email-address'
                                         onChangeText={email => loan.setEmail(email)}
                                     />
-                                    {this.validateEmail(loan.email) && <HelperText type='error' visible={true}>
+                                    {this.validateEmail(loan.email) && <HelperText type='error' visible={true} style={{fontSize: resFont(12)}}>
                                     Please valid email only
                                    </HelperText>}
                                 </View>
@@ -187,7 +187,7 @@ class StepFour extends Component {
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained"
                                         disabled={!loan.email || !loan.address || !loan.telephone || !loan.city || !loan.selectedState}
-                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                        contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.goNext}>
                                         Next
                         </Button>

@@ -65,7 +65,7 @@ class ForgotPasswordScreen extends Component {
                         onPress={() => this.props.navigation.goBack()}
                     />
                     <Appbar.Content
-                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                        titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med', fontSize: resFont(13) }}
                         title="Reset Password"
                     />
                     <Appbar.Action 
@@ -79,7 +79,7 @@ class ForgotPasswordScreen extends Component {
                             <CustomText style={{ textAlign: 'left', fontSize: resFont(14), fontFamily: 'Baloo' }}>Kindly provide your email to enable us reset your investment account</CustomText>
                             {errorMsg && <CustomText style={{ textAlign: 'center', color: colors.error, marginVertical: resHeight(1) }}>{errorMsg}</CustomText>}
                             <TextInput
-                                style={{ marginTop: resHeight(1), backgroundColor: 'white',height: resHeight(7) }}
+                                style={{ marginTop: resHeight(1), backgroundColor: 'white',height: resHeight(7), fontSize: resFont(13) }}
                                 label='Username'
                                 mode='outlined'
                                 value={username}
@@ -88,7 +88,7 @@ class ForgotPasswordScreen extends Component {
                             />
                             <Button
                                 style={{ marginTop: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: 15, fontFamily: 'Baloo-med' }}
+                                labelStyle={{ textTransform: 'none', color: 'white', fontSize: resFont(14), fontFamily: 'Baloo-med' }}
                                 contentStyle={styles.loginbtn}
                                 loading={isLoading}
                                 disabled={isLoading}
@@ -97,7 +97,7 @@ class ForgotPasswordScreen extends Component {
                             </Button>
                             <Button
                                 style={{ marginTop: resHeight(3) }}
-                                labelStyle={{ textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary }}
+                                labelStyle={{ textTransform: 'capitalize', fontFamily: 'Baloo-med', color: colors.primary, fontSize: resFont(13) }}
                                 onPress={() => this.props.navigation.navigate('Login')}
                             >
                                 Back to Login

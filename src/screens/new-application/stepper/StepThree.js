@@ -283,7 +283,7 @@ class StepThree extends Component {
                                  <View style={{width: resWidth(95), marginBottom: 20}}>
                                  <View style={{backgroundColor: 'white', borderRadius: 10}}>
                                      <View style={{paddingVertical: 10}}>
-                                         <CustomText style={{textAlign: 'center'}}>
+                                         <CustomText style={{textAlign: 'center', fontSize: resFont(13), fontFamily: 'Baloo-med'}}>
                                              Pick a date
                                          </CustomText>
                                      </View>
@@ -339,7 +339,7 @@ class StepThree extends Component {
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained" 
                                     disabled={!loan.dob || !loan.gender || !loan.title || !loan.lastname || !loan.firstname}
-                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                                         onPress={loan.goNext}>
                                         Next
                         </Button>

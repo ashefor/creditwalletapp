@@ -41,7 +41,7 @@ class AutoOfferStepOne extends Component {
                                 {this.formatAsCurrency(loan.loan_amount)}
                             </CustomText>
                             <CustomText style={{
-                                fontSize: resFont(11),
+                                fontSize: resFont(12),
                                 textAlign: 'center', fontFamily: 'Baloo-med'
                             }}>
                                 Pre-approved Loan Amount
@@ -67,7 +67,7 @@ class AutoOfferStepOne extends Component {
                                 {loan.duration} months
                             </CustomText>
                             <CustomText style={{
-                                fontSize: resFont(11),
+                                fontSize: resFont(12),
                                 textAlign: 'center', fontFamily: 'Baloo-med'
                             }}>
                                 Pre-approved Loan Duration
@@ -93,7 +93,7 @@ class AutoOfferStepOne extends Component {
                                 {loan.duration} months
                             </CustomText>
                             <CustomText style={{
-                                fontSize: resFont(11),
+                                fontSize: resFont(12),
                                 textAlign: 'center', fontFamily: 'Baloo-med'
                             }}>
                                 Pre-approved Loan Duration
@@ -152,8 +152,8 @@ class AutoOfferStepOne extends Component {
                     </View>
 
                     <View>
-                        <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'center' }}>
-                            By Clicking Continue, I, <CustomText style={{color: '#f56b2a'}}>{loan.offerLetter.loan.firstname}</CustomText> <CustomText style={{color: '#f56b2a'}}>{loan.offerLetter.loan.lastname}</CustomText> accept the Credit Offer with a full understanding of the Loans Terms and Conditions
+                        <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'center', fontSize: resFont(12) }}>
+                            By Clicking Continue, I, <CustomText style={{color: '#f56b2a', fontSize: resFont(12)}}>{loan.offerLetter.loan.firstname}</CustomText> <CustomText style={{color: '#f56b2a', fontSize: resFont(12)}}>{loan.offerLetter.loan.lastname}</CustomText> accept the Credit Offer with a full understanding of the Loans Terms and Conditions
                         </CustomText>
                     </View>
                     <View>
@@ -163,7 +163,7 @@ class AutoOfferStepOne extends Component {
                             contentStyle={styles.button}
                             style={{ marginVertical: resHeight(2), width: '100%', marginHorizontal: resWidth(2) }}
                             onPress={loan.goNext}
-                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface, fontSize: resFont(14) }}
                             mode="contained">
                             Continue
                         </Button>

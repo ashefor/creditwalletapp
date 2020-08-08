@@ -302,47 +302,11 @@ class StepThree extends Component {
                                         onChangeText={phonenumber => loan.setPhone(phonenumber)}
                                     />
                                 </View>
-                                <View style={{ marginVertical: resHeight(.5) }}>
-                                <TextInput
-                                        ref={this._textInput}
-                                        render={this.renderBankSelect}
-                                        mode="outlined"
-                                        label='Bank Name'
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.salary_bank_name}
-                                        keyboardType='default'
-                                        selectBank={loan.setBankCode}
-                                    />
-                                </View>
-                                <View style={{ marginVertical: resHeight(.5) }}>
-                                    <TextInput
-                                    ref={this._customInput}
-                                        mode="outlined"
-                                        label='Bank Account'
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.salary_bank_account}
-                                        keyboardType='number-pad'
-                                        returnKeyType='done'
-                                        onChangeText={account => loan.setBankAccount(account)}
-                                    />
-                                </View>
-                                <View style={{ marginVertical: resHeight(.5) }}>
-                                    <TextInput
-                                        returnKeyType='done'
-                                        mode="outlined"
-                                        label='Tax Id (Optional)'
-                                        ref={this._customeInput}
-                                        style={{ backgroundColor: 'white', fontSize: resFont(13) }}
-                                        value={loan.tax_id}
-                                        keyboardType='default'
-                                        onChangeText={(code => loan.setTaxId(code))}
-                                    />
-                                </View>
                                 <View style={styles.bottomcontainer}>
                                     <Button mode="contained" 
                                     disabled={!loan.gender || !loan.title || !loan.lastname || !loan.firstname}
-                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
-                                        onPress={loan.verifyAccount}>
+                                    contentStyle={styles.button} labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
+                                        onPress={loan.goNext}>
                                         Continue
                         </Button>
                                 </View>

@@ -44,7 +44,7 @@ class InvOnboardScreen extends Component {
                <View style={{ flex: 1 ,  width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                <Button
                            style={{ borderColor: colors.primary, borderWidth: 1 }}
-                           labelStyle={{ textTransform: 'none', fontSize: 15, fontFamily: 'Baloo-med', color: 'white' }}
+                           labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                            contentStyle={styles.signpbtn}
                            mode='contained' onPress={() => this.props.navigation.navigate(hasNotification ? 'New Investment' : 'Investment Apply')}>
                            Make an investment

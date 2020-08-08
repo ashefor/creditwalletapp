@@ -169,7 +169,7 @@ class NewInvestmentProvider extends Component {
 
     _handleGoNext = () => {
         this.setState(prevState => {
-            if(prevState.currentPage === 3) {
+            if(prevState.currentPage === 4) {
                 return;
             } else {
                 return {
@@ -361,19 +361,22 @@ class NewInvestmentProvider extends Component {
             const codeData = {
                 referralcode: this.state.referralcode
             }
+            console.log(codeData)
             this.setState({ isLoading: true })
             axios({
                 method: 'POST',
                 url: url,
                 data: codeData
             }).then((data) => {
-                // this.setState({ isLoading: false })
+                console.log(data)
+                this.setState({ isLoading: false })
                 if (data.data.status === 'success') {
                     this.setState({ interest: data.data.referralcode.interest }, () => this.processInterest())
                 } else {
                     this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
                 }
             }).catch((error) => {
+                console.log(error)
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
@@ -394,11 +397,19 @@ class NewInvestmentProvider extends Component {
             startdate: this.state.start_date.toISOString().slice(0, 10)
         }
         this.setState({ isLoading: true })
+        console.log(investmentData)
         axios({
             method: 'POST',
             url: url,
-            data: investmentData
+            data: JSON.stringify(investmentData),
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            validateStatus: (status) => {
+                return true
+            }
         }).then((data) => {
+            console.log(data.data)
             this.setState({ isLoading: false })
             if (data.data.status === 'success') {
                 this.setState({ investmentDetails: data.data})
@@ -407,6 +418,7 @@ class NewInvestmentProvider extends Component {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
             }
         }).catch((error) => {
+            console.log(error)
             this.setState({ isLoading: false })
             // this.setState({ applicationSuccess: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })

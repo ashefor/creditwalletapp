@@ -45,23 +45,23 @@ class StepOne extends Component {
                                 <TextInput
                                     mode="outlined"
                                     label='Amount'
-                                    style={{ backgroundColor: 'white', height: resHeight(7) }}
+                                    style={{ backgroundColor: 'white', height: resHeight(7), fontSize: resFont(13) }}
                                     value={loan.amount}
                                     keyboardType='number-pad'
                                     returnKeyType='done'
                                     onChangeText={amount => loan.setAmount(amount)}
                                 />
-                                {this.hasErrors(loan.amount) && <HelperText type='error' >
+                                {this.hasErrors(loan.amount) && <HelperText type='error' style={{fontSize: resFont(12)}}>
                                     Amount should be greater than {this.formatAsCurrency(20000)}
                                 </HelperText>}
-                                {this.invalidAmount(loan.amount) && <HelperText type='error' >
+                                {this.invalidAmount(loan.amount) && <HelperText type='error' style={{fontSize: resFont(12)}}>
                                     Invalid Amount. Please check
                                                     </HelperText>}
 
                             </View>
                         </View>
                         <View style={{ marginVertical: resHeight(3) }}>
-                            <CustomText style={{ fontFamily: 'Baloo-semi-bold' }}>
+                            <CustomText style={{ fontFamily: 'Baloo-semi-bold', fontSize: resFont(13) }}>
                                 For how long?
                      </CustomText>
                             <View style={{ marginVertical: resHeight(1) }}>
@@ -89,7 +89,7 @@ class StepOne extends Component {
                                 onPress={loan.loanApply}
                                 contentStyle={styles.button}
                                 style={{ marginVertical: resHeight(2) }}
-                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white' }}
+                                labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: 'white', fontSize: resFont(14) }}
                                 mode="contained">
                                 Apply for loan
                  </Button>

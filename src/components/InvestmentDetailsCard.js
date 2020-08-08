@@ -67,7 +67,7 @@ class InvestmentDetailsCard extends Component {
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', padding: 5, width: '100%', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo' }}>
+                                    <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>
                                         Savings Account No.
                              </CustomText>
                                     <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(14) }}>
@@ -75,7 +75,7 @@ class InvestmentDetailsCard extends Component {
                                     </CustomText>
                                 </View>
                                 <View style={{ flexDirection: 'row', padding: 5, width: '100%', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo' }}>
+                                    <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>
                                         Savings Balance
                              </CustomText>
                                     <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(14) }}>
@@ -83,7 +83,7 @@ class InvestmentDetailsCard extends Component {
                                     </CustomText>
                                 </View>
                                 <View style={{ flexDirection: 'row', padding: 5, width: '100%', justifyContent: 'space-between' }}>
-                                    <CustomText style={{ fontFamily: 'Baloo' }}>
+                                    <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>
                                         Maturity Date
                              </CustomText>
                                     <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(14) }}>

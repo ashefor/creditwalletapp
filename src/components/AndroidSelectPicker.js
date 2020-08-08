@@ -50,7 +50,7 @@ const AndroidSelectPicker = (props) => {
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
                                 <TouchableOpacity style={{ paddingVertical: 15, paddingHorizontal: 5 }} onPress={() => onValueSelect(item.value)}>
-                                    <CustomText style={{ fontFamily: 'Baloo', color: value === item.value? '#f56b2a' : '#000' }}>{item.label}</CustomText>
+                                    <CustomText style={{ fontFamily: 'Baloo', color: value === item.value? '#f56b2a' : '#000', fontSize: resFont(13) }}>{item.label}</CustomText>
                                 </TouchableOpacity>
                             )}
                         />

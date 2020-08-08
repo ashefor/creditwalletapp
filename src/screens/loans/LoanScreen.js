@@ -136,7 +136,7 @@ class LoanScreen extends Component {
                     <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.Action />
                         <Appbar.Content
-                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            titleStyle={{ textAlign: 'center', fontSize: resFont(13), fontFamily: 'Baloo-med' }}
                             title="Loans"
                         />
                         <Appbar.Action />

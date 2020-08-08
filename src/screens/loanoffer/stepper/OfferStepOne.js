@@ -89,10 +89,10 @@ class OfferStepOne extends Component {
                     </View>
 
                     <View>
-                        <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'center' }}>
-                        By Clicking Continue, I, <CustomText style={{ color: '#f56b2a'}}>
+                        <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'center', fontSize: resFont(12) }}>
+                        By Clicking Continue, I, <CustomText style={{ color: '#f56b2a', fontFamily: 'Baloo-semi-bold', fontSize: resFont(13)}}>
                         {loan.offerLetter.firstname} 
-                            </CustomText> <CustomText style={{ color: '#f56b2a'}}>{loan.offerLetter.lastname}</CustomText> accept the Credit Offer with a full understanding of the Loans Terms and Conditions
+                            </CustomText> <CustomText style={{ color: '#f56b2a', fontFamily: 'Baloo-semi-bold', fontSize: resFont(13)}}>{loan.offerLetter.lastname}</CustomText> accept the Credit Offer with a full understanding of the Loans Terms and Conditions
                         </CustomText>
                     </View>
                     <View>
@@ -102,7 +102,7 @@ class OfferStepOne extends Component {
                             contentStyle={styles.button}
                             style={{ marginVertical: resHeight(2), width: '100%',  marginHorizontal: resWidth(2) }}
                             onPress={loan.goNext}
-                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                            labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: colors.surface }}
                             mode="contained">
                             Continue
                         </Button>

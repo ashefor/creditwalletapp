@@ -75,7 +75,7 @@ class StepTwo extends Component {
                     </View>
 
                     <View>
-                        <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'justify' }}>
+                        <CustomText style={{ fontFamily: 'Baloo-semi-bold', textAlign: 'justify', fontSize: resFont(12) }}>
                             By clicking Start Application, I consent to Credit Wallet obtaining information from relevant third parties as may be necessary, on my employment details, salary payment, loans and other related data, to make a decision on my loan application. I also consent to the loan amounts being deducted from my salary at source before credit to my account and any outstanding loans being recovered automatically from any other accounts linked to me in the case of default
                         </CustomText>
                     </View>
@@ -85,7 +85,7 @@ class StepTwo extends Component {
                             contentStyle={styles.button}
                             onPress={loan.goBack}
                             style={{ backgroundColor: loan.isLoading ? 'rgba(0,0,0,0.12)' : '#9b9b9b', marginVertical: resHeight(2), width: '45%', marginHorizontal: resWidth(2) }}
-                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface, fontSize: resFont(14) }}
                             mode="contained">
                             Back
                         </Button>
@@ -95,7 +95,7 @@ class StepTwo extends Component {
 contentStyle={styles.button}
                             style={{ marginVertical: resHeight(2), width: '45%', marginHorizontal: resWidth(2) }}
                             onPress={loan.goNext}
-                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface }}
+                            labelStyle={{ textTransform: 'none', fontFamily: 'Baloo-med', color: colors.surface, fontSize: resFont(14) }}
                             mode="contained">
                             Proceed
                         </Button>

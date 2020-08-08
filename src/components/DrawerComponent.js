@@ -21,7 +21,7 @@ export default DrawerComponent = props => (
             <ScrollView contentContainerStyle={{paddingHorizontal: 10}}>
                 <DrawerItems {...props} />
             </ScrollView>
-            <TouchableWithoutFeedback onPress={signInvestorOut}>
+            <TouchableWithoutFeedback onPress={signOut}>
            <View style={{paddingHorizontal: 10}}>
            <View style={{marginBottom: 40, flexDirection: 'row', padding: 25}}>
             <MaterialIcons name="power-settings-new" size={24} color="red" style={{
