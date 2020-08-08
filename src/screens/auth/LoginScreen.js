@@ -151,8 +151,8 @@ class LoginScreen extends Component {
         return (
             <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
                 {/* <StatusBar style='dark'/> */}
-                <Loader isLoading={isBioLoading}>
-                    <CustomText style={{ textAlign: 'center', fontFamily: 'Baloo' }}>Logging in ...</CustomText>
+                <Loader isLoading={isBioLoading || isLoading}>
+                    Logging in ...
                 </Loader>
                 <Portal>
                     <Dialog

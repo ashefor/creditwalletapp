@@ -5,14 +5,10 @@ import { Appbar, TextInput, Button, withTheme, TouchableRipple, Colors , Portal 
 import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
-import { publicURL, requestWithToken } from '../../../utils/request';
-import { getCustomer } from '../../../utils/storage';
-import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 import PickerComponent from '../../../components/PickerComponent';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AndroidSelectPicker from '../../../components/AndroidSelectPicker';
-import { TouchableWithoutFeedback as TWF} from 'react-native-gesture-handler'
 
 const titles = [
     {

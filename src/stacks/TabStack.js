@@ -26,7 +26,7 @@ const TabNavigator = createBottomTabNavigator({
         screen: LoanStack,
         navigationOptions: {
             tabBarLabel: ({ focused }) => (
-                <CustomText style={{marginHorizontal: 20, fontSize: resFont(13), fontFamily: 'Baloo', color: focused ? activeTintLabelColor : inactiveTintLabelColor }}>
+                <CustomText style={{marginHorizontal: 20, fontSize: resFont(13), fontFamily: 'Baloo', textAlign: 'center', color: focused ? activeTintLabelColor : inactiveTintLabelColor }}>
                   Loans
                 </CustomText>
               ),
@@ -38,7 +38,7 @@ const TabNavigator = createBottomTabNavigator({
         screen: SettingStack,
         navigationOptions: {
             tabBarLabel: ({ focused }) => (
-                <CustomText style={{marginHorizontal: 20, fontSize: resFont(13), fontFamily: 'Baloo', color: focused ? activeTintLabelColor : inactiveTintLabelColor }}>
+                <CustomText style={{marginHorizontal: 20, fontSize: resFont(13), fontFamily: 'Baloo',textAlign: 'center', color: focused ? activeTintLabelColor : inactiveTintLabelColor }}>
                   Settings
                 </CustomText>
               ),

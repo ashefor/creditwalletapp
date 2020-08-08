@@ -77,6 +77,9 @@ class LoginScreen extends Component {
         return (
             <CustomSafeAreaView style={{ backgroundColor: '#f5fcff' }}>
                 {/* <CustomText>{0 + StatusBar.currentHeight}</CustomText> */}
+                <Loader isLoading={isLoading}>
+                    Logging in ...
+                </Loader>
                 <View style={{ flex: 1 }}>
                     <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction

@@ -45,7 +45,9 @@
         }
       ],
       "permissions": [
-        "MANAGE_DOCUMENTS", "READ_INTERNAL_STORAGE", "USE_FINGERPRINT"
+        "MANAGE_DOCUMENTS",
+        "READ_INTERNAL_STORAGE",
+        "USE_FINGERPRINT"
       ]
     },
     "platforms": [

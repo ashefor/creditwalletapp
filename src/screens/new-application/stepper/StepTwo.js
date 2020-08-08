@@ -5,12 +5,8 @@ import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, Modal, KeyboardAvoidingView, ImageBackground } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { Appbar, TextInput, Button, withTheme } from 'react-native-paper';
-import { Slider } from 'react-native'
 import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
-import { publicURL, requestWithToken } from '../../../utils/request';
-import { getCustomer } from '../../../utils/storage';
-import Loader from '../../../components/Loader';
 import { LoanContext } from '../provider/NewLoanProvider';
 
 class StepTwo extends Component {

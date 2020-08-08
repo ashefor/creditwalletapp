@@ -10,7 +10,6 @@ import CustomText from '../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../utils/utils';
 import { publicURL, requestWithToken } from '../../../utils/request';
 import { getCustomer } from '../../../utils/storage';
-import Loader from '../../../components/Loader';
 import { LoanOfferContext } from '../provider/LoanOfferProvider';
 
 class OfferStepOne extends Component {

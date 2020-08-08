@@ -48,8 +48,8 @@ class AutoOfferLetter extends Component {
                 
                 {loan => <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
                     <Loader isLoading={loan.isFetchingOffer || loan.isAccepting} />
-                    <Loader isLoading={loan.loadingRepayment} backgroundColor="'rgba(247, 247, 247, .3)'">
-                        <CustomText style={{textAlign: 'center', fontSize: resFont(15), color: 'white', marginVertical: resHeight(2)}}>Loading</CustomText>
+                    <Loader isLoading={loan.loadingRepayment}>
+                    Loading...
                         </Loader>
                     {loan.hasFinishedFetching && loan.offerLetter && <Fragment>
                         {loan.applicationSuccess ?

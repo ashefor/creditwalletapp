@@ -7,7 +7,6 @@ import CustomText from '../../../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../../../utils/utils';
 import { publicURL, requestWithToken } from '../../../../utils/request';
 import { getCustomer } from '../../../../utils/storage';
-import Loader from '../../../../components/Loader';
 import { InvestmentContext } from '../provider/NewInvestmentProvider';
 import * as DocumentPicker from 'expo-document-picker';
 import PickerComponent from '../../../../components/PickerComponent';
