@@ -14,7 +14,7 @@ const CustomHeader = props => {
                         <Appbar.Action icon={leftIcon} onPress={onLeftPress}
                         />
                         <Appbar.Content
-                            titleStyle={titleStyle}
+                            titleStyle={[{...titleStyle}, {textAlign: 'center'}]}
                             title={title}
                         />
                         <Appbar.Action icon={rightIcon} onPress={onRightPress}

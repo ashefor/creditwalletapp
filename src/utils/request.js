@@ -78,7 +78,7 @@ export const requestWithToken = async (url, options) => {
         // }).then(data=> {
         // }).catch(error => {})
     } else {
-        navigationservice.navigate('Auth')
+        navigationservice.navigate('Login')
     }
 }
 
@@ -111,6 +111,6 @@ export const investorequestWithToken = async (url, options) => {
             })
         })
     } else {
-        navigationservice.navigate('Auth')
+        navigationservice.navigate('Login')
     }
 }
