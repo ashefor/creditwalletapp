@@ -8,6 +8,7 @@ import { setCustomerToken, setCustomer } from '../../utils/storage';
 import CustomText from '../../components/CustomText';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { Constants } from 'react-native-unimodules';
+import CustomHeader from '../../components/CustomHeader';
 
 
 
@@ -56,7 +57,7 @@ class SetPasswordScreen extends Component {
         const { colors } = this.props.theme
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                {/* <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />
@@ -66,7 +67,8 @@ class SetPasswordScreen extends Component {
                     />
                     <Appbar.Action
                     />
-                </Appbar.Header>
+                </Appbar.Header> */}
+                <CustomHeader leftIcon='close' onLeftPress={() => this.props.navigation.goBack()} title="Set Password" />
                 <Loader isLoading={isLoading} />
                 <TouchableWithoutFeedback style={{ backgroundColor: 'red' }} onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>

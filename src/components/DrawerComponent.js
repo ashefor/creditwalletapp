@@ -18,19 +18,22 @@ export default DrawerComponent = props => (
                 style={styles.image}
                 source={require('../assets/images/logo.png')} />
             <View style={styles.divider} />
-            <ScrollView contentContainerStyle={{paddingHorizontal: 10}}>
+            <ScrollView contentContainerStyle={{ paddingHorizontal: 10 }}>
                 <DrawerItems {...props} />
             </ScrollView>
             <TouchableWithoutFeedback onPress={signOut}>
-           <View style={{paddingHorizontal: 10}}>
-           <View style={{marginBottom: 40, flexDirection: 'row', padding: 25}}>
-            <MaterialIcons name="power-settings-new" size={24} color="red" style={{
-            width: resWidth(10)}} />
-            <CustomText style={{fontSize: resFont(16),
-            marginLeft: 0,
-            fontFamily: 'Baloo-med'}}>Log out</CustomText>
-            </View>
-           </View>
+                <View style={{ paddingHorizontal: 10 }}>
+                    <View style={{ marginBottom: 40, flexDirection: 'row', padding: 25 }}>
+                        <MaterialIcons name="power-settings-new" size={24} color="red" style={{
+                            width: resWidth(10)
+                        }} />
+                        <CustomText style={{
+                            fontSize: resFont(16),
+                            marginLeft: 0,
+                            fontFamily: 'Baloo-med'
+                        }}>Log out</CustomText>
+                    </View>
+                </View>
             </TouchableWithoutFeedback>
         </View>
     </SafeAreaView>
@@ -54,9 +57,9 @@ const styles = StyleSheet.create({
     },
     image: {
         width: resWidth(40),
-        resizeMode: 'contain', 
-        height: resHeight(10), 
-        alignSelf: 'center' 
+        resizeMode: 'contain',
+        height: resHeight(10),
+        alignSelf: 'center'
     },
     divider: {
         height: .5,

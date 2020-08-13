@@ -7,6 +7,7 @@ import DrawerComponent from '../../../components/DrawerComponent';
 import InvestorChangePasswordScreen from '../InvestorChangePasswordScreen';
 import SavingScreen from '../SavingScreen';
 import Null from '../../../components/Null';
+import CustomText from '../../../components/CustomText';
 
 const DrawerStack = createDrawerNavigator({
     'Dashboard': {
@@ -14,6 +15,13 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             headerTransparent: true,
             headerShown: false,
+            drawerLabel: ({tintColor}) => <CustomText style={{
+                fontSize: resFont(16),
+                marginLeft: 0,
+                margin: 16,
+                color: tintColor,
+                fontFamily: 'Baloo-med'
+            }}>Dashboard</CustomText>,
             drawerIcon: ({ tintColor }) => <MaterialIcons name="info-outline" size={24} color={tintColor} />
         }
     },
@@ -22,6 +30,13 @@ const DrawerStack = createDrawerNavigator({
         navigationOptions: {
             headerTransparent: true,
             headerShown: false,
+            drawerLabel: ({tintColor}) => <CustomText style={{
+                fontSize: resFont(16),
+                marginLeft: 0,
+                margin: 16,
+                color: tintColor,
+                fontFamily: 'Baloo-med'
+            }}>Change Password</CustomText>,
             drawerIcon: ({ tintColor }) => <MaterialIcons name="settings" size={24} color={tintColor} />
         }
     },

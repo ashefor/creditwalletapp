@@ -10,6 +10,7 @@ import { apiURL, requestWithToken } from '../../utils/request';
 import Loader from '../../components/Loader';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { Constants } from 'react-native-unimodules';
+import CustomHeader from '../../components/CustomHeader';
 
 
 class LiquidateLoan extends Component {
@@ -89,14 +90,15 @@ class LiquidateLoan extends Component {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
                 <Loader isLoading={isLoading} />
-                <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med', fontSize: resFont(13) }}
                             title={`Liquidate ${loan && loan.transaction_reference ? loan.transaction_reference : ''}`}
                         />
                         <Appbar.Action />
-                    </Appbar.Header>
+                    </Appbar.Header> */}
+                    <CustomHeader leftIcon='arrow-left' title={`Liquidate ${loan && loan.transaction_reference ? loan.transaction_reference : 'Loan'}`} onLeftPress={() => this.props.navigation.goBack()}/>
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>{hasError}</CustomText>

@@ -17,6 +17,7 @@ import AutoOfferStepThree from './AutoOfferStepThree';
 import AutoOfferStepFour from './AutoOfferStepFour';
 import AutoOfferStepFive from './AutoOfferStepFive';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
+import CustomHeader from '../../../components/CustomHeader';
 
 class AutoOfferLetter extends Component {
     _isMounted = false;
@@ -54,10 +55,12 @@ class AutoOfferLetter extends Component {
                     {loan.hasFinishedFetching && loan.offerLetter && <Fragment>
                         {loan.applicationSuccess ?
                             <Fragment>
-                                <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                {/* <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                 <Appbar.Action icon="close" onPress={loan.cancel} />
                                     <Appbar.Action />
-                                </Appbar.Header>
+                                </Appbar.Header> */}
+
+                                <CustomHeader leftIcon='close' onLeftPress={loan.cancel} />
                                 <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(1) }}>
@@ -72,11 +75,12 @@ class AutoOfferLetter extends Component {
                             </Fragment> :
 
                             <Fragment>
-                                <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                {/* <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                                     {loan.currentPage > 1 && <Appbar.BackAction onPress={loan.goBack}
                                     />}
                                     <Appbar.Action icon="close" onPress={loan.cancel} />
-                                </Appbar.Header>
+                                </Appbar.Header> */}
+                                <CustomHeader leftIcon={loan.currentPage > 1 ? 'arrow-left' : 'close' } onLeftPress={loan.currentPage > 1 ? loan.goBack : loan.cancel}   onRightPress={loan.currentPage > 1 ? loan.cancel : null} rightIcon={loan.currentPage > 1 ? 'close' : undefined } />
                                 <View style={styles.container}>
                                     <CustomText style={styles.headerText}>
                                         Step {loan.currentPage}/5
@@ -94,10 +98,11 @@ class AutoOfferLetter extends Component {
                     </Fragment>}
                     {loan.hasFinishedFetching && !loan.offerLetter && 
                      <Fragment>
-                     <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                     {/* <Appbar.Header  statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
                          
                          <Appbar.Action icon="close" onPress={loan.cancel}/>
-                     </Appbar.Header>
+                     </Appbar.Header> */}
+                     <CustomHeader leftIcon='close' onLeftPress={loan.cancel} />
                      <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                          <Surface style={styles.noLoan}>
                          <Feather name="info" size={50} color="skyblue" />

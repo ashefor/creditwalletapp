@@ -9,6 +9,7 @@ import CustomText from '../../components/CustomText';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { Constants } from 'react-native-unimodules';
 import { NavigationEvents } from 'react-navigation';
+import CustomHeader from '../../components/CustomHeader';
 
 
 
@@ -76,7 +77,7 @@ class InvestorChangePasswordScreen extends Component {
                 <NavigationEvents
                     onDidBlur={() => this.setState(this.initialState)}
                 />
-                <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
 
                     <Appbar.Action icon='menu'
                         onPress={() => this.props.navigation.openDrawer()}
@@ -88,7 +89,8 @@ class InvestorChangePasswordScreen extends Component {
                     <Appbar.Action
 
                     />
-                </Appbar.Header>
+                </Appbar.Header> */}
+                <CustomHeader leftIcon='menu' title="Change Password" onLeftPress={() => this.props.navigation.openDrawer()} />
                 <Loader isLoading={isLoading} />
                 <TouchableWithoutFeedback style={{ backgroundColor: 'red' }} onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>

@@ -28,7 +28,7 @@ const AuthStack = createStackNavigator({
     }
 }, {
     initialRouteName: 'Onboard',
-    mode: 'card',
+    mode: 'modal',
 })
 
 export default AuthStack;

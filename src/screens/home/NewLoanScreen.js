@@ -11,6 +11,7 @@ import { publicURL, requestWithToken } from '../../utils/request';
 import { getCustomer } from '../../utils/storage';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { Constants } from 'react-native-unimodules';
+import CustomHeader from '../../components/CustomHeader';
 
 class NewLoanScreen extends Component {
     constructor(props) {
@@ -147,14 +148,15 @@ class NewLoanScreen extends Component {
             <View
                 style={{ flex: 1, backgroundColor: '#fff' }}>
                 <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                    <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.Action icon='close' onPress={() => this.props.navigation.goBack()} />
                         <Appbar.Content
                             titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med',fontSize: resFont(13),  }}
                             title="New Loan"
                         />
                         <Appbar.Action />
-                    </Appbar.Header>
+                    </Appbar.Header> */}
+                    <CustomHeader leftIcon='close' onLeftPress={() => this.props.navigation.goBack()} title='New Loan' />
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         {applicationSuccess ? (
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

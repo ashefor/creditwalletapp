@@ -13,6 +13,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StackActions } from 'react-navigation';
 import InvestmentDetailsCard from '../../components/InvestmentDetailsCard';
 import SampleCard from '../../components/SampleCard';
+import CustomHeader from '../../components/CustomHeader';
 const axios = require('axios').default;
 
 class InvestorDashboard extends Component {
@@ -75,7 +76,7 @@ class InvestorDashboard extends Component {
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Loader isLoading={isLoading} />
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: 'transparent', elevation: 0 }}>
+                    {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: 'transparent', elevation: 0 }}>
                         <Appbar.Action icon='menu'
                             onPress={() => this.props.navigation.openDrawer()}
                         />
@@ -85,7 +86,8 @@ class InvestorDashboard extends Component {
                         />
                         <Appbar.Action
                         />
-                    </Appbar.Header>
+                    </Appbar.Header> */}
+                    <CustomHeader leftIcon='menu' onLeftPress={() => this.props.navigation.openDrawer()} title="Dashboard" />
                     {dashboard && <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingTop: 5, paddingBottom: 20, width: resWidth(90), alignSelf: 'center' }}>
                     <View style={{ marginBottom: 10 }}>
                             <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(17) }}>

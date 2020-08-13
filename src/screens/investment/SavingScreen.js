@@ -11,6 +11,7 @@ import { getCustomerToken } from '../../utils/storage';
 import Loader from '../../components/Loader';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FlatListRender } from '../../components/FlatListRender';
+import CustomHeader from '../../components/CustomHeader';
 const axios = require('axios').default;
 
 class SavingScreen extends Component {
@@ -54,7 +55,7 @@ class SavingScreen extends Component {
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
                 <Loader isLoading={isLoading} />
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: 'transparent', elevation: 0 }}>
+                    {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: 'transparent', elevation: 0 }}>
                         <Appbar.BackAction icon='menu'
                             onPress={() => this.props.navigation.goBack()}
                         />
@@ -65,7 +66,8 @@ class SavingScreen extends Component {
 
                         <Appbar.Action
                         />
-                    </Appbar.Header>
+                    </Appbar.Header> */}
+                    <CustomHeader leftIcon='arrow-left' title="Investment Details"  onLeftPress={() => this.props.navigation.goBack()} />
                     {savings && <View style={{ flex: 1 }}>
                         <View style={{ marginBottom: 10, borderBottomColor: 'black', borderBottomWidth: 2, backgroundColor: 'gray', paddingVertical: 10 }}>
                             <View style={styles.investmentTable}>

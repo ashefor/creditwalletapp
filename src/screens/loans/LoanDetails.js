@@ -12,6 +12,7 @@ import LiquidateLoan from '../liquidate/LiquidateLoan';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { StackActions } from 'react-navigation';
 import { Constants } from 'react-native-unimodules';
+import CustomHeader from '../../components/CustomHeader';
 
 class LoanDetails extends Component {
     _isMounted = false;
@@ -97,14 +98,15 @@ class LoanDetails extends Component {
         return (
             <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff', }}>
                 <Loader isLoading={isLoading} />
-                <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction onPress={() => this.props.navigation.goBack()} />
                     <Appbar.Content
                         titleStyle={{fontSize: resFont(13),  textAlign: 'center', fontFamily: 'Baloo-med' }}
                         title="Loans Details"
                     />
                     <Appbar.Action />
-                </Appbar.Header>
+                </Appbar.Header> */}
+                <CustomHeader leftIcon='arrow-left' title='Loan Details' onLeftPress={() => this.props.navigation.goBack()} />
                 {hasError && <Fragment>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <CustomText style={{ marginVertical: 10, fontFamily: 'Baloo' }}>{hasError}</CustomText>

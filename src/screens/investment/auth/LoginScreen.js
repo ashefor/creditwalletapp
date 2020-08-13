@@ -10,6 +10,7 @@ import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 import navigationservice from '../../../utils/navigationservice';
 import { NavigationActions } from 'react-navigation';
 import { Constants } from 'react-native-unimodules';
+import CustomHeader from '../../../components/CustomHeader';
 const axios = require('axios').default;
 
 
@@ -81,7 +82,7 @@ class LoginScreen extends Component {
                     Logging in ...
                 </Loader>
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.BackAction
                             onPress={() => this.props.navigation.goBack()}
                         />
@@ -91,7 +92,8 @@ class LoginScreen extends Component {
                         />
                         <Appbar.Action
                         />
-                    </Appbar.Header>
+                    </Appbar.Header> */}
+                    <CustomHeader leftIcon='close' title="Login to your account" onLeftPress={() => this.props.navigation.goBack()}/>
                     {/* <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/> */}
                     <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                         <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>

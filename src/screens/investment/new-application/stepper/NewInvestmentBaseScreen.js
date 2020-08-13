@@ -17,6 +17,7 @@ import StepTwo from './StepTwo';
 import StepThree from './StepThree';
 import StepFour from './StepFour';
 import StepFive from './StepFive';
+import CustomHeader from '../../../../components/CustomHeader';
 
 class NewInvestmentBaseScreen extends Component {
     static contextType = InvestmentContext;
@@ -28,14 +29,15 @@ class NewInvestmentBaseScreen extends Component {
     render() {
         return (
             <InvestmentContext.Consumer>
-                {loan => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
+                {investment => <CustomSafeAreaView style={{ flex: 1, backgroundColor: '#f5fcff' }}>
                     <Fragment>
-                        {loan.applicationSuccess ?
+                        {investment.applicationSuccess ?
                             <Fragment>
-                                <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
-                                    <Appbar.BackAction onPress={loan.cancel}/>
+                                {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                    <Appbar.BackAction onPress={investment.cancel}/>
                                     <Appbar.Action />
-                                </Appbar.Header>
+                                </Appbar.Header> */}
+                                <CustomHeader leftIcon='close' onLeftPress={investment.cancel} />
                                 <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                     <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(1) }}>
@@ -51,40 +53,41 @@ class NewInvestmentBaseScreen extends Component {
                             </Fragment> :
 
                             <Fragment>
-                                <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
-                                    {loan.currentPage > 1 && <Appbar.BackAction onPress={loan.goBack}
+                                {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0, display: 'flex', justifyContent: 'space-between' }}>
+                                    {investment.currentPage > 1 && <Appbar.BackAction onPress={investment.goBack}
                                     />}
-                                    <Appbar.Action icon="close" onPress={loan.cancel} />
-                                </Appbar.Header>
-                                <Loader isLoading={loan.isLoading} />
+                                    <Appbar.Action icon="close" onPress={investment.cancel} />
+                                </Appbar.Header> */}
+                                <CustomHeader leftIcon={investment.currentPage > 1 ? 'arrow-left' : 'close' } onLeftPress={investment.currentPage > 1 ? investment.goBack : investment.cancel}   onRightPress={investment.currentPage > 1 ? investment.cancel : null} rightIcon={investment.currentPage > 1 ? 'close' : undefined } />
+                                <Loader isLoading={investment.isLoading} />
                                 <View style={styles.container}>
                                     <CustomText style={styles.headerText}>
-                                        Step {loan.currentPage}/4
+                                        Step {investment.currentPage}/4
                      </CustomText>
-                                    <ProgressBar progress={1/4 * loan.currentPage} color={'#f56b2a'} />
+                                    <ProgressBar progress={1/4 * investment.currentPage} color={'#f56b2a'} />
                                     <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} keyboardDismissMode='interactive' keyboardShouldPersistTaps='always'>
-                                        {loan.currentPage === 1 && <StepOne/>}
-                                        {loan.currentPage === 2 && <StepTwo />}
-                                        {loan.currentPage === 3 && <StepThree />}
-                                        {loan.currentPage === 4 && <StepFour/>}
-                                        {/* {loan.currentPage === 4 && <StepFour />}
-                                        {loan.currentPage === 5 && <StepFive />} */}
+                                        {investment.currentPage === 1 && <StepOne/>}
+                                        {investment.currentPage === 2 && <StepTwo />}
+                                        {investment.currentPage === 3 && <StepThree />}
+                                        {investment.currentPage === 4 && <StepFour/>}
+                                        {/* {investment.currentPage === 4 && <StepFour />}
+                                        {investment.currentPage === 5 && <StepFive />} */}
                                     </ScrollView>
                                 </View>
                             </Fragment>}
                     </Fragment>
                     <Snackbar
-                            visible={loan.hasError}
-                            onDismiss={loan._onDismissSnackBar}
+                            visible={investment.hasError}
+                            onDismiss={investment._onDismissSnackBar}
                             style={{backgroundColor: '#B5446E', color: '#fff'}}
                             action={{
                                 label: 'Okay',
                                 onPress: () => {
-                                    loan._onDismissSnackBar
+                                    investment._onDismissSnackBar
                                 },
                               }}
                         >
-                            {loan.errorMsg}
+                            {investment.errorMsg}
                             </Snackbar>
                 </CustomSafeAreaView>}
             </InvestmentContext.Consumer>

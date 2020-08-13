@@ -10,6 +10,7 @@ import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import navigationservice from '../../utils/navigationservice';
 import { Constants } from 'react-native-unimodules';
 import * as LocalAuthentication from 'expo-local-authentication';
+import CustomHeader from '../../components/CustomHeader';
 
 class LoginScreen extends Component {
     state = {
@@ -168,16 +169,17 @@ class LoginScreen extends Component {
                     </Dialog>
                 </Portal>
                 <View style={{ flex: 1 }}>
-                    <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                    <CustomHeader leftIcon='close' onLeftPress={() => this.props.navigation.goBack()} title='Login to your account'/>
+                    {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                         <Appbar.Action icon='close' onPress={() => this.props.navigation.goBack()}
                         />
                         <Appbar.Content
-                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med',fontSize: resFont(13) }}
-                            title="Login to your account"
+                            titleStyle={{ textAlign: 'center', fontFamily: 'Baloo-med' }}
+                            title="Login"
                         />
                         <Appbar.Action
                         />
-                    </Appbar.Header>
+                    </Appbar.Header> */}
                     {/* <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'"/> */}
                     <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                         <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>

@@ -13,6 +13,7 @@ import { Constants } from 'react-native-unimodules';
 import NewLoanScreen from './NewLoanScreen';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { StackActions } from 'react-navigation';
+import CustomHeader from '../../components/CustomHeader';
 
 const { width } = Dimensions.get('window')
 class HomeScreen extends Component {
@@ -246,9 +247,10 @@ class HomeScreen extends Component {
                                 contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={visible} onDismiss={this._hideModal}>
                                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ backgroundColor: '#f5fcff' }}>
                                     <View style={{ flex: 1, backgroundColor: '#f5fcff' }}>
-                                        <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                                        {/* <Appbar.Header style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                                             <Appbar.Action icon="close" onPress={this._hideModal} />
-                                        </Appbar.Header>
+                                        </Appbar.Header> */}
+                                        <CustomHeader leftIcon='close' onLeftPress={this._hideModal}/>
                                         <View style={{ alignSelf: 'center', width: resWidth(90) }}>
                                             <CustomText style={{ fontSize: resFont(20), fontFamily: 'Baloo-extra-bold', color: colors.primary }}>Letter of {letterType}</CustomText>
                                             <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13) }}>Get your letter of {letterType} and send to any preferred email address</CustomText>

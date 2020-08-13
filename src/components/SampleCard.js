@@ -1,10 +1,11 @@
 import React, { Component, createRef } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView, Dimensions, Modal, FlatList } from 'react-native';
-import { Button, Appbar } from 'react-native-paper'
+import { StyleSheet, View, Image, Text, ScrollView, Dimensions, FlatList , Modal} from 'react-native';
+import { Button, Appbar, Portal } from 'react-native-paper'
 import { resWidth, resHeight, resFont } from '../utils/utils';
 import { LinearGradient } from 'expo-linear-gradient';
 import CustomText from './CustomText';
 import { FlatListRender } from './FlatListRender';
+import CustomHeader from './CustomHeader';
 const { width } = Dimensions.get('window')
 
 const images = [
@@ -142,8 +143,11 @@ class SampleCard extends Component {
                     ))}
                 </View>
 
-                <Modal presentationStyle='pageSheet' visible={showDetails}>
-                    <Appbar.Action icon='close' onPress={this.closeDetailsPage} />
+             <Portal>
+             <Modal  animationType='slide'
+                                presentationStyle='pageSheet'
+                                contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={showDetails} onDismiss={this.closeDetailsPage}>
+                    <CustomHeader leftIcon='close' onLeftPress={this.closeDetailsPage} />
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center', paddingBottom: 50 }}>
 
                         <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', textAlign: 'center', fontSize: resFont(15), marginBottom: 10 }}>{detailsType === 2 ? 'Total Interest Earned Details' : detailsType === 3 ? 'Total Interest Receivable Details' : 'Total Investment Details'}</CustomText>
@@ -162,6 +166,7 @@ class SampleCard extends Component {
                         </View>
                     </View>
                 </Modal>
+             </Portal>
             </View>
         )
     }

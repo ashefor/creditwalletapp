@@ -12,6 +12,7 @@ import { Divider, List, Appbar } from 'react-native-paper';
 import { Constants } from 'react-native-unimodules';
 import { signOut } from '../../utils/storage';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
+import CustomHeader from '../../components/CustomHeader';
 
 class SettingScreen extends Component {
 
@@ -21,7 +22,7 @@ class SettingScreen extends Component {
     render() {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff'}}>
-                 <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                 {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                  <Appbar.Action
                         />
                     <Appbar.Content
@@ -30,7 +31,8 @@ class SettingScreen extends Component {
                     />
                     <Appbar.Action
                         />
-                </Appbar.Header>
+                </Appbar.Header> */}
+                <CustomHeader  title="Settings"/>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, alignSelf: 'center', width: resWidth(95) }}>
                     <List.Item
                         onPress={() => this.props.navigation.navigate('Change Password')}

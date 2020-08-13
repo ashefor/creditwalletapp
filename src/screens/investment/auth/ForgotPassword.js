@@ -10,6 +10,7 @@ import { setCustomerToken, setCustomer } from '../../../utils/storage';
 import CustomText from '../../../components/CustomText';
 import CustomSafeAreaView from '../../../components/CustomSafeAreaView';
 import { Constants } from 'react-native-unimodules';
+import CustomHeader from '../../../components/CustomHeader';
 
 
 
@@ -60,7 +61,7 @@ class ForgotPasswordScreen extends Component {
         return (
             <CustomSafeAreaView style={{flex: 1, backgroundColor: '#f5fcff' }}>
             <View style={{flex: 1}}>
-                <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
+                {/* <Appbar.Header statusBarHeight={StatusBar.currentHeight} style={{ backgroundColor: '#f5fcff', elevation: 0 }}>
                     <Appbar.BackAction
                         onPress={() => this.props.navigation.goBack()}
                     />
@@ -70,7 +71,8 @@ class ForgotPasswordScreen extends Component {
                     />
                     <Appbar.Action 
                     />
-                </Appbar.Header>
+                </Appbar.Header> */}
+                <CustomHeader leftIcon='close' onLeftPress={() => this.props.navigation.navigate('Onboard')}  title="Reset Password" />
                 {/* <Loader isLoading={isLoading} backgroundColor="'rgba(247, 247, 247, .3)'" /> */}
                 <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false} keyboardDismissMode='interactive'>
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
