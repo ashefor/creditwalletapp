@@ -54,12 +54,9 @@ class NewApplicationBaseScreen extends Component {
                                 {loan.automate && <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
                                    {loan.processing &&  <Surface style={styles.surface}>
                                         <View style={{ marginBottom: resHeight(5) }}>
-                                            {/* <Image
-                                                style={{ width: 50, height: 50, alignSelf: 'center' }}
-                                                source={require('../../../assets/images/success.gif')}
-                                            /> */}
-                                        </View>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>Processing... please wait</CustomText>
+                                        </View>
+                                       
                                     </Surface>}
                                     {!loan.processing &&  <Surface style={styles.surface}>
                                         <CustomText style={{ textAlign: 'center', fontSize: resFont(14), fontFamily: 'Baloo-med' }}>An error has occured</CustomText>

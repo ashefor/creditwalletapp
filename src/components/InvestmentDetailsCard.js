@@ -12,7 +12,8 @@ class InvestmentDetailsCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedIndex: 0
+            selectedIndex: 0,
+            newSavings: [],
         }
     }
     // setTimer = () => {
@@ -51,16 +52,23 @@ class InvestmentDetailsCard extends Component {
         const { savings } = this.props;
         const { selectedIndex } = this.state;
         return (
-            <View style={{ width: '100%', marginBottom: 10 }}>
+            <View style={{ width: '100%', marginBottom: 10, }}>
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{ width: '100%' }}
                     horizontal pagingEnabled onMomentumScrollEnd={this.setSelectedIndex}
                     ref={this.scrollRef}
                 >
                     {savings.map((saving, index) => (
                         <View style={styles.investmentTable} key={index}>
-                            <View style={{ width: '100%' }}>
+                            <View style={{
+                                width: '100%', shadowColor: "#000",
+                                shadowOffset: {
+                                    x: 0,
+                                    y: 0,
+                                },
+                                shadowOpacity: 0.25,
+                                shadowRadius: 2, elevation: 2, backgroundColor: '#fff', borderRadius: 10, padding: 10
+                            }}>
                                 <View style={{ padding: 5 }}>
                                     <View style={{ width: 30, height: 30, borderRadius: 15, borderWidth: 1, flex: 1, alignItems: 'center', justifyContent: 'center', borderColor: '#ccc' }}>
                                         <CustomText style={{ color: '#f56b2a', fontFamily: 'Baloo-med' }}>{index + 1}</CustomText>
@@ -87,7 +95,7 @@ class InvestmentDetailsCard extends Component {
                                         Maturity Date
                              </CustomText>
                                     <CustomText style={{ fontFamily: 'Baloo-med', fontSize: resFont(14) }}>
-                                        {new Date(saving.custom_field_1176).toDateString()}
+                                    {saving.maturity_date}
                                     </CustomText>
                                 </View>
                                 <View style={{ alignItems: 'flex-end' }}>
@@ -133,20 +141,8 @@ const styles = StyleSheet.create({
     investmentTable: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 10,
-        marginHorizontal: 5,
-        marginVertical: 5,
-        // marginBottom: 50,
-        borderRadius: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        padding: 2,
         width: resWidth(90),
-        elevation: 2,
     },
     pagination: {
         width: '100%',

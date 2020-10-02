@@ -1,9 +1,10 @@
 import { getCustomerToken, signOut, deleteToken, deleteInvestorToken } from "./storage"
 import navigationservice from "./navigationservice"
+import { parse } from "expo-linking";
 
-export const apiURL = 'https://creditwallet.ng/api/public/customer/';
+export const apiURL = 'https://system.creditwallet.ng/public/customer/';
 export const investmentURL = 'https://app.creditwallet.ng/api/v1/investments/';
-export const publicURL = 'https://creditwallet.ng/api/public/';
+export const publicURL = 'https://system.creditwallet.ng/public/';
 const axios = require('axios').default;
 
 // const token = getCustomerToken()
@@ -16,11 +17,15 @@ export const request = (url, options) => {
     }
     return new Promise((resolve, reject) => {
         fetch(url, requestOptions).then(res => res.text()).then(data => {
-            const parsedData = JSON.parse(data);
-            if (parsedData.status === "success") {
-                return resolve(parsedData)
+            const parsedData = JSON.parse(data)
+            if(parsedData) {
+                if (parsedData.status === "success") {
+                    return resolve(parsedData)
+                } else {
+                    return reject(parsedData)
+                }
             } else {
-                return reject(parsedData)
+                reject('Server error')
             }
         }).catch(error => {
             reject(error)

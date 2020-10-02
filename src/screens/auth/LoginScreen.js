@@ -142,7 +142,7 @@ class LoginScreen extends Component {
                 this.setState({ snackBarVisible: true, isLoading: false, errorMsg: data.message })
             }
         }).catch(error => {
-            this.setState({ isLoading: false, snackBarVisible: true, errorMsg: error.message })
+            this.setState({ isLoading: false, snackBarVisible: true, errorMsg: error.message ? error.message: 'An error has occured' })
         })
 
     }

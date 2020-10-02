@@ -46,7 +46,7 @@ class InvestorDashboard extends Component {
     async componentDidMount() {
         await this.loadDashboard().then(data => {
             if (data) {
-                this.setState({ isLoading: false, dashboard: data, allSavings: data.total_savings })
+                this.setState({ isLoading: false, dashboard: data, allSavings: data.savings_account })
             }
         }).catch(error => {
             this.setState({ isLoading: false })
@@ -89,15 +89,15 @@ class InvestorDashboard extends Component {
                     </Appbar.Header> */}
                     <CustomHeader leftIcon='menu' onLeftPress={() => this.props.navigation.openDrawer()} title="Dashboard" />
                     {dashboard && <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, paddingTop: 5, paddingBottom: 20, width: resWidth(90), alignSelf: 'center' }}>
-                    <View style={{ marginBottom: 10 }}>
+                        <View style={{ marginBottom: 10 }}>
                             <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', fontSize: resFont(17) }}>
                                 Your Investment Summary
                         </CustomText>
                         </View>
                         <View style={{ height: resHeight(27), width: resWidth(90) }}>
                             <SampleCard investmentDetails={dashboard}
-                            
-                            {...this.props} />
+
+                                {...this.props} />
                         </View>
                         <View style={{ marginBottom: 15 }}>
                             <View style={{ marginBottom: 10 }}>
@@ -108,12 +108,12 @@ class InvestorDashboard extends Component {
                                     Your deposit investment
                         </CustomText>
                             </View>
-                            <View style={{ width: '100%', marginBottom: 10 }}>
+                            <View style={{ width: resWidth(90), marginBottom: 10 }}>
                                 <InvestmentDetailsCard savings={allSavings} {...this.props} />
                             </View>
                         </View>
 
-                        
+
                         {/* <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, .5)']} style={styles.linearGradient}>
                             <View style={{ flex: 1, margin: 10 }}>
                                 <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>

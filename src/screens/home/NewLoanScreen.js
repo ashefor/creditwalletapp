@@ -160,9 +160,12 @@ class NewLoanScreen extends Component {
                     <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center' }}>
                         {applicationSuccess ? (
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <View style={{ marginBottom: resHeight(2) }}>
-                                    <FontAwesome name="thumbs-o-up" size={30} color="#f56b2a" />
-                                </View>
+                                <View style={{ marginBottom: resHeight(1) }}>
+                                        <Image
+                                                style={{ width: resWidth(50), resizeMode: 'contain', height:resHeight(20), alignSelf: 'center' }}
+                                                source={require('../../assets/images/mail.png')}
+                                            />
+                                        </View>
                                 <CustomText style={{ fontSize: resFont(20), fontFamily: 'Baloo-semi-bold', textAlign: 'center' }}>Loan Application submitted successfully. Kindly await a response from our team</CustomText>
                             </View>
                         ) : <View>

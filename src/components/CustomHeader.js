@@ -27,9 +27,9 @@ export default CustomHeader;
 
 
 CustomHeader.propTypes = {
-    leftIcon: PropTypes.string.isRequired,
+    leftIcon: PropTypes.string,
     rightIcon: PropTypes.string,
-    onLeftPress: PropTypes.func.isRequired,
+    onLeftPress: PropTypes.func,
     onRightPress: PropTypes.func,
     title: PropTypes.string,
     titleStyle: PropTypes.object,

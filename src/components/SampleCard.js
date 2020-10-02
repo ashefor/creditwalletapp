@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView, Dimensions, FlatList , Modal} from 'react-native';
+import { StyleSheet, View, Image, Text, ScrollView, Dimensions, FlatList, Modal } from 'react-native';
 import { Button, Appbar, Portal } from 'react-native-paper'
 import { resWidth, resHeight, resFont } from '../utils/utils';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -73,66 +73,72 @@ class SampleCard extends Component {
                     horizontal pagingEnabled onMomentumScrollEnd={this.setSelectedIndex}
                     ref={this.scrollRef}
                 >
-                    <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, 1)']} style={styles.linearGradient}>
-                        <View style={{ flex: 1, margin: 10 }}>
-                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>
-                                Total investment
+                    <View style={{ padding: 1, width: resWidth(90), flex: 1 }}>
+                        <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, 1)']} style={styles.linearGradient}>
+                            <View style={{ flex: 1, margin: 10 }}>
+                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>
+                                    Total deposit
                              </CustomText>
-                            <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
-                                {this.formatAsCurrency(investmentDetails.total_investment)}
-                            </CustomText>
-                        </View>
-                        <View style={{ alignItems: 'flex-end' }}>
-                            <Button
-                                style={{ borderColor: '#fff', backgroundColor: 'white' }}
-                                labelStyle={{ textTransform: 'none', fontSize: resFont(10), color: '#f56b2a' }}
-                                mode='contained'
-                                onPress={() => this.showDetailsPage(1)}
-                            >
-                                View
+                                <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
+                                    {this.formatAsCurrency(investmentDetails.total_deposit)}
+                                </CustomText>
+                            </View>
+                            <View style={{ alignItems: 'flex-end' }}>
+                                <Button
+                                    style={{ borderColor: '#fff', backgroundColor: 'white' }}
+                                    labelStyle={{ textTransform: 'none', fontSize: resFont(10), color: '#f56b2a' }}
+                                    mode='contained'
+                                    onPress={() => this.showDetailsPage(1)}
+                                >
+                                    View
                             </Button>
-                        </View>
-                    </LinearGradient>
-                    <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, 1)']} style={styles.linearGradient}>
-                        <View style={{ flex: 1, margin: 10 }}>
-                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>
-                                Total Interest Earned
+                            </View>
+                        </LinearGradient>
+                    </View>
+                    <View style={{ padding: 1, width: resWidth(90), flex: 1 }}>
+                        <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, 1)']} style={styles.linearGradient}>
+                            <View style={{ flex: 1, margin: 10 }}>
+                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>
+                                    Total Interest Earned
                              </CustomText>
-                            <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
-                                {this.formatAsCurrency(investmentDetails.total_interest_earned)}
-                            </CustomText>
-                        </View>
-                        <View style={{ alignItems: 'flex-end' }}>
-                            <Button
-                                style={{ borderColor: '#fff', backgroundColor: 'white' }}
-                                labelStyle={{ textTransform: 'none', fontSize: resFont(10), color: '#f56b2a' }}
-                                mode='contained'
-                                onPress={() => this.showDetailsPage(2)}
-                            >
-                                View
+                                <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
+                                    {this.formatAsCurrency(investmentDetails.total_interest_recieved)}
+                                </CustomText>
+                            </View>
+                            <View style={{ alignItems: 'flex-end' }}>
+                                <Button
+                                    style={{ borderColor: '#fff', backgroundColor: 'white' }}
+                                    labelStyle={{ textTransform: 'none', fontSize: resFont(10), color: '#f56b2a' }}
+                                    mode='contained'
+                                    onPress={() => this.showDetailsPage(2)}
+                                >
+                                    View
                             </Button>
-                        </View>
-                    </LinearGradient>
-                    <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, 1)']} style={styles.linearGradient}>
-                        <View style={{ flex: 1, margin: 10 }}>
-                            <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>
-                                Total Interest Receivable
+                            </View>
+                        </LinearGradient>
+                    </View>
+                    <View style={{ padding: 1, width: resWidth(90), flex: 1 }}>
+                        <LinearGradient colors={['rgba(245, 107, 42, .8)', 'rgba(245, 107, 42, 1)']} style={styles.linearGradient}>
+                            <View style={{ flex: 1, margin: 10 }}>
+                                <CustomText style={{ fontFamily: 'Baloo', fontSize: resFont(13), color: 'white', textTransform: 'uppercase' }}>
+                                    Total Interest Receivable
                              </CustomText>
-                            <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
-                                {this.formatAsCurrency(investmentDetails.total_interest_recievable)}
-                            </CustomText>
-                        </View>
-                        <View style={{ alignItems: 'flex-end' }}>
-                            <Button
-                                style={{ borderColor: '#fff', backgroundColor: 'white' }}
-                                labelStyle={{ textTransform: 'none', fontSize: resFont(10), color: '#f56b2a' }}
-                                mode='contained'
-                                onPress={() => this.showDetailsPage(3)}
-                            >
-                                View
+                                <CustomText style={{ fontFamily: 'Baloo-bold', color: 'white', fontSize: resFont(21) }}>
+                                    {this.formatAsCurrency(investmentDetails.total_outstanding_interest)}
+                                </CustomText>
+                            </View>
+                            <View style={{ alignItems: 'flex-end' }}>
+                                <Button
+                                    style={{ borderColor: '#fff', backgroundColor: 'white' }}
+                                    labelStyle={{ textTransform: 'none', fontSize: resFont(10), color: '#f56b2a' }}
+                                    mode='contained'
+                                    onPress={() => this.showDetailsPage(3)}
+                                >
+                                    View
                             </Button>
-                        </View>
-                    </LinearGradient>
+                            </View>
+                        </LinearGradient>
+                    </View>
                 </ScrollView>
                 <View style={styles.pagination}>
                     {Array.from('123').map((number, index) => (
@@ -143,30 +149,30 @@ class SampleCard extends Component {
                     ))}
                 </View>
 
-             <Portal>
-             <Modal  animationType='slide'
-                                presentationStyle='pageSheet'
-                                contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={showDetails} onDismiss={this.closeDetailsPage}>
-                    <CustomHeader leftIcon='close' onLeftPress={this.closeDetailsPage} />
-                    <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center', paddingBottom: 50 }}>
+                <Portal>
+                    <Modal animationType='slide'
+                        presentationStyle='pageSheet'
+                        contentContainerStyle={[StyleSheet.absoluteFill, { backgroundColor: '#f7f7f7' }]} visible={showDetails} onDismiss={this.closeDetailsPage}>
+                        <CustomHeader leftIcon='close' onLeftPress={this.closeDetailsPage} />
+                        <View style={{ flex: 1, width: resWidth(90), alignSelf: 'center', paddingBottom: 50 }}>
 
-                        <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', textAlign: 'center', fontSize: resFont(15), marginBottom: 10 }}>{detailsType === 2 ? 'Total Interest Earned Details' : detailsType === 3 ? 'Total Interest Receivable Details' : 'Total Investment Details'}</CustomText>
-                        <FlatList
-                            keyExtractor={(item, index) => index.toString()}
-                            data={detailsType === 2 ? investmentDetails.all_last_interest : detailsType === 3 ? investmentDetails.all_next_interest : investmentDetails.all_deposit}
-                            renderItem={({ item }) => <FlatListRender savings={item} />}
-                        />
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
-                            <CustomText style={{ fontFamily: 'Baloo' }}>
-                                Total
+                            <CustomText style={{ fontFamily: 'Baloo-med', color: '#f56b2a', textAlign: 'center', fontSize: resFont(15), marginBottom: 10 }}>{detailsType === 2 ? 'Total Interest Earned Details' : detailsType === 3 ? 'Total Interest Receivable Details' : 'Total Investment Details'}</CustomText>
+                            <FlatList
+                                keyExtractor={(item, index) => index.toString()}
+                                data={detailsType === 2 ? investmentDetails.all_receieved : detailsType === 3 ? investmentDetails.all_outstanding : investmentDetails.all_deposit}
+                                renderItem={({ item }) => <FlatListRender savings={item} />}
+                            />
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
+                                <CustomText style={{ fontFamily: 'Baloo' }}>
+                                    Total
                             </CustomText>
-                            <CustomText style={{ fontFamily: 'Baloo-med', color: 'green' }}>
-                                {this.getTotalAmount(detailsType === 2 ? investmentDetails.all_last_interest : detailsType === 3 ? investmentDetails.all_next_interest : investmentDetails.all_deposit)}
-                            </CustomText>
+                                <CustomText style={{ fontFamily: 'Baloo-med', color: 'green' }}>
+                                    {this.getTotalAmount(detailsType === 2 ? investmentDetails.all_receieved : detailsType === 3 ? investmentDetails.all_outstanding : investmentDetails.all_deposit)}
+                                </CustomText>
+                            </View>
                         </View>
-                    </View>
-                </Modal>
-             </Portal>
+                    </Modal>
+                </Portal>
             </View>
         )
     }
@@ -183,7 +189,7 @@ const styles = StyleSheet.create({
     linearGradient: {
         padding: 15,
         height: resHeight(20),
-        width: resWidth(90),
+        width: '100%',
         borderRadius: 15,
         marginVertical: 5
     },
