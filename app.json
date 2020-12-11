@@ -13,10 +13,10 @@
     "slug": "credit-wallet",
     "privacy": "public",
     "orientation": "portrait",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "ios": {
       "bundleIdentifier": "com.princepsfinance.creditwallet",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.3",
       "usesIcloudStorage": true
     },
     "updates": {
@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "com.princepsfinance.creditwallet",
-      "versionCode": 1,
+      "versionCode": 5,
       "intentFilters": [
         {
           "action": "VIEW",
@@ -46,8 +46,7 @@
       ],
       "permissions": [
         "MANAGE_DOCUMENTS",
-        "READ_INTERNAL_STORAGE",
-        "USE_FINGERPRINT"
+        "READ_INTERNAL_STORAGE"
       ]
     },
     "platforms": [

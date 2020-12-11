@@ -1,9 +1,14 @@
 import { getCustomerToken, signOut, deleteToken, deleteInvestorToken } from "./storage"
 import navigationservice from "./navigationservice"
 
-export const apiURL = 'https://creditwallet.ng/api/public/customer/';
+// export const apiURL = 'https://creditwallet.ng/api/public/customer/';
+export const apiURL = 'https://system.creditwallet.ng/public/customer/';
+export const loanUrl = 'https://system.creditwallet.ng/public/';
 export const investmentURL = 'https://app.creditwallet.ng/api/v1/investments/';
-export const publicURL = 'https://creditwallet.ng/api/public/';
+// export const publicURL = 'https://system.creditwallet.ng/public/';
+export const publicURL2 = 'https://api.creditwallet.ng/Creditwallet/public/api/';
+export const publicURL = 'https://api.creditwallet.ng/Creditwallet/public/api/loans/new/';
+
 const axios = require('axios').default;
 
 // const token = getCustomerToken()
@@ -13,9 +18,14 @@ const axios = require('axios').default;
 export const request = (url, options) => {
     const requestOptions = {
         ...options,
+        // headers: {
+        //     'Content-Type': 'application/json'
+        // }
     }
     return new Promise((resolve, reject) => {
         fetch(url, requestOptions).then(res => res.text()).then(data => {
+            console.log(requestOptions)
+            console.log(data);
             const parsedData = JSON.parse(data);
             if (parsedData.status === "success") {
                 return resolve(parsedData)
@@ -23,6 +33,7 @@ export const request = (url, options) => {
                 return reject(parsedData)
             }
         }).catch(error => {
+            // console.log(error)
             reject(error)
         })
     })
@@ -43,6 +54,7 @@ export const requestWithToken = async (url, options) => {
         }
         return new Promise((resolve, reject) => {
             fetch(url, requestOptions).then(res => res.json()).then(data => {
+                console.log(data)
                 if (data.status === "error" && data.message === "Authorization Failed, Please login to continue") {
                     navigationservice.navigate('Login')
                 } else if (data.status === "success") {

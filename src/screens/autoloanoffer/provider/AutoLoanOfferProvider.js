@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { requestWithToken, publicURL, request, axiosPost, apiURL } from '../../../utils/request';
+import { requestWithToken, publicURL, request, axiosPost, apiURL, loanUrl, publicURL2 } from '../../../utils/request';
 import navigationservice from '../../../utils/navigationservice';
 import { states } from '../../../utils/states';
 const axios = require('axios').default;
@@ -92,7 +92,7 @@ class AutoLoanOfferProvider extends Component {
     }
 
     validateAccountDetails = () => {
-        const url = `${publicURL}verify/account`;
+        const url = `${loanUrl}verify/account`;
         const account = {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
@@ -125,7 +125,7 @@ class AutoLoanOfferProvider extends Component {
     }
 
     _handleLoanApply = () => {
-        const url = `${publicURL}loan/finalize/new`;
+        const url = `${loanUrl}loan/finalize/new`;
         const loan = {
             amount: this.state.amount,
             tenor: this.state.duration
@@ -152,7 +152,7 @@ class AutoLoanOfferProvider extends Component {
 
 
     _handleComplete = async () => {
-        const url = `${publicURL}loan/transaction/complete`;
+        const url = `${publicURL2}loans/new/submit`;
         const loan = {
             id: this.state.offerLetter.loan.id,
             idcard: this.state.idCard,
@@ -190,7 +190,7 @@ class AutoLoanOfferProvider extends Component {
     }
 
     _handleFetchLoanOffer = async (loanId) => {
-        const url = `${publicURL}loan/offer/auto`;
+        const url = `${loanUrl}loan/offer/auto`;
         const loan_id = {
             id: loanId
         }
@@ -215,7 +215,7 @@ class AutoLoanOfferProvider extends Component {
     }
 
     calcRepayment =() => {
-        const url = `${publicURL}calculate-repayment`;
+        const url = `${loanUrl}calculate-repayment`;
         const data = {
             tenor: this.state.duration,
             amount: this.state.loan_amount

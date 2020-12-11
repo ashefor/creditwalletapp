@@ -42,13 +42,13 @@ class InvOnboardScreen extends Component {
                </View>
 
                <View style={{ flex: 1 ,  width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-               <Button
+               {/* <Button
                            style={{ borderColor: colors.primary, borderWidth: 1 }}
                            labelStyle={{ textTransform: 'none', fontSize: resFont(14), fontFamily: 'Baloo-med', color: 'white' }}
                            contentStyle={styles.signpbtn}
                            mode='contained' onPress={() => this.props.navigation.navigate(hasNotification ? 'New Investment' : 'Investment Apply')}>
                            Make an investment
-           </Button>
+           </Button> */}
                    <View style={styles.loginInfo}>
                    <CustomText style={{fontSize: resFont(15), fontFamily: 'Baloo-med' }}>Existing Investor?</CustomText>
                <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('Login')}} style={styles.loginTxt}>

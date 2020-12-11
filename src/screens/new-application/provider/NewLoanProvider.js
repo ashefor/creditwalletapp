@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { requestWithToken, publicURL, request, axiosPost, apiURL } from '../../../utils/request';
+import { requestWithToken, publicURL, request, axiosPost, loanUrl } from '../../../utils/request';
 import navigationservice from '../../../utils/navigationservice';
 import { states } from '../../../utils/states';
 const axios = require('axios').default;
@@ -167,7 +167,7 @@ class NewLoanProvider extends Component {
     }
 
     validateAccountDetails = () => {
-        const url = `${publicURL}verify/account`;
+        const url = `${loanUrl}verify/account`;
         const account = {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
@@ -178,6 +178,7 @@ class NewLoanProvider extends Component {
              url: url,
              data: account
          }).then((data) => {
+             console.log('verify' + data)
             this.setState({ isValidating: false })
             if (data.data.status === 'success') {
                 this._handleAcceptLoan();
@@ -185,6 +186,7 @@ class NewLoanProvider extends Component {
                 this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured' })
             }
         }).catch((error) => {
+            console.log('verify' + error)
             this.setState({ isValidating: false })
             this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })
         })
@@ -209,7 +211,7 @@ class NewLoanProvider extends Component {
       };
     
     _handleLoanApply = () => {
-        const url = `${publicURL}calculate-repayment`;
+        const url = `${loanUrl}calculate-repayment`;
         const loan = {
             amount: this.unFormat(this.state.amount),
             tenor: this.state.duration
@@ -265,6 +267,8 @@ class NewLoanProvider extends Component {
                 refferalcode: referralcode ? referralcode : 0
             }
             this.setState({ isLoading: true })
+            console.log(url)
+            console.log(loan)
             axios({
                 method: 'POST',
                 url: url,
@@ -282,6 +286,7 @@ class NewLoanProvider extends Component {
                     this.setState({ hasError: true, errorMsg: data.data.message ? data.data.message : 'An error has occured. Try again later' })
                 }
             }).catch((error) => {
+                console.log(error)
                 this.setState({ isLoading: false })
                 this.setState({ applicationSuccess: false })
                 this.setState({ hasError: true, errorMsg: 'Error connecting to server. Please try again' })

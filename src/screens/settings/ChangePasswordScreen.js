@@ -31,6 +31,7 @@ class ChangePasswordScreen extends Component {
             oldpassword: this.state.oldPassword,
             newpassword: this.state.newPassword
         }
+        console.log(data)
         const options = {
             method: 'POST',
             body: JSON.stringify(data),
@@ -43,11 +44,14 @@ class ChangePasswordScreen extends Component {
             Keyboard.dismiss()
             this.setState({ isLoading: true })
             requestWithToken(url, options).then(data => {
+                console.log(data)
                 this.setState({ isLoading: false }, () => {
                     this.setState({visible: true})
                     this.props.navigation.goBack();
                 });
             }).catch(error => {
+                this.setState({visible: true})
+                console.log(error)
                 this.setState({ isLoading: false , errorMsg: error.message})
             })
         }

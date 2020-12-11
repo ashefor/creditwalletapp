@@ -7,7 +7,7 @@ import Slider from '@react-native-community/slider'
 
 import CustomText from '../../components/CustomText';
 import { resWidth, resHeight, resFont, getBankCode } from '../../utils/utils';
-import { publicURL, requestWithToken } from '../../utils/request';
+import { loanUrl, publicURL, requestWithToken } from '../../utils/request';
 import { getCustomer } from '../../utils/storage';
 import CustomSafeAreaView from '../../components/CustomSafeAreaView';
 import { Constants } from 'react-native-unimodules';
@@ -62,7 +62,7 @@ class NewLoanScreen extends Component {
     }
 
     _handleAcceptLoan = async () => {
-        const url = `${publicURL}apply`;
+        const url = `${loanUrl}apply`;
         const user = await getCustomer();
         if (user) {
             const userObj = JSON.parse(user)

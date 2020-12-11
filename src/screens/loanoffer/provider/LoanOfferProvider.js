@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { requestWithToken, publicURL, request, axiosPost, apiURL } from '../../../utils/request';
+import { requestWithToken, publicURL, request, axiosPost, apiURL, loanUrl } from '../../../utils/request';
 import navigationservice from '../../../utils/navigationservice';
 import { states } from '../../../utils/states';
 const axios = require('axios').default;
@@ -80,7 +80,7 @@ class LoanOfferProvider extends Component {
     }
     
     validateAccountDetails = () => {
-        const url = `${publicURL}verify/account`;
+        const url = `${loanUrl}verify/account`;
         const account = {
             bankcode: this.state.salary_bank_name,
             accountnumber: this.state.salary_bank_account
@@ -112,7 +112,7 @@ class LoanOfferProvider extends Component {
         return this.setState(this.initialstate)
     }
     _handleLoanApply = () => {
-        const url = `${publicURL}loan/finalize/new`;
+        const url = `${loanUrl}loan/finalize/new`;
         const loan = {
             amount: this.state.amount,
             tenor: this.state.duration
@@ -139,7 +139,7 @@ class LoanOfferProvider extends Component {
 
 
     _handleComplete = async () => {
-        const url = `${publicURL}loan/finalize/new`;
+        const url = `${loanUrl}loan/finalize/new`;
             const loan = {
                 id: this.state.offerLetter.id,
                 idcard: this.state.idCard,
@@ -165,7 +165,7 @@ class LoanOfferProvider extends Component {
 
 
     _handleFetchLoanOffer = async (loanId) => {
-        const url = `${publicURL}loan/offer/view`;
+        const url = `${loanUrl}loan/offer/view`;
             const loan_id = {
                 id: loanId
             }
